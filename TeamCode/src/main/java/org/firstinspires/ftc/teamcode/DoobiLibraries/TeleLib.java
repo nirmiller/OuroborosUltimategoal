@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.DoobiLibraries;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdometryGlobalCoordinatePosition;
+
 
 public abstract class TeleLib extends OpMode {
 
@@ -11,10 +13,6 @@ public abstract class TeleLib extends OpMode {
     double right_stick_x;
     double left_stick_x;
     double left_stick_y;
-
-    double odomRight;
-    double odomLeft;
-    double odomPerp;
 
     double theta;
 
@@ -25,11 +23,7 @@ public abstract class TeleLib extends OpMode {
 
     double[] motorPowers;
 
-    double X_i;
-    double deltaX;
-
-    double Y_i;
-    double deltaY;
+    OdometryGlobalCoordinatePosition ogcp;
 
     @Override
     public void init() {
@@ -51,14 +45,16 @@ public abstract class TeleLib extends OpMode {
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        odomPerp = 0;
-        odomRight = 0;
-        odomLeft = 0;
         theta = 0;
 
         motorPowers = new double[4];
 
         resetEncoders();
+
+        ogcp = new OdometryGlobalCoordinatePosition(bl, br, fl, COUNTS_PER_INCH, 10);
+        ogcp.run();
+
+
     }
 
     public void resetEncoders() {
@@ -87,14 +83,7 @@ public abstract class TeleLib extends OpMode {
         left_stick_y = gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
-
-        odomLeft = -bl.getCurrentPosition() / COUNTS_PER_INCH;
-        odomRight = -br.getCurrentPosition() / COUNTS_PER_INCH;
-        odomPerp = fl.getCurrentPosition() / COUNTS_PER_INCH ;
-
-        theta = ((odomLeft - odomRight)/8.25) % (2 * Math.PI);
-
-        motorPowers = Holonomic.calcPowerTele(theta, right_stick_x, left_stick_x, left_stick_y);
+        theta = Math.toRadians(ogcp.returnOrientation());
 
         if (Math.abs(left_stick_x) > 0.05 ||
                 Math.abs(left_stick_y) > 0.05 ||
@@ -114,7 +103,7 @@ public abstract class TeleLib extends OpMode {
             br.setPower(0);
         }
 
-        telemetry.addData("Angle : ", Math.toDegrees(theta));
+        telemetry.addData("Angle : ", ogcp.returnOrientation());
 
     }
 
