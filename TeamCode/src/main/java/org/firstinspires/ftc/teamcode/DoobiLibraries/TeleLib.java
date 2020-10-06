@@ -23,6 +23,8 @@ public abstract class TeleLib extends OpMode {
     private DcMotor bl;
     private DcMotor br;
 
+    double[] motorPowers;
+
     double X_i;
     double deltaX;
 
@@ -54,9 +56,7 @@ public abstract class TeleLib extends OpMode {
         odomLeft = 0;
         theta = 0;
 
-        X_i = 0;
-        Y_i = 0;
-
+        motorPowers = new double[4];
 
         resetEncoders();
     }
@@ -94,19 +94,18 @@ public abstract class TeleLib extends OpMode {
 
         theta = ((odomLeft - odomRight)/8.25) % (2 * Math.PI);
 
+        motorPowers = Holonomic.calcPowerTele(theta, right_stick_x, left_stick_x, left_stick_y);
 
         if (Math.abs(left_stick_x) > 0.05 ||
                 Math.abs(left_stick_y) > 0.05 ||
                 Math.abs(right_stick_x) > 0.05) {
 
-            double x_comp = left_stick_y*Math.cos(theta) + left_stick_x*Math.sin(theta);
-            double y_comp = left_stick_y*Math.sin(theta) - left_stick_x*Math.cos(theta);
-            double rot_comp = right_stick_x;
+            motorPowers = Holonomic.calcPowerTele(theta, right_stick_x, left_stick_x, left_stick_y);
 
-            fl.setPower(x_comp - y_comp - .5*rot_comp);
-            fr.setPower(x_comp + y_comp + .5*rot_comp);
-            bl.setPower(x_comp + y_comp - .5*rot_comp);
-            br.setPower(x_comp - y_comp + .5*rot_comp);
+            fl.setPower(motorPowers[0]);
+            fr.setPower(motorPowers[1]);
+            bl.setPower(motorPowers[2]);
+            br.setPower(motorPowers[3]);
 
         } else {
             fl.setPower(0);
