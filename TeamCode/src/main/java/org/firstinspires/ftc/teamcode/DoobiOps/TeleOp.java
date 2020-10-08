@@ -16,4 +16,12 @@ public class TeleOp extends TeleLib {
         holonomicdrive();
         telemetry.update();
     }
+
+    @Override
+    public void stop() {
+
+        global.stop();
+        super.stop();
+
+    }
 }

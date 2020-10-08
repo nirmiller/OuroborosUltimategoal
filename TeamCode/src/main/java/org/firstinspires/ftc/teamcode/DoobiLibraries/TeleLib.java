@@ -23,7 +23,8 @@ public abstract class TeleLib extends OpMode {
 
     double[] motorPowers;
 
-    OdometryGlobalCoordinatePosition ogcp;
+    public OdometryGlobalCoordinatePosition ogcp;
+    public Thread global;
 
     @Override
     public void init() {
@@ -51,8 +52,11 @@ public abstract class TeleLib extends OpMode {
 
         resetEncoders();
 
-        ogcp = new OdometryGlobalCoordinatePosition(bl, br, fl, COUNTS_PER_INCH, 10);
-        ogcp.run();
+        ogcp = new OdometryGlobalCoordinatePosition(bl, br, fl, COUNTS_PER_INCH, 75);
+
+
+        global = new Thread(ogcp);
+        global.start();
 
 
     }
