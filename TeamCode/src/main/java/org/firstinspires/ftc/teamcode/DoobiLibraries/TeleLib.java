@@ -77,9 +77,31 @@ public abstract class TeleLib extends OpMode {
 
     }
 
+    public void arcadedrive(){
+        left_stick_y = gamepad1.left_stick_y;
+        left_stick_x = gamepad1.left_stick_x;
+        right_stick_x = gamepad1.right_stick_x;
+
+        if (Math.abs(left_stick_x) > 0.05 ||
+                Math.abs(left_stick_y) > 0.05 ||
+                Math.abs(right_stick_x) > 0.05) {
+
+            fl.setPower(left_stick_y - left_stick_x - right_stick_x);
+            fr.setPower(left_stick_y + left_stick_x + right_stick_x);
+            bl.setPower(left_stick_y + left_stick_x - right_stick_x);
+            br.setPower(left_stick_y - left_stick_x + right_stick_x);
+
+        }else {
+            fl.setPower(0);
+            fr.setPower(0);
+            bl.setPower(0);
+            br.setPower(0);
+        }
 
 
-    public void arcadedrive() {
+        }
+
+    public void holonomicdrive() {
         left_stick_y = gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
