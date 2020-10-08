@@ -20,7 +20,7 @@ public class TeleOp extends TeleLib {
     @Override
     public void stop() {
 
-        global.stop();
+        global.interrupt();
         super.stop();
 
     }
