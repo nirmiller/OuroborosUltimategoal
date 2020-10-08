@@ -100,6 +100,8 @@ public class RegressBerryJam extends LinearOpMode {
 
     private void onNewFrame(Bitmap frame) {
         saveBitmap(frame);
+        telemetry.addData("Success! ", "Success!");
+        telemetry.update();
         frame.recycle();
     }
 
