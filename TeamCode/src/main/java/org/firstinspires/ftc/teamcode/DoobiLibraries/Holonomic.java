@@ -19,7 +19,7 @@ public class Holonomic {
 
 
 
-    private static void normalize(double[] val)
+    public static void normalize(double[] val)
     {
         //check if data needs normalization
         boolean f = false;

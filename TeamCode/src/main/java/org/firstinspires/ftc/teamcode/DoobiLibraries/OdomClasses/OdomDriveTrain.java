@@ -6,13 +6,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.DoobiLibraries.Holonomic;
+
 public class OdomDriveTrain {
     //Drive motors
     DcMotor right_front, right_back, left_front, left_back;
     //Odometry Wheels
     DcMotor verticalLeft, verticalRight, horizontal;
 
-    OdometryGlobalCoordinatePosition globalPositionUpdate;
+    public OdometryGlobalCoordinatePosition globalPositionUpdate;
+    public Thread global;
 
     //Hardware Map Names for drive motors and odometry wheels. THIS WILL CHANGE ON EACH ROBOT, YOU NEED TO UPDATE THESE VALUES ACCORDINGLY
     String rfName = "fr", rbName = "br", lfName = "fl", lbName = "bl";
@@ -71,6 +74,12 @@ public class OdomDriveTrain {
         right_front.setDirection(DcMotorSimple.Direction.REVERSE);
         right_back.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        resetEncoders();
+
+
+        global = new Thread(globalPositionUpdate);
+        global.start();
+
         opMode.telemetry.addData("Status", "Hardware Map Init Complete");
         opMode.telemetry.update();
     }
@@ -94,7 +103,38 @@ public class OdomDriveTrain {
 
     }
 
-    public void goToPosition(LinearOpMode opMode, double targetX, double targetY, double power, double orientation, double allowedDistanceError) {
+    public void flex(double angle, double runtime)
+    {
+        angle = Math.toRadians(angle);
+
+        ElapsedTime time = new ElapsedTime();
+
+        double[] motor = new double[4];
+        while(opMode.opModeIsActive() && time.seconds() < runtime)
+        {
+
+            if(time.seconds()<runtime/2)
+            {
+                motor = Holonomic.calcPowerAuto(angle, globalPositionUpdate.returnOrientation());
+
+            }else{
+                motor = Holonomic.calcPowerAuto(angle, globalPositionUpdate.returnOrientation());
+                motor[1] = motor[1] + .4;
+                motor[3] = motor[3] + .4;
+                Holonomic.normalize(motor);
+            }
+            left_front.setPower(motor[0]);
+            right_front.setPower(motor[1]);
+            left_back.setPower(motor[2]);
+            right_back.setPower(motor[3]);
+
+        }
+
+        choop();
+
+    }
+
+    public void goToPosition(double targetX, double targetY, double power, double orientation, double allowedDistanceError) {
 
         //distance to x and y for trig calculations
         double distanceToX = (targetX * COUNTS_PER_INCH)- globalPositionUpdate.returnXCoordinate();
@@ -118,6 +158,8 @@ public class OdomDriveTrain {
             double angleCorrection = orientation - globalPositionUpdate.returnOrientation();
 
         }
+
+        choop();
     }
 
 
