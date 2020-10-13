@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Holonomic;
+import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
+
+import java.util.ArrayList;
 
 public class OdomDriveTrain {
     //Drive motors
@@ -134,7 +137,17 @@ public class OdomDriveTrain {
 
     }
 
-    public void goToPosition(double targetX, double targetY, double power, double orientation, double allowedDistanceError) {
+
+    public void splineMove(ArrayList<Point> spline, double power, double timeout){
+        
+
+    }
+
+
+    public void goToPoint(double targetX, double targetY, double power, double face, double allowedDistanceError, double timeout) {
+
+        ElapsedTime time = new ElapsedTime();
+        time.reset();
 
         //distance to x and y for trig calculations
         double distanceToX = (targetX * COUNTS_PER_INCH)- globalPositionUpdate.returnXCoordinate();
@@ -142,24 +155,29 @@ public class OdomDriveTrain {
 
         //gets total distance needed to travel
         double distance = Math.hypot(distanceToX, distanceToY);
+        double[] motor = new double[4];
 
-        while (opMode.opModeIsActive() && distance > allowedDistanceError) {
+        while (opMode.opModeIsActive() && distance > allowedDistanceError && time.seconds() < timeout) {
             distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
             distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
-
+            distance = Math.hypot(distanceToX, distanceToY);
             //uses right triange trig to figure out what ange the robot needs to move at
             //maybe could integrate Nir's holonomic odom math into?
             double moveAngle = Math.toDegrees(Math.atan2(distanceToX, distanceToY));
 
-            //figures out what power to set the motors to so we can move at this angle
-            double movementX = calculateX(moveAngle, power);
-            double movementY = calculateY(moveAngle, power);
+            motor = Holonomic.calcPowerAuto(moveAngle, face + globalPositionUpdate.returnOrientation());
 
-            double angleCorrection = orientation - globalPositionUpdate.returnOrientation();
+            left_front.setPower(motor[0]);
+            right_front.setPower(motor[1]);
+            left_back.setPower(motor[2]);
+            right_back.setPower(motor[3]);
+
+            //figures out what power to set the motors to so we can move at this angle
+            double angleCorrection = face - globalPositionUpdate.returnOrientation();
 
         }
 
-        choop();
+       //choop();
     }
 
 
