@@ -57,7 +57,6 @@ public class RegressBerryJam extends LinearOpMode {
     private Handler callbackHandler;
 
     float[] values = new float[3];
-    boolean[] pies;
 
     @Override public void runOpMode() {
 
@@ -113,9 +112,7 @@ public class RegressBerryJam extends LinearOpMode {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x,y), values);
                 if (values[0] >= 49 && values[0] <= 72) {
-                    pies[(y * frame.getWidth()) + x] = true;
-                    verticalRaw += y; horizontalRaw += x; index++; }
-                else pies[(y * frame.getWidth()) + x] = false; } }
+                    verticalRaw += y; horizontalRaw += x; index++; } } }
         verticalRaw /= index; horizontalRaw /= index;
         for (int y = 0 ; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
