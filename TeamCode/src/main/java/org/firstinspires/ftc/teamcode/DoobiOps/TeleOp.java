@@ -13,7 +13,7 @@ public class TeleOp extends TeleLib {
     @Override
     public void loop() {
 
-        holonomicdrive();
+        drive();
         telemetry.update();
     }
 

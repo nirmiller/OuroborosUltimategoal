@@ -17,6 +17,8 @@ public abstract class TeleLib extends OpMode {
 
     double theta;
 
+    boolean arcade = false;
+
     private DcMotor fl;
     private DcMotor fr;
     private DcMotor bl;
@@ -81,9 +83,10 @@ public abstract class TeleLib extends OpMode {
 
         resetEncoders();
 
-        ogcp = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
+        ogcp = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 32);
         global = new Thread(ogcp);
         global.start();
+        arcade = false;
 
 
     }
@@ -107,6 +110,21 @@ public abstract class TeleLib extends OpMode {
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
+
+
+    public void drive()
+    {
+        if(gamepad1.b && !arcade)
+        {
+            arcadedrive();
+            arcade = true;
+        }else if(gamepad1.b && arcade){
+            holonomicdrive();
+            arcade = false;
+        }
+        telemetry.addData("Drive ", arcade ? "Arcade" : "Holonomic");
+    }
+
 
     public void arcadedrive(){
         left_stick_y = gamepad1.left_stick_y;
