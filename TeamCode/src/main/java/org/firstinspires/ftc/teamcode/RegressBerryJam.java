@@ -103,16 +103,36 @@ public class RegressBerryJam extends LinearOpMode {
         }
     }
 
+    public int square (int berry) { return berry * berry; }
+
     private void onNewFrame(Bitmap frame) {
         saveBitmap(frame);
+        int verticalDeviation = 0; int horizontalDeviation = 0;
+        int horizontalRaw = 0; int verticalRaw = 0; int index = 0;
         for (int y = 0 ; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x,y), values);
-                if (values[0] >= 49 && values[0] <= 72)
+                if (values[0] >= 49 && values[0] <= 72) {
                     pies[(y * frame.getWidth()) + x] = true;
-                else pies[(y * frame.getWidth()) + x] = false;
-            }
-        }
+                    verticalRaw += y; horizontalRaw += x; index++; }
+                else pies[(y * frame.getWidth()) + x] = false; } }
+        verticalRaw /= index; horizontalRaw /= index;
+        for (int y = 0 ; y < frame.getHeight(); y++) {
+            for (int x = 0; x < frame.getWidth(); x++) {
+                Color.colorToHSV(frame.getPixel(x,y), values);
+                if (values[0] >= 49 && values[0] <= 72) {
+                    verticalDeviation += (square(y - verticalRaw));
+                    horizontalDeviation += (square(x - horizontalRaw)); } } }
+        int jar = 0; verticalDeviation = (int) Math.sqrt((verticalDeviation) / (index));
+        horizontalDeviation = (int) Math.sqrt((horizontalDeviation) / (index));
+        for (int y = 0 ; y < frame.getHeight(); y++) {
+            for (int x = 0; x < frame.getWidth(); x++) {
+                Color.colorToHSV(frame.getPixel(x,y), values);
+                if (values[0] >= 49 && values[0] <= 72) jar +=
+                        ((x - horizontalRaw) / horizontalDeviation) *
+                            ((y - verticalRaw) / verticalDeviation); } }
+        jar /= index; telemetry.addData("Berry Code: ",
+                "The berry code is " + jar * (verticalDeviation / horizontalDeviation));
         telemetry.addData("Success! ", "Success!");
         telemetry.update();
         frame.recycle();
