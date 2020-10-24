@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.os.Handler;
 
@@ -55,6 +56,9 @@ public class RegressBerryJam extends LinearOpMode {
 
     private Handler callbackHandler;
 
+    float[] values = new float[3];
+    boolean[] pies;
+
     @Override public void runOpMode() {
 
         callbackHandler = CallbackLooper.getDefault().getHandler();
@@ -101,6 +105,14 @@ public class RegressBerryJam extends LinearOpMode {
 
     private void onNewFrame(Bitmap frame) {
         saveBitmap(frame);
+        for (int y = 0 ; y < frame.getHeight(); y++) {
+            for (int x = 0; x < frame.getWidth(); x++) {
+                Color.colorToHSV(frame.getPixel(x,y), values);
+                if (values[0] >= 49 && values[0] <= 72)
+                    pies[(y * frame.getWidth()) + x] = true;
+                else pies[(y * frame.getWidth()) + x] = false;
+            }
+        }
         telemetry.addData("Success! ", "Success!");
         telemetry.update();
         frame.recycle();
