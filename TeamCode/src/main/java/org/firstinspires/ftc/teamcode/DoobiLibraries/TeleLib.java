@@ -83,7 +83,7 @@ public abstract class TeleLib extends OpMode {
 
         resetEncoders();
 
-        ogcp = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 32);
+        ogcp = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
         global = new Thread(ogcp);
         global.start();
         arcade = false;
@@ -135,10 +135,10 @@ public abstract class TeleLib extends OpMode {
                 Math.abs(left_stick_y) > 0.05 ||
                 Math.abs(right_stick_x) > 0.05) {
 
-            fl.setPower(left_stick_y - left_stick_x - right_stick_x);
-            fr.setPower(left_stick_y + left_stick_x + right_stick_x);
-            bl.setPower(left_stick_y + left_stick_x - right_stick_x);
-            br.setPower(left_stick_y - left_stick_x + right_stick_x);
+            fl.setPower(left_stick_y + left_stick_x - right_stick_x);
+            fr.setPower(left_stick_y - left_stick_x + right_stick_x);
+            bl.setPower(left_stick_y - left_stick_x - right_stick_x);
+            br.setPower(left_stick_y + left_stick_x + right_stick_x);
 
         }else {
             fl.setPower(0);
@@ -155,17 +155,20 @@ public abstract class TeleLib extends OpMode {
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
         theta = Math.toRadians(ogcp.returnOrientation());
+        double x_comp = left_stick_y*Math.cos(theta) + left_stick_x*Math.sin(theta);
+        double y_comp = left_stick_y*Math.sin(theta) - left_stick_x*Math.cos(theta);
+        double rot_comp = right_stick_x;
 
         if (Math.abs(left_stick_x) > 0.05 ||
                 Math.abs(left_stick_y) > 0.05 ||
                 Math.abs(right_stick_x) > 0.05) {
 
-            motorPowers = Holonomic.calcPowerTele(theta, right_stick_x, left_stick_x, left_stick_y);
 
-            fl.setPower(motorPowers[0]);
-            fr.setPower(motorPowers[1]);
-            bl.setPower(motorPowers[2]);
-            br.setPower(motorPowers[3]);
+
+            fl.setPower(x_comp - y_comp - rot_comp);
+            fr.setPower(x_comp + y_comp + rot_comp);
+            bl.setPower(x_comp + y_comp - rot_comp);
+            br.setPower(x_comp - y_comp + rot_comp);
 
         } else {
             fl.setPower(0);

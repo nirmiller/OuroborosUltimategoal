@@ -82,14 +82,15 @@ public class Holonomic {
 
     public static double[] calcPowerTele(double face, double rotationPower, double X, double Y) {
         double[] motorPower = new double[4];
+        face = Math.toRadians(face);
 
         double x_comp = Y*Math.cos(face) + X*Math.sin(face);
         double y_comp = Y*Math.sin(face) - X*Math.cos(face);
         double rot_comp = rotationPower;
-        motorPower[0] = x_comp - y_comp - .5*rot_comp;
-        motorPower[1] = x_comp + y_comp + .5*rot_comp;
-        motorPower[2] = x_comp + y_comp - .5*rot_comp;
-        motorPower[3] = x_comp - y_comp + .5*rot_comp;
+        motorPower[0] = x_comp - y_comp - rot_comp;
+        motorPower[1] = x_comp + y_comp + rot_comp;
+        motorPower[2] = x_comp + y_comp - rot_comp;
+        motorPower[3] = x_comp - y_comp + rot_comp;
 
         return motorPower;
     }

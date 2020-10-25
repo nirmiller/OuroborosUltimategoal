@@ -37,7 +37,7 @@ import java.util.Locale;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-@TeleOp(name="RegressBerryJam", group ="PeanutButterJam")
+@TeleOp(name = "RegressBerryJam", group = "PeanutButterJam")
 public class RegressBerryJam extends LinearOpMode {
 
     private static final String TAG = "SpoiltJam";
@@ -58,7 +58,8 @@ public class RegressBerryJam extends LinearOpMode {
 
     float[] values = new float[3];
 
-    @Override public void runOpMode() {
+    @Override
+    public void runOpMode() {
 
         callbackHandler = CallbackLooper.getDefault().getHandler();
 
@@ -82,12 +83,17 @@ public class RegressBerryJam extends LinearOpMode {
             while (opModeIsActive()) {
 
                 boolean buttonIsPressed = gamepad1.a;
+                telemetry.addData("button pressed?", buttonIsPressed);
                 if (buttonIsPressed && !buttonPressSeen) {
                     captureWhenAvailable = true;
+                    telemetry.addLine("entered button loop");
+                    telemetry.update();
                 }
                 buttonPressSeen = buttonIsPressed;
 
+                telemetry.addLine("exited button loop");
                 if (captureWhenAvailable) {
+                    telemetry.addLine("entered capture loop");
                     Bitmap berry = frameQueue.poll();
                     if (berry != null) {
                         captureWhenAvailable = false;
@@ -102,33 +108,62 @@ public class RegressBerryJam extends LinearOpMode {
         }
     }
 
-    public int square (int berry) { return berry * berry; }
+    public int square(int berry) {
+        return berry * berry;
+    }
 
     private void onNewFrame(Bitmap frame) {
         saveBitmap(frame);
-        int verticalDeviation = 0; int horizontalDeviation = 0;
-        int horizontalRaw = 0; int verticalRaw = 0; int index = 0;
-        for (int y = 0 ; y < frame.getHeight(); y++) {
+        telemetry.addLine("1");
+        int verticalDeviation = 0;
+        int horizontalDeviation = 0;
+        int horizontalRaw = 0;
+        int verticalRaw = 0;
+        int index = 0;
+        for (int y = 0; y < frame.getHeight(); y++) {
+            telemetry.addData("frame height", frame.getHeight());
+            telemetry.update();
             for (int x = 0; x < frame.getWidth(); x++) {
-                Color.colorToHSV(frame.getPixel(x,y), values);
+                Color.colorToHSV(frame.getPixel(x, y), values);
                 if (values[0] >= 49 && values[0] <= 72) {
-                    verticalRaw += y; horizontalRaw += x; index++; } } }
-        verticalRaw /= index; horizontalRaw /= index;
-        for (int y = 0 ; y < frame.getHeight(); y++) {
+                    verticalRaw += y;
+                    horizontalRaw += x;
+                    index++;
+                }
+            }
+        }
+        telemetry.addData("did for loop", index);
+        telemetry.update();
+        verticalRaw /= index;
+        horizontalRaw /= index;
+        for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
-                Color.colorToHSV(frame.getPixel(x,y), values);
+                Color.colorToHSV(frame.getPixel(x, y), values);
+                telemetry.addData("color", values[0]);
+                telemetry.update();
                 if (values[0] >= 49 && values[0] <= 72) {
                     verticalDeviation += (square(y - verticalRaw));
-                    horizontalDeviation += (square(x - horizontalRaw)); } } }
-        int jar = 0; verticalDeviation = (int) Math.sqrt((verticalDeviation) / (index));
+                    horizontalDeviation += (square(x - horizontalRaw));
+                }
+            }
+        }
+        int jar = 0;
+        verticalDeviation = (int) Math.sqrt((verticalDeviation) / (index));
         horizontalDeviation = (int) Math.sqrt((horizontalDeviation) / (index));
-        for (int y = 0 ; y < frame.getHeight(); y++) {
+        telemetry.addData("horizontal deviation", horizontalDeviation);
+        telemetry.addData("vertical deviation", verticalDeviation);
+
+        telemetry.update();
+        for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
-                Color.colorToHSV(frame.getPixel(x,y), values);
+                Color.colorToHSV(frame.getPixel(x, y), values);
                 if (values[0] >= 49 && values[0] <= 72) jar +=
                         ((x - horizontalRaw) / horizontalDeviation) *
-                            ((y - verticalRaw) / verticalDeviation); } }
-        jar /= index; telemetry.addData("Berry Code: ",
+                                ((y - verticalRaw) / verticalDeviation);
+            }
+        }
+        jar /= index;
+        telemetry.addData("Berry Code: ",
                 "The berry code is " + jar * (verticalDeviation / horizontalDeviation));
         telemetry.addData("Jam Vex",  verticalRaw - (jar * horizontalRaw));
         telemetry.addData("Success! ", "Success!"); telemetry.update();
@@ -138,7 +173,8 @@ public class RegressBerryJam extends LinearOpMode {
     private void initializeFrameQueue(int capacity) {
         frameQueue = new EvictingBlockingQueue<Bitmap>(new ArrayBlockingQueue<Bitmap>(capacity));
         frameQueue.setEvictAction(new Consumer<Bitmap>() {
-            @Override public void accept(Bitmap frame) {
+            @Override
+            public void accept(Bitmap frame) {
                 frame.recycle();
             }
         });
@@ -173,43 +209,46 @@ public class RegressBerryJam extends LinearOpMode {
         try {
             camera.createCaptureSession(Continuation.create(callbackHandler,
                     new CameraCaptureSession.StateCallbackDefault() {
-                @Override public void onConfigured(CameraCaptureSession session) {
-                    try {
-                        final CameraCaptureRequest captureRequest =
-                                camera.createCaptureRequest(imageFormat, size, fps);
-                        session.startCapture(captureRequest,
-                            new CameraCaptureSession.CaptureCallback() {
-                                @Override public void onNewFrame(CameraCaptureSession session,
-                                                                 CameraCaptureRequest request,
-                                                                 CameraFrame cameraFrame) {
-                                    Bitmap bmp = captureRequest.createEmptyBitmap();
-                                    cameraFrame.copyToBitmap(bmp);
-                                    frameQueue.offer(bmp);
-                                }
-                            },
-                            Continuation.create(callbackHandler,
-                                    new CameraCaptureSession.StatusCallback() {
-                                @Override public void
-                                onCaptureSequenceCompleted(CameraCaptureSession session,
-                                                           CameraCaptureSequenceId
-                                                                   cameraCaptureSequenceId,
-                                                           long lastFrameNumber) {
-                                    RobotLog.ii(TAG,
-                                            "Sequence %s Report Completed: lastFrame=%d",
-                                            cameraCaptureSequenceId, lastFrameNumber);
-                                }
-                            })
-                        );
-                        synchronizer.finish(session);
-                    } catch (CameraException|RuntimeException e) {
-                        RobotLog.ee(TAG, e, "Capture Exception");
-                        error("003 Capture Initialization Exception");
-                        session.close();
-                        synchronizer.finish(null);
-                    }
-                }
-            }));
-        } catch (CameraException|RuntimeException e) {
+                        @Override
+                        public void onConfigured(CameraCaptureSession session) {
+                            try {
+                                final CameraCaptureRequest captureRequest =
+                                        camera.createCaptureRequest(imageFormat, size, fps);
+                                session.startCapture(captureRequest,
+                                        new CameraCaptureSession.CaptureCallback() {
+                                            @Override
+                                            public void onNewFrame(CameraCaptureSession session,
+                                                                   CameraCaptureRequest request,
+                                                                   CameraFrame cameraFrame) {
+                                                Bitmap bmp = captureRequest.createEmptyBitmap();
+                                                cameraFrame.copyToBitmap(bmp);
+                                                frameQueue.offer(bmp);
+                                            }
+                                        },
+                                        Continuation.create(callbackHandler,
+                                                new CameraCaptureSession.StatusCallback() {
+                                                    @Override
+                                                    public void
+                                                    onCaptureSequenceCompleted(CameraCaptureSession session,
+                                                                               CameraCaptureSequenceId
+                                                                                       cameraCaptureSequenceId,
+                                                                               long lastFrameNumber) {
+                                                        RobotLog.ii(TAG,
+                                                                "Sequence %s Report Completed: lastFrame=%d",
+                                                                cameraCaptureSequenceId, lastFrameNumber);
+                                                    }
+                                                })
+                                );
+                                synchronizer.finish(session);
+                            } catch (CameraException | RuntimeException e) {
+                                RobotLog.ee(TAG, e, "Capture Exception");
+                                error("003 Capture Initialization Exception");
+                                session.close();
+                                synchronizer.finish(null);
+                            }
+                        }
+                    }));
+        } catch (CameraException | RuntimeException e) {
             RobotLog.ee(TAG, e, "Camera Exception");
             error("004 Camera Initialization Exception");
             synchronizer.finish(null);
@@ -245,7 +284,7 @@ public class RegressBerryJam extends LinearOpMode {
         telemetry.update();
     }
 
-    private void error(String format, Object...args) {
+    private void error(String format, Object... args) {
         telemetry.log().add(format, args);
         telemetry.update();
     }
