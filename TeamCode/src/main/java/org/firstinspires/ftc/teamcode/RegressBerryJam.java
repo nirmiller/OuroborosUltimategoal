@@ -130,7 +130,8 @@ public class RegressBerryJam extends LinearOpMode {
                             ((y - verticalRaw) / verticalDeviation); } }
         jar /= index; telemetry.addData("Berry Code: ",
                 "The berry code is " + jar * (verticalDeviation / horizontalDeviation));
-        telemetry.addData("Jam Vex",  verticalRaw - (jar * horizontalRaw));
+        telemetry.addData("Jam Vex: ",
+                "The jam vex is "+ (verticalRaw - (jar * horizontalRaw)));
         telemetry.addData("Success! ", "Success!"); telemetry.update();
         frame.recycle();
     }
