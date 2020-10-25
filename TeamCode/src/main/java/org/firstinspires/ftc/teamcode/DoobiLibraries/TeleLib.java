@@ -19,6 +19,7 @@ public abstract class TeleLib extends OpMode {
 
     boolean arcade = false;
 
+
     private DcMotor fl;
     private DcMotor fr;
     private DcMotor bl;
@@ -66,10 +67,10 @@ public abstract class TeleLib extends OpMode {
         bl = hardwareMap.dcMotor.get("bl");
         br = hardwareMap.dcMotor.get("br");
 
-        fl.setDirection(DcMotor.Direction.FORWARD);
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.FORWARD);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.FORWARD);
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -108,20 +109,14 @@ public abstract class TeleLib extends OpMode {
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        
 
     }
 
 
     public void drive()
     {
-        if(gamepad1.b && !arcade)
-        {
-            arcadedrive();
-            arcade = true;
-        }else if(gamepad1.b && arcade){
-            holonomicdrive();
-            arcade = false;
-        }
+        holonomicdrive();
         telemetry.addData("Drive ", arcade ? "Arcade" : "Holonomic");
     }
 
@@ -155,20 +150,21 @@ public abstract class TeleLib extends OpMode {
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
         theta = Math.toRadians(ogcp.returnOrientation());
-        double x_comp = left_stick_y*Math.cos(theta) + left_stick_x*Math.sin(theta);
-        double y_comp = left_stick_y*Math.sin(theta) - left_stick_x*Math.cos(theta);
-        double rot_comp = right_stick_x;
+
+
+        double[] motors = new double[4];
+        motors = Holonomic.calcPowerTele(theta, right_stick_x, left_stick_x, left_stick_y);
 
         if (Math.abs(left_stick_x) > 0.05 ||
                 Math.abs(left_stick_y) > 0.05 ||
                 Math.abs(right_stick_x) > 0.05) {
 
+            motors = Holonomic.calcPowerTele(theta, right_stick_x, left_stick_x, left_stick_y);
 
-
-            fl.setPower(x_comp - y_comp - rot_comp);
-            fr.setPower(x_comp + y_comp + rot_comp);
-            bl.setPower(x_comp + y_comp - rot_comp);
-            br.setPower(x_comp - y_comp + rot_comp);
+            fl.setPower(motors[0]);
+            fr.setPower(motors[1]);
+            bl.setPower(motors[2]);
+            br.setPower(motors[3]);
 
         } else {
             fl.setPower(0);

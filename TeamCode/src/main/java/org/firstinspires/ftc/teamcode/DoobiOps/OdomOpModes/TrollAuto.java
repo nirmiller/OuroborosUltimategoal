@@ -7,17 +7,17 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
 
 @Autonomous(group = "Auto", name = "Troll Auto")
 public class TrollAuto extends LinearOpMode {
-
     OdomDriveTrain odt;
 
     @Override
     public void runOpMode() throws InterruptedException {
-         odt = new OdomDriveTrain(this);
+
+        odt = new OdomDriveTrain(this);
 
         waitForStart();
 
-        odt.flex(0, 10);
-        odt.global.interrupt();
+        odt.flex(0, 4);
+        odt.end();
 
     }
 }

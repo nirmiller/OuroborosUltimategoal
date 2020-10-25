@@ -34,7 +34,7 @@ public class OdomDriveTrain {
     {
 
         this.opMode = opMode;
-
+        globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
         right_front = opMode.hardwareMap.dcMotor.get(rfName);
         right_back = opMode.hardwareMap.dcMotor.get(rbName);
         left_front = opMode.hardwareMap.dcMotor.get(lfName);
@@ -77,14 +77,19 @@ public class OdomDriveTrain {
         right_front.setDirection(DcMotorSimple.Direction.REVERSE);
         right_back.setDirection(DcMotorSimple.Direction.REVERSE);
 
-       // resetEncoders();
-        globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
+        resetEncoders();
+
 
         global = new Thread(globalPositionUpdate);
         global.start();
 
         opMode.telemetry.addData("Status", "Hardware Map Init Complete");
         opMode.telemetry.update();
+    }
+
+    public void end()
+    {
+        global.interrupt();
     }
     public void resetEncoders() {
 
@@ -116,7 +121,7 @@ public class OdomDriveTrain {
         while(opMode.opModeIsActive() && time.seconds() < runtime)
         {
 
-            if(time.seconds()<runtime*.5)
+            if(time.seconds()<runtime/2)
             {
                 motor = Holonomic.calcPowerAuto(angle, globalPositionUpdate.returnOrientation());
 
