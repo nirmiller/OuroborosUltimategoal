@@ -34,34 +34,11 @@ public class OdomDriveTrain {
     {
 
         this.opMode = opMode;
-        globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
+
         right_front = opMode.hardwareMap.dcMotor.get(rfName);
         right_back = opMode.hardwareMap.dcMotor.get(rbName);
         left_front = opMode.hardwareMap.dcMotor.get(lfName);
         left_back = opMode.hardwareMap.dcMotor.get(lbName);
-
-        verticalLeft = opMode.hardwareMap.dcMotor.get(verticalLeftEncoderName);
-        verticalRight = opMode.hardwareMap.dcMotor.get(verticalRightEncoderName);
-        horizontal = opMode.hardwareMap.dcMotor.get(horizontalEncoderName);
-
-        right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        left_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        left_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        verticalLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horizontal.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        verticalLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        verticalRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        horizontal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
 
         right_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -73,10 +50,14 @@ public class OdomDriveTrain {
         left_back.setDirection(DcMotor.Direction.REVERSE);
         right_back.setDirection(DcMotor.Direction.FORWARD);
 
+        verticalLeft = left_back;
+        verticalRight = right_back;
+        horizontal = left_front;
 
 
         resetEncoders();
 
+        globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
 
         global = new Thread(globalPositionUpdate);
         global.start();
