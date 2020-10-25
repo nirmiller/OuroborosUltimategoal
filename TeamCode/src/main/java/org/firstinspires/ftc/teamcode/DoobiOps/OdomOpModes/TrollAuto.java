@@ -16,7 +16,7 @@ public class TrollAuto extends LinearOpMode {
 
         waitForStart();
 
-        odt.flex(0, 4);
+        odt.flex(0, 10);
         odt.end();
 
     }
