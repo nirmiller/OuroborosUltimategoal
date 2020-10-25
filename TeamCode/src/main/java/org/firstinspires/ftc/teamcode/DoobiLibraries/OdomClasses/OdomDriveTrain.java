@@ -68,6 +68,7 @@ public class OdomDriveTrain {
 
     public void end()
     {
+        choop();
         global.interrupt();
     }
     public void resetEncoders() {
