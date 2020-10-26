@@ -83,25 +83,18 @@ public class RegressBerryJam extends LinearOpMode {
             while (opModeIsActive()) {
 
                 boolean buttonIsPressed = gamepad1.a;
-                telemetry.addData("button pressed?", buttonIsPressed);
                 if (buttonIsPressed && !buttonPressSeen) {
                     captureWhenAvailable = true;
-                    telemetry.addLine("entered button loop");
-                    telemetry.update();
                 }
                 buttonPressSeen = buttonIsPressed;
 
-                telemetry.addLine("exited button loop");
                 if (captureWhenAvailable) {
-                    telemetry.addLine("entered capture loop");
                     Bitmap berry = frameQueue.poll();
                     if (berry != null) {
                         captureWhenAvailable = false;
                         onNewFrame(berry);
                     }
                 }
-
-                telemetry.update();
             }
         } finally {
             closeCamera();
