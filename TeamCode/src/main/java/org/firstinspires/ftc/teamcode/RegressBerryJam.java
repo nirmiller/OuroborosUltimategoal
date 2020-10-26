@@ -121,8 +121,6 @@ public class RegressBerryJam extends LinearOpMode {
         int verticalRaw = 0;
         int index = 0;
         for (int y = 0; y < frame.getHeight(); y++) {
-            telemetry.addData("frame height", frame.getHeight());
-            telemetry.update();
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
                 if (values[0] >= 49 && values[0] <= 72) {
@@ -132,15 +130,11 @@ public class RegressBerryJam extends LinearOpMode {
                 }
             }
         }
-        telemetry.addData("did for loop", index);
-        telemetry.update();
         verticalRaw /= index;
         horizontalRaw /= index;
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
-                telemetry.addData("color", values[0]);
-                telemetry.update();
                 if (values[0] >= 49 && values[0] <= 72) {
                     verticalDeviation += (square(y - verticalRaw));
                     horizontalDeviation += (square(x - horizontalRaw));
@@ -150,8 +144,8 @@ public class RegressBerryJam extends LinearOpMode {
         int jar = 0;
         verticalDeviation = (int) Math.sqrt((verticalDeviation) / (index));
         horizontalDeviation = (int) Math.sqrt((horizontalDeviation) / (index));
-        telemetry.addData("horizontal deviation", horizontalDeviation);
-        telemetry.addData("vertical deviation", verticalDeviation);
+        telemetry.addData("Horizontal Deviation", horizontalDeviation);
+        telemetry.addData("Vertical Deviation", verticalDeviation);
 
         telemetry.update();
         for (int y = 0; y < frame.getHeight(); y++) {
