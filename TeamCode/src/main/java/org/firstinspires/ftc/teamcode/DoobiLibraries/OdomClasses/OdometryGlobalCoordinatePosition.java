@@ -11,6 +11,8 @@ import java.io.File;
  * Created by Sarthak on 6/1/2019.
  */
 public class OdometryGlobalCoordinatePosition implements Runnable{
+
+    final double COUNTS_PER_INCH = 308.876;
     //Odometry wheels
     private DcMotor verticalEncoderLeft, verticalEncoderRight, horizontalEncoder;
 
@@ -67,7 +69,7 @@ public class OdometryGlobalCoordinatePosition implements Runnable{
         double rightChange = verticalRightEncoderWheelPosition - previousVerticalRightEncoderWheelPosition;
 
         //Calculate Angle
-        changeInRobotOrientation = (leftChange - rightChange) / (robotEncoderWheelDistance);
+        changeInRobotOrientation = (rightChange - leftChange) / (robotEncoderWheelDistance);
         robotOrientationRadians = ((robotOrientationRadians + changeInRobotOrientation));
 
         //Get the components of the motion
@@ -92,13 +94,13 @@ public class OdometryGlobalCoordinatePosition implements Runnable{
      * Returns the robot's global x coordinate
      * @return global x coordinate
      */
-    public double returnXCoordinate(){ return robotGlobalXCoordinatePosition; }
+    public double returnXCoordinate(){ return -robotGlobalXCoordinatePosition / COUNTS_PER_INCH; }
 
     /**
      * Returns the robot's global y coordinate
      * @return global y coordinate
      */
-    public double returnYCoordinate(){ return robotGlobalYCoordinatePosition; }
+    public double returnYCoordinate(){ return robotGlobalYCoordinatePosition / COUNTS_PER_INCH; }
 
     /**
      * Returns the robot's global orientation
