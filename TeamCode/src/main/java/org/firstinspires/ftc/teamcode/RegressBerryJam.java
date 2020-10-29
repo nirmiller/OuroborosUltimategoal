@@ -136,6 +136,7 @@ public class RegressBerryJam extends LinearOpMode {
                 }
             }
         }
+
         int jar = 0;
         verticalDeviation = (int) Math.sqrt((verticalDeviation) / (index));
         horizontalDeviation = (int) Math.sqrt((horizontalDeviation) / (index));
@@ -152,6 +153,8 @@ public class RegressBerryJam extends LinearOpMode {
             }
         }
 
+        telemetry.addData("Jar", jar);
+        telemetry.update();
         jar /= index; int bake = 0;
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
@@ -171,12 +174,14 @@ public class RegressBerryJam extends LinearOpMode {
             }
         }
 
+        telemetry.addData("Checkpoint", "1");
+        telemetry.update();
         bake /= index; int secondBakeIsTheCharm = 0; index = 0; int z = 0;
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
                 if (values[0] >= lowerFrame && values[0] <= upperFrame)
-                    z = (int) Math.sqrt(square(x * jar * (verticalDeviation /
+                        z = (int) Math.sqrt(square(x * jar * (verticalDeviation /
                             horizontalDeviation) +
                             (verticalRaw - (jar * horizontalRaw))) +
                             square((y * ((-1 * (horizontalDeviation)) /
@@ -190,6 +195,7 @@ public class RegressBerryJam extends LinearOpMode {
                     if (z <= bake) secondBakeIsTheCharm += z; index++;
             }
         }
+
         telemetry.addData("Index", index);
         telemetry.addData("Baking Score: ", secondBakeIsTheCharm / index);
         telemetry.addData("Success! ", "Success!"); telemetry.update();
