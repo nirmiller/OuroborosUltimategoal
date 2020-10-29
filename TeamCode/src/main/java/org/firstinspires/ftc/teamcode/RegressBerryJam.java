@@ -108,8 +108,8 @@ public class RegressBerryJam extends LinearOpMode {
     private void onNewFrame(Bitmap frame) {
         saveBitmap(frame);
         telemetry.addLine("1");
-        int verticalDeviation = 0;
-        int horizontalDeviation = 0;
+        double verticalDeviation = 0;
+        double horizontalDeviation = 0;
         int horizontalRaw = 0;
         int verticalRaw = 0;
         int index = 0;
