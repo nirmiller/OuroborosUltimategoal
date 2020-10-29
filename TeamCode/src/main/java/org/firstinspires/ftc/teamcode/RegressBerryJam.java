@@ -149,11 +149,47 @@ public class RegressBerryJam extends LinearOpMode {
                                 ((y - verticalRaw) / verticalDeviation);
             }
         }
-        jar /= index;
-        telemetry.addData("Berry Code: ",
-                "The berry code is " + jar * (verticalDeviation / horizontalDeviation));
-        telemetry.addData("Jam Vex: ",
-                "The jam vex is "+ (verticalRaw - (jar * horizontalRaw)));
+
+        jar /= index; int bake = 0;
+        for (int y = 0; y < frame.getHeight(); y++) {
+            for (int x = 0; x < frame.getWidth(); x++) {
+                Color.colorToHSV(frame.getPixel(x, y), values);
+                if (values[0] >= 49 && values[0] <= 72)
+                    bake += Math.sqrt(square(x * jar * (verticalDeviation /
+                            horizontalDeviation) +
+                            (verticalRaw - (jar * horizontalRaw))) +
+                            square((y * ((-1 * (horizontalDeviation)) /
+                                    (horizontalDeviation * jar))
+                                    + (frame.getWidth() * jar *
+                                    (verticalDeviation / horizontalDeviation) +
+                                    (verticalRaw - (jar * horizontalRaw))) -
+                                    ((frame.getWidth() /2) *
+                                            (-1 * (horizontalDeviation)) /
+                                            (horizontalDeviation * jar)))));
+            }
+        }
+
+        bake /= index; int secondBakeIsTheCharm = 0; index = 0; int z = 0;
+        for (int y = 0; y < frame.getHeight(); y++) {
+            for (int x = 0; x < frame.getWidth(); x++) {
+                Color.colorToHSV(frame.getPixel(x, y), values);
+                if (values[0] >= 49 && values[0] <= 72)
+                    z = (int) Math.sqrt(square(x * jar * (verticalDeviation /
+                            horizontalDeviation) +
+                            (verticalRaw - (jar * horizontalRaw))) +
+                            square((y * ((-1 * (horizontalDeviation)) /
+                                    (horizontalDeviation * jar))
+                                    + (frame.getWidth() * jar *
+                                    (verticalDeviation / horizontalDeviation) +
+                                    (verticalRaw - (jar * horizontalRaw))) -
+                                    ((frame.getWidth() /2) *
+                                            (-1 * (horizontalDeviation)) /
+                                            (horizontalDeviation * jar)))));
+                    if (z <= bake) secondBakeIsTheCharm += z; index++;
+            }
+        }
+
+        telemetry.addData("Baking Score: ", secondBakeIsTheCharm / index);
         telemetry.addData("Success! ", "Success!"); telemetry.update();
         frame.recycle();
     }
