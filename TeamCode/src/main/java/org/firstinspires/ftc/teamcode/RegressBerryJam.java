@@ -113,7 +113,7 @@ public class RegressBerryJam extends LinearOpMode {
         int horizontalRaw = 0;
         int verticalRaw = 0;
         int index = 0;
-        int frameEdit = 0;
+        int frameEdit = -25;
         int upperFrame = 72 + frameEdit; int lowerFrame = 49 + frameEdit;
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
