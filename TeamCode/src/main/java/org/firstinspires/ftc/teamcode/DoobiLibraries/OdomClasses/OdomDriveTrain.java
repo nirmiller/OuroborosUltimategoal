@@ -45,17 +45,16 @@ public class OdomDriveTrain {
         left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        left_front.setDirection(DcMotor.Direction.REVERSE);
-        right_front.setDirection(DcMotor.Direction.FORWARD);
-        left_back.setDirection(DcMotor.Direction.REVERSE);
-        right_back.setDirection(DcMotor.Direction.FORWARD);
+        left_front.setDirection(DcMotor.Direction.FORWARD);
+        right_front.setDirection(DcMotor.Direction.REVERSE);
+        left_back.setDirection(DcMotor.Direction.FORWARD);
+        right_back.setDirection(DcMotor.Direction.REVERSE);
+
+        resetEncoders();
 
         verticalLeft = left_back;
         verticalRight = right_back;
         horizontal = left_front;
-
-
-        resetEncoders();
 
         globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
 
@@ -93,7 +92,6 @@ public class OdomDriveTrain {
 
     public void flex(double angle, double runtime)
     {
-        angle = Math.toRadians(angle);
 
         ElapsedTime time = new ElapsedTime();
 
@@ -101,14 +99,17 @@ public class OdomDriveTrain {
         while(opMode.opModeIsActive() && time.seconds() < runtime)
         {
 
-            if(time.seconds()<runtime/2)
+            if(time.seconds()< 1)
             {
                 motor = Holonomic.calcPowerAuto(angle, globalPositionUpdate.returnOrientation());
 
             }else{
                 motor = Holonomic.calcPowerAuto(angle, globalPositionUpdate.returnOrientation());
-                motor[1] = motor[1] + .4;
-                motor[3] = motor[3] + .4;
+                motor[0] = motor[0] + -.75;
+                motor[1] = motor[1] +  .75;
+                motor[2] = motor[2] + -.75;
+                motor[3] = motor[3] +  .75;
+                Holonomic.normalize(motor);
 
             }
             left_front.setPower(motor[0]);
