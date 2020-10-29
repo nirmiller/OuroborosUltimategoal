@@ -190,7 +190,7 @@ public class RegressBerryJam extends LinearOpMode {
                     if (z <= bake) secondBakeIsTheCharm += z; index++;
             }
         }
-
+        telemetry.addData("Index", index);
         telemetry.addData("Baking Score: ", secondBakeIsTheCharm / index);
         telemetry.addData("Success! ", "Success!"); telemetry.update();
         frame.recycle();
