@@ -16,8 +16,10 @@ public class TrollAuto extends LinearOpMode {
 
         waitForStart();
 
-        //odt.goToPoint(24, 24, 1, 0, 4, 10);
-        odt.flex(45, 5);
+       // odt.goToPoint(24, 24, 1, 0, 4, 10);
+       // odt.goToPoint(0, 48, 1, 0, 4, 10);
+        odt.flex(0, 5);
+
         odt.end();
 
     }
