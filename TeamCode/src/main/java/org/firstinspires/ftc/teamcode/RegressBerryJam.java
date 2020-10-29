@@ -137,7 +137,7 @@ public class RegressBerryJam extends LinearOpMode {
             }
         }
 
-        int jar = 0;
+        double jar = 0;
         verticalDeviation = (int) Math.sqrt((verticalDeviation) / (index));
         horizontalDeviation = (int) Math.sqrt((horizontalDeviation) / (index));
         telemetry.addData("Horizontal Deviation", horizontalDeviation);
@@ -160,17 +160,17 @@ public class RegressBerryJam extends LinearOpMode {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
                 if (values[0] >= lowerFrame && values[0] <= upperFrame)
-                    bake += Math.sqrt(square(x * jar * (verticalDeviation /
-                            horizontalDeviation) +
-                            (verticalRaw - (jar * horizontalRaw))) +
-                            square((y * ((-1 * (horizontalDeviation)) /
-                                    (verticalDeviation * jar))
-                                    + (frame.getWidth() * jar *
-                                    (verticalDeviation / horizontalDeviation) +
-                                    (verticalRaw - (jar * horizontalRaw))) -
-                                    ((frame.getWidth() / 2) *
-                                            (-1 * (horizontalDeviation)) /
-                                            (horizontalDeviation * jar)))));
+                    bake += Math.sqrt(square((int) (x * jar * (verticalDeviation /
+                                                horizontalDeviation) +
+                                                (verticalRaw - (jar * horizontalRaw)))) +
+                            square((int) (y * ((-1 * (horizontalDeviation)) /
+                                                                (verticalDeviation * jar))
+                                                                + (frame.getWidth() * jar *
+                                                                (verticalDeviation / horizontalDeviation) +
+                                                                (verticalRaw - (jar * horizontalRaw))) -
+                                                                ((frame.getWidth() / 2) *
+                                                                        (-1 * (horizontalDeviation)) /
+                                                                        (horizontalDeviation * jar)))));
             }
         }
 
@@ -181,17 +181,17 @@ public class RegressBerryJam extends LinearOpMode {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
                 if (values[0] >= lowerFrame && values[0] <= upperFrame)
-                        z = (int) Math.sqrt(square(x * jar * (verticalDeviation /
-                            horizontalDeviation) +
-                            (verticalRaw - (jar * horizontalRaw))) +
-                            square((y * ((-1 * (horizontalDeviation)) /
-                                    (verticalDeviation * jar))
-                                    + (frame.getWidth() * jar *
-                                    (verticalDeviation / horizontalDeviation) +
-                                    (verticalRaw - (jar * horizontalRaw))) -
-                                    ((frame.getWidth() / 2) *
-                                            (-1 * (horizontalDeviation)) /
-                                            (horizontalDeviation * jar)))));
+                        z = (int) Math.sqrt(square((int) (x * jar * (verticalDeviation /
+                                                    horizontalDeviation) +
+                                                    (verticalRaw - (jar * horizontalRaw)))) +
+                            square((int) (y * ((-1 * (horizontalDeviation)) /
+                                                                (verticalDeviation * jar))
+                                                                + (frame.getWidth() * jar *
+                                                                (verticalDeviation / horizontalDeviation) +
+                                                                (verticalRaw - (jar * horizontalRaw))) -
+                                                                ((frame.getWidth() / 2) *
+                                                                        (-1 * (horizontalDeviation)) /
+                                                                        (horizontalDeviation * jar)))));
                     if (z <= bake) secondBakeIsTheCharm += z; index++;
             }
         }
