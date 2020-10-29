@@ -161,11 +161,11 @@ public class RegressBerryJam extends LinearOpMode {
                             horizontalDeviation) +
                             (verticalRaw - (jar * horizontalRaw))) +
                             square((y * ((-1 * (horizontalDeviation)) /
-                                    (horizontalDeviation * jar))
+                                    (verticalDeviation * jar))
                                     + (frame.getWidth() * jar *
                                     (verticalDeviation / horizontalDeviation) +
                                     (verticalRaw - (jar * horizontalRaw))) -
-                                    ((frame.getWidth() /2) *
+                                    ((frame.getWidth() / 2) *
                                             (-1 * (horizontalDeviation)) /
                                             (horizontalDeviation * jar)))));
             }
@@ -180,11 +180,11 @@ public class RegressBerryJam extends LinearOpMode {
                             horizontalDeviation) +
                             (verticalRaw - (jar * horizontalRaw))) +
                             square((y * ((-1 * (horizontalDeviation)) /
-                                    (horizontalDeviation * jar))
+                                    (verticalDeviation * jar))
                                     + (frame.getWidth() * jar *
                                     (verticalDeviation / horizontalDeviation) +
                                     (verticalRaw - (jar * horizontalRaw))) -
-                                    ((frame.getWidth() /2) *
+                                    ((frame.getWidth() / 2) *
                                             (-1 * (horizontalDeviation)) /
                                             (horizontalDeviation * jar)))));
                     if (z <= bake) secondBakeIsTheCharm += z; index++;
