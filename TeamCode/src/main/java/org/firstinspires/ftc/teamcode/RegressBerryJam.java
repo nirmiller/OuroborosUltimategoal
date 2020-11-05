@@ -118,7 +118,8 @@ public class RegressBerryJam extends LinearOpMode {
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
-                if (values[0] >= lowerFrame && values[0] <= upperFrame && values[1] > 90) {
+                if (values[0] >= lowerFrame && values[0] <= upperFrame
+                        && values[1] > 90 && values[2] > 45) {
                     verticalRaw += y;
                     horizontalRaw += x;
                     index++;
@@ -130,7 +131,8 @@ public class RegressBerryJam extends LinearOpMode {
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
-                if (values[0] >= lowerFrame && values[0] <= upperFrame && values[1] > 90) {
+                if (values[0] >= lowerFrame && values[0] <= upperFrame
+                        && values[1] > 90 && values[2] > 45) {
                     verticalDeviation += (square(y - verticalRaw));
                     horizontalDeviation += (square(x - horizontalRaw));
                 }
@@ -147,7 +149,8 @@ public class RegressBerryJam extends LinearOpMode {
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
-                if (values[0] >= lowerFrame && values[0] <= upperFrame && values[1] > 90) jar +=
+                if (values[0] >= lowerFrame && values[0] <= upperFrame
+                        && values[1] > 90 && values[2] > 45) jar +=
                         ((x - horizontalRaw) / horizontalDeviation) *
                                 ((y - verticalRaw) / verticalDeviation);
             }
@@ -159,7 +162,8 @@ public class RegressBerryJam extends LinearOpMode {
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
-                if (values[0] >= lowerFrame && values[0] <= upperFrame && values[1] > 90)
+                if (values[0] >= lowerFrame && values[0] <= upperFrame
+                        && values[1] > 90 && values[2] > 45)
                     bake += Math.sqrt(square((int) (x * jar * (verticalDeviation /
                                                 horizontalDeviation) +
                                                 (verticalRaw - (jar * horizontalRaw)))) +
@@ -180,7 +184,8 @@ public class RegressBerryJam extends LinearOpMode {
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
-                if (values[0] >= lowerFrame && values[0] <= upperFrame && values[1] > 90)
+                if (values[0] >= lowerFrame && values[0] <= upperFrame
+                        && values[1] > 90 && values[2] > 45)
                         z = (int) Math.sqrt(square((int) (x * jar * (verticalDeviation /
                                                     horizontalDeviation) +
                                                     (verticalRaw - (jar * horizontalRaw)))) +
