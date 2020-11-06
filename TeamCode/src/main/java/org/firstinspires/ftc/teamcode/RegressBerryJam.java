@@ -113,8 +113,8 @@ public class RegressBerryJam extends LinearOpMode {
         int verticalRaw = 0;
         int index = 0;
         int frameEdit = 0;
-        int upperFrame = 32 + frameEdit; int lowerFrame = 19 + frameEdit;
-        int upperFrameH = 75; int lowerFrameH = 65;
+        int upperFrame = 36 + frameEdit; int lowerFrame = 15 + frameEdit;
+        int upperFrameH = 80; int lowerFrameH = 60;
         for (int y = 0; y < frame.getHeight(); y++) {
             for (int x = 0; x < frame.getWidth(); x++) {
                 Color.colorToHSV(frame.getPixel(x, y), values);
