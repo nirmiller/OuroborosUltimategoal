@@ -120,7 +120,7 @@ public class RegressBerryJam extends LinearOpMode {
                 Color.colorToHSV(frame.getPixel(x, y), values);
                 if (values[0] >= lowerFrame && values[0] <= upperFrame
                         && values[1] >= lowerFrameH && values[1] <= upperFrameH
-                        && values[2] > 60) {
+                        && values[2] > 50) {
                     verticalRaw += y;
                     horizontalRaw += x;
                     index++;
