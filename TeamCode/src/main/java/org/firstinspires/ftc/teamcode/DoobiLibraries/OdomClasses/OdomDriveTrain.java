@@ -125,12 +125,16 @@ public class OdomDriveTrain {
 
 
     public void splineMove(ArrayList<Point> spline, double power, double timeout){
+        for(Point p : spline)
+        {
+            goToPoint(p.getX(), p.getY(), p.getFace(), 1, 1, 2);
+        }
         
 
     }
 
 
-    public void goToPoint(double targetX, double targetY, double power, double face, double allowedDistanceError, double timeout) {
+    public void goToPoint(double targetX, double targetY, double face, double power,  double allowedDistanceError, double timeout) {
 
         ElapsedTime time = new ElapsedTime();
         time.reset();
