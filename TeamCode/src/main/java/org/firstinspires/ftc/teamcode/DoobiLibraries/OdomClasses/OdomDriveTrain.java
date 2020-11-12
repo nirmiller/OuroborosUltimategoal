@@ -157,7 +157,7 @@ public class OdomDriveTrain {
 
             motor = Holonomic.calcPowerAuto(moveAngle, face + globalPositionUpdate.returnOrientation());
             double angleCorrection = face - globalPositionUpdate.returnOrientation();
-            if(angleCorrection > 5)
+            if(angleCorrection > 2)
             {
                 k = angleCorrection/360;
             }
