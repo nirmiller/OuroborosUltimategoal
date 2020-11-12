@@ -99,11 +99,7 @@ public class OdomDriveTrain {
         while(opMode.opModeIsActive() && time.seconds() < runtime)
         {
 
-            if(time.seconds()< 1)
-            {
-                motor = Holonomic.calcPowerAuto(angle, globalPositionUpdate.returnOrientation());
 
-            }else{
                 motor = Holonomic.calcPowerAuto(angle, globalPositionUpdate.returnOrientation());
                 motor[0] = motor[0] + -.75;
                 motor[1] = motor[1] +  .75;
@@ -111,7 +107,7 @@ public class OdomDriveTrain {
                 motor[3] = motor[3] +  .75;
                 Holonomic.normalize(motor);
 
-            }
+
             left_front.setPower(motor[0]);
             right_front.setPower(motor[1]);
             left_back.setPower(motor[2]);
@@ -127,7 +123,7 @@ public class OdomDriveTrain {
     public void splineMove(ArrayList<Point> spline, double power, double timeout){
         for(Point p : spline)
         {
-            goToPoint(p.getX(), p.getY(), p.getFace(), 1, 1, 2);
+            goToPoint(p.getX(), p.getY(), p.getFace(), 1, 7, 2);
         }
         
 
@@ -146,24 +142,42 @@ public class OdomDriveTrain {
         //gets total distance needed to travel
         double distance = Math.hypot(distanceToX, distanceToY);
         double[] motor = new double[4];
+        double k = 0;
+        distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
+        distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
+        distance = Math.hypot(distanceToX, distanceToY);
+        //uses right triange trig to figure out what ange the robot needs to move at
+        //maybe could integrate Nir's holonomic odom math into?
+        double moveAngle = Math.toDegrees(Math.atan2(distanceToX, distanceToY));
 
         while (opMode.opModeIsActive() && distance > allowedDistanceError && time.seconds() < timeout) {
             distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
             distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
             distance = Math.hypot(distanceToX, distanceToY);
-            //uses right triange trig to figure out what ange the robot needs to move at
-            //maybe could integrate Nir's holonomic odom math into?
-            double moveAngle = Math.toDegrees(Math.atan2(distanceToX, distanceToY));
 
             motor = Holonomic.calcPowerAuto(moveAngle, face + globalPositionUpdate.returnOrientation());
+            double angleCorrection = face - globalPositionUpdate.returnOrientation();
+            if(angleCorrection > 5)
+            {
+                k = angleCorrection/360;
+            }
+            else
+            {
+                k = 0;
+            }
+            motor[0] = motor[0] + - k;
+            motor[1] = motor[1] +  k;
+            motor[2] = motor[2] + - k;
+            motor[3] = motor[3] +  k;
+            Holonomic.normalize(motor);
+
 
             left_front.setPower(motor[0]);
             right_front.setPower(motor[1]);
             left_back.setPower(motor[2]);
             right_back.setPower(motor[3]);
-
             //figures out what power to set the motors to so we can move at this angle
-            double angleCorrection = face - globalPositionUpdate.returnOrientation();
+
 
         }
 

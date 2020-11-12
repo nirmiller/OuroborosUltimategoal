@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdometryGlobalC
 
 public abstract class TeleLib extends OpMode {
 
+
     final double COUNTS_PER_INCH = 308.876;
 
     double right_stick_x;
@@ -71,6 +72,7 @@ public abstract class TeleLib extends OpMode {
 
 
     }
+
 
     public void resetEncoders() {
 

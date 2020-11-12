@@ -9,9 +9,18 @@ public class Bezier {
     public static ArrayList<Point> interpolateSpline(double[][] variables) {
         ArrayList<Point> bezierPoints = new ArrayList<Point>();
 
-        for (double t = 0; t <= 1; t = t + .05) {
-            bezierPoints.add(new Point(functionX(variables[0][0], variables[0][1], variables[0][2], variables[0][3], t),
-                    functionY(variables[1][0], variables[1][1], variables[1][2], variables[1][3], t), 0));
+        double x = 0;
+        double y = 0;
+        for (double t = 0; t <= 1; t = t + .01) {
+
+            x = functionX(variables[0][0], variables[0][1], variables[0][2], variables[0][3], t);
+            y = functionY(variables[1][0], variables[1][1], variables[1][2], variables[1][3], t);
+            if(y == 0 && x == 0)
+            {
+                x = functionX(variables[0][0], variables[0][1], variables[0][2], variables[0][3], t+.01);
+                y = functionY(variables[1][0], variables[1][1], variables[1][2], variables[1][3], t+.01);
+            }
+            bezierPoints.add(new Point(x, y, Math.atan2(y, x)));
         }
 
         return bezierPoints;

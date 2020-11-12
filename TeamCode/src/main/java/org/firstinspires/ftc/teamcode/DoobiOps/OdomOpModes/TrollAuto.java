@@ -18,13 +18,14 @@ public class TrollAuto extends LinearOpMode {
 
         odt = new OdomDriveTrain(this);
 
-        ArrayList<Point> spline = Bezier.interpolateSpline(Bezier.getVariables(0, 0, 24, 24, 96, 0));
+
+        ArrayList<Point> spline0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, 24, 24, 48, 48));
 
         waitForStart();
 
 
 
-        odt.splineMove(spline, 1, 10);
+        odt.splineMove(spline0, 1, 10);
 
         odt.end();
 
