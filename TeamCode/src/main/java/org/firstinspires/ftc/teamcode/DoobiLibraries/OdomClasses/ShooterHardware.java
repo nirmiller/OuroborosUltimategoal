@@ -4,15 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class Shooter {
+public class ShooterHardware {
 
     LinearOpMode opMode;
 
     private DcMotor shooter;
     private DcMotor pivot;
     private DcMotor lift;
+    private double currentAngle;
 
-    public Shooter(LinearOpMode opMode)
+    public ShooterHardware(LinearOpMode opMode)
     {
         this.opMode = opMode;
 
@@ -25,9 +26,19 @@ public class Shooter {
         shooter.setDirection(DcMotor.Direction.FORWARD);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-
-
     }
+
+
+    public void setPivotAngle(double theta)
+    {
+
+        double angleChange = theta - currentAngle;
+
+
+
+        currentAngle = theta;
+    }
+
 
 
 }

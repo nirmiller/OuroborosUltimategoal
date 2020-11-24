@@ -239,6 +239,18 @@ public abstract class TeleLib extends OpMode {
         if (Math.abs(gamepad2.left_stick_y) > .05){
             shooter.setPower(gamepad2.left_stick_y);
         }
+
+        if(gamepad2.dpad_up)
+        {
+            pivot.setPower(.5);
+        }else if(gamepad2.dpad_down)
+        {
+           pivot.setPower(-.5);
+        }else
+        {
+            pivot.setPower(0);
+        }
+
         if (gamepad2.right_bumper){
             mag.setPosition(magPos);
             magPos = Math.abs(magPos - 1);
