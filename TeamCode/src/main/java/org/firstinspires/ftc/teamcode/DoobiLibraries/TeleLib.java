@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.DoobiLibraries;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdometryGlobalCoordinatePosition;
 
@@ -25,10 +26,20 @@ public abstract class TeleLib extends OpMode {
     private DcMotor fr;
     private DcMotor bl;
     private DcMotor br;
+    private DcMotor intake;
+    private DcMotor shooter;
+    private DcMotor pivot;
+    private DcMotor lift;
+    private Servo hook;
+    private Servo wobble;
+    private Servo mag;
 
     DcMotor verticalLeft, verticalRight, horizontal;
     String verticalLeftEncoderName = "bl", verticalRightEncoderName = "br", horizontalEncoderName = "fl";
 
+    int wobblePos = 1;
+    int hookPos = 1;
+    int magPos = 1;
 
     double[] motorPowers;
 
@@ -44,6 +55,12 @@ public abstract class TeleLib extends OpMode {
         fr = hardwareMap.dcMotor.get("fr");
         bl = hardwareMap.dcMotor.get("bl");
         br = hardwareMap.dcMotor.get("br");
+        pivot = hardwareMap.dcMotor.get("pivot");
+        shooter = hardwareMap.dcMotor.get("shooter");
+        lift = hardwareMap.dcMotor.get("lift");
+        hook = hardwareMap.servo.get("whook");
+        wobble = hardwareMap.servo.get("wobble");
+        mag = hardwareMap.servo.get("mag");
 
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
@@ -159,6 +176,28 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("X Position : ", ogcp.returnXCoordinate());
         telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
+    }
+    public void wobbleGoal(){
+        if (gamepad2.a) {
+            hook.setPosition(hookPos);
+            hookPos = Math.abs(hookPos - 1);
+        }
+
+        if (gamepad2.b) {
+            wobble.setPosition(wobblePos);
+            wobblePos = Math.abs(wobblePos - 1);
+        }
+        telemetry.addData("hook position", hook.getPosition());
+        telemetry.addData("wobble position", wobble.getPosition());
+    }
+    public void output(){
+        if (Math.abs(gamepad2.left_stick_y) > .05){
+            shooter.setPower(gamepad2.left_stick_y);
+        }
+        if (gamepad2.right_bumper){
+            mag.setPosition(magPos);
+            magPos = Math.abs(magPos - 1);
+        }
     }
 
 }

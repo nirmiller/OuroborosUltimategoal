@@ -14,6 +14,8 @@ public class TeleOp extends TeleLib {
     public void loop() {
 
         holonomicdrive();
+        wobbleGoal();
+        output();
         telemetry.update();
     }
 
