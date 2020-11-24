@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Holonomic;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
+import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class OdomDriveTrain {
     final double COUNTS_PER_INCH = 308.876;
 
     LinearOpMode opMode;
+    Sensors sensors = new Sensors(opMode);
 
     public OdomDriveTrain(LinearOpMode opMode)
     {
@@ -149,6 +151,76 @@ public class OdomDriveTrain {
        //choop();
     }
 
+    public void turnPID(double angleChange, boolean turnRight, double kP, double kI, double kD, double timeout) {
+
+        ElapsedTime time = new ElapsedTime();
+        ElapsedTime timeoutTimer = new ElapsedTime();
+
+        double error;
+        double power;
+
+        double proportional;
+        double integral = 0;
+        double derivative;
+
+        double prevRunTime;
+
+        double initAngle = sensors.getGyroYaw();
+        double lastError = angleChange - Math.abs(sensors.getGyroYaw() - initAngle);
+
+        time.reset();
+        timeoutTimer.reset();
+
+        while (Math.abs(sensors.getGyroYaw() - (angleChange + initAngle)) > 1 && timeoutTimer.seconds() < timeout && opMode.opModeIsActive()) {
+            prevRunTime = time.seconds();
+
+            error = angleChange - Math.abs(sensors.getGyroYaw() - initAngle);
+
+
+            proportional = error * kP;
+
+            integral += (error * (time.seconds() - prevRunTime)) * kI;
+
+
+            derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
+
+
+            power = proportional + integral + derivative;
+
+            turn(power, turnRight);
+
+            opMode.telemetry.addData("error ", error);
+            opMode.telemetry.addData("P", proportional);
+            opMode.telemetry.addData("I", integral);
+            opMode.telemetry.addData("D", derivative);
+            opMode.telemetry.addData("power", power);
+            opMode.telemetry.update();
+
+            lastError = error;
+
+            opMode.idle();
+
+        }
+        choop();
+
+    }
+    public void turn(double power, boolean isRight)
+    {
+        if(isRight)
+        {
+            right_front.setPower(-power);
+            right_back.setPower(-power);
+            left_front.setPower(power);
+            left_back.setPower(power);
+        }
+        else
+        {
+            right_front.setPower(power);
+            right_back.setPower(power);
+            left_front.setPower(-power);
+            left_back.setPower(-power);
+        }
+    }
 
     public void choop()
     {
