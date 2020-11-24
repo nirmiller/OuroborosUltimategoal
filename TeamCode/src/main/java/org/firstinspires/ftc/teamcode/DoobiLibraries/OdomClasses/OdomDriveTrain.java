@@ -131,7 +131,7 @@ public class OdomDriveTrain {
             distance = Math.hypot(distanceToX, distanceToY);
 
             angleCorrection = face - globalPositionUpdate.returnOrientation();
-            motor = Holonomic.calcPowerAuto(moveAngle, globalPositionUpdate.returnOrientation(), angleCorrection);
+            motor = Holonomic.calcPowerAuto(moveAngle, globalPositionUpdate.returnOrientation(), 0);
 
 
             left_front.setPower(motor[0]);

@@ -50,22 +50,32 @@ public abstract class TeleLib extends OpMode {
         //Drive base
 
         //Init complete
-        telemetry.addData("Status", "Init Complete");
+
         fl = hardwareMap.dcMotor.get("fl");
         fr = hardwareMap.dcMotor.get("fr");
         bl = hardwareMap.dcMotor.get("bl");
         br = hardwareMap.dcMotor.get("br");
+
         pivot = hardwareMap.dcMotor.get("pivot");
         shooter = hardwareMap.dcMotor.get("shooter");
         lift = hardwareMap.dcMotor.get("lift");
+        intake = hardwareMap.dcMotor.get("intake");
+
         hook = hardwareMap.servo.get("whook");
         wobble = hardwareMap.servo.get("wobble");
         mag = hardwareMap.servo.get("mag");
 
+
+        intake.setDirection(DcMotor.Direction.FORWARD);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        pivot.setDirection(DcMotor.Direction.FORWARD);
+        pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         lift.setDirection(DcMotor.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        shooter.setDirection(DcMotorSimple.Direction.FORWARD);
+        shooter.setDirection(DcMotor.Direction.FORWARD);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         fl.setDirection(DcMotor.Direction.FORWARD);
@@ -200,13 +210,25 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
     }
+
+    public void intake()
+    {
+        if(gamepad2.a)
+        {
+            intake.setPower(1);
+        }else{
+            intake.setPower(0);
+        }
+    }
+
+
     public void wobbleGoal(){
-        if (gamepad2.a) {
+        if (gamepad2.x) {
             hook.setPosition(hookPos);
             hookPos = Math.abs(hookPos - 1);
         }
 
-        if (gamepad2.b) {
+        if (gamepad2.y) {
             wobble.setPosition(wobblePos);
             wobblePos = Math.abs(wobblePos - 1);
         }
