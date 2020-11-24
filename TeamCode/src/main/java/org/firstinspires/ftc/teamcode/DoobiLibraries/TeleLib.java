@@ -62,6 +62,12 @@ public abstract class TeleLib extends OpMode {
         wobble = hardwareMap.servo.get("wobble");
         mag = hardwareMap.servo.get("mag");
 
+        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        shooter.setDirection(DcMotorSimple.Direction.FORWARD);
+        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.FORWARD);
@@ -101,6 +107,8 @@ public abstract class TeleLib extends OpMode {
 
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -108,7 +116,9 @@ public abstract class TeleLib extends OpMode {
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        
+
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
     }
 
@@ -203,7 +213,7 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("hook position", hook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
     }
-    public void output(){
+    public void shooter(){
         if (Math.abs(gamepad2.left_stick_y) > .05){
             shooter.setPower(gamepad2.left_stick_y);
         }
