@@ -8,8 +8,8 @@ public class Wobble {
     public Servo hook;
     int wobbleUpPos = 1;
     int wobbleDownPos = 0;
-    int hookDownPos = 1;
-    int hookUpPos = 0;
+    int hookDownPos = 0;
+    int hookUpPos = 1;
 
     public Wobble(LinearOpMode opMode){
         wobble = opMode.hardwareMap.servo.get("wobble");

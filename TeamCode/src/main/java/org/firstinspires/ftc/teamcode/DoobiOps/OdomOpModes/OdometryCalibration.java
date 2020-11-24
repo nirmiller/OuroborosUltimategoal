@@ -32,7 +32,7 @@ public class OdometryCalibration extends LinearOpMode {
     String rfName = "fr", rbName = "br", lfName = "fl", lbName = "bl";
     String verticalLeftEncoderName = "bl", verticalRightEncoderName = "br", horizontalEncoderName = "fl";
 
-    final double PIVOT_SPEED = 0.5;
+    final double PIVOT_SPEED = 1;
 
     //The amount of encoder ticks for each inch the robot moves. THIS WILL CHANGE FOR EACH ROBOT AND NEEDS TO BE UPDATED HERE
     final double COUNTS_PER_INCH = 307.699557;

@@ -26,10 +26,10 @@ public abstract class TeleLib extends OpMode {
     private DcMotor fr;
     private DcMotor bl;
     private DcMotor br;
-    private DcMotor intake;
+   // private DcMotor intake;
     private DcMotor shooter;
     private DcMotor pivot;
-    private DcMotor lift;
+   // private DcMotor lift;
     private Servo hook;
     private Servo wobble;
     private Servo mag;
@@ -58,22 +58,22 @@ public abstract class TeleLib extends OpMode {
 
         pivot = hardwareMap.dcMotor.get("pivot");
         shooter = hardwareMap.dcMotor.get("shooter");
-        lift = hardwareMap.dcMotor.get("lift");
-        intake = hardwareMap.dcMotor.get("intake");
+        //lift = hardwareMap.dcMotor.get("lift");
+        //intake = hardwareMap.dcMotor.get("intake");
 
         hook = hardwareMap.servo.get("whook");
         wobble = hardwareMap.servo.get("wobble");
         mag = hardwareMap.servo.get("mag");
 
 
-        intake.setDirection(DcMotor.Direction.FORWARD);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        //intake.setDirection(DcMotor.Direction.FORWARD);
+        //intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         pivot.setDirection(DcMotor.Direction.FORWARD);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        lift.setDirection(DcMotor.Direction.FORWARD);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //lift.setDirection(DcMotor.Direction.FORWARD);
+        //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         shooter.setDirection(DcMotor.Direction.FORWARD);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -103,7 +103,6 @@ public abstract class TeleLib extends OpMode {
         global.start();
         arcade = false;
 
-
     }
 
 
@@ -117,7 +116,7 @@ public abstract class TeleLib extends OpMode {
 
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -127,11 +126,10 @@ public abstract class TeleLib extends OpMode {
 
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
-
 
     public void drive()
     {
@@ -211,6 +209,7 @@ public abstract class TeleLib extends OpMode {
 
     }
 
+/*
     public void intake()
     {
         if(gamepad2.a)
@@ -220,6 +219,7 @@ public abstract class TeleLib extends OpMode {
             intake.setPower(0);
         }
     }
+*/
 
 
     public void wobbleGoal(){
