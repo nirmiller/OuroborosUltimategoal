@@ -56,7 +56,7 @@ public class OdomDriveTrain {
         verticalRight = right_back;
         horizontal = left_front;
 
-        globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 75);
+        globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 35);
 
         global = new Thread(globalPositionUpdate);
         global.start();
@@ -90,34 +90,6 @@ public class OdomDriveTrain {
 
     }
 
-    public void flex(double angle, double runtime)
-    {
-
-        ElapsedTime time = new ElapsedTime();
-
-        double[] motor = new double[4];
-        while(opMode.opModeIsActive() && time.seconds() < runtime)
-        {
-
-
-                motor = Holonomic.calcPowerAuto(angle, globalPositionUpdate.returnOrientation());
-                motor[0] = motor[0] + -.75;
-                motor[1] = motor[1] +  .75;
-                motor[2] = motor[2] + -.75;
-                motor[3] = motor[3] +  .75;
-                Holonomic.normalize(motor);
-
-
-            left_front.setPower(motor[0]);
-            right_front.setPower(motor[1]);
-            left_back.setPower(motor[2]);
-            right_back.setPower(motor[3]);
-
-        }
-
-        choop();
-
-    }
 
 
     public void splineMove(ArrayList<Point> spline, double power, double timeout){
@@ -149,27 +121,17 @@ public class OdomDriveTrain {
         //uses right triange trig to figure out what ange the robot needs to move at
         //maybe could integrate Nir's holonomic odom math into?
         double moveAngle = Math.toDegrees(Math.atan2(distanceToX, distanceToY));
+        double angleCorrection = 0;
 
         while (opMode.opModeIsActive() && distance > allowedDistanceError && time.seconds() < timeout) {
+
+
             distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
             distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
             distance = Math.hypot(distanceToX, distanceToY);
 
-            motor = Holonomic.calcPowerAuto(moveAngle, face + globalPositionUpdate.returnOrientation());
-            double angleCorrection = face - globalPositionUpdate.returnOrientation();
-            if(angleCorrection > 2)
-            {
-                k = angleCorrection/360;
-            }
-            else
-            {
-                k = 0;
-            }
-            motor[0] = motor[0] + - k;
-            motor[1] = motor[1] +  k;
-            motor[2] = motor[2] + - k;
-            motor[3] = motor[3] +  k;
-            Holonomic.normalize(motor);
+            angleCorrection = face - globalPositionUpdate.returnOrientation();
+            motor = Holonomic.calcPowerAuto(moveAngle, globalPositionUpdate.returnOrientation(), angleCorrection);
 
 
             left_front.setPower(motor[0]);
@@ -177,7 +139,10 @@ public class OdomDriveTrain {
             left_back.setPower(motor[2]);
             right_back.setPower(motor[3]);
             //figures out what power to set the motors to so we can move at this angle
-
+            opMode.telemetry.addData("Angle : ", angleCorrection);
+            opMode.telemetry.addData("X Position : ", globalPositionUpdate.returnXCoordinate());
+            opMode.telemetry.addData("Y Position : ", globalPositionUpdate.returnYCoordinate());
+            opMode.telemetry.update();
 
         }
 

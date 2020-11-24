@@ -115,7 +115,20 @@ public abstract class TeleLib extends OpMode {
 
     public void drive()
     {
-        holonomicdrive();
+        if(arcade && gamepad1.b)
+        {
+            arcade = false;
+        }else if (!arcade && gamepad1.b)
+        {
+            arcade = true;
+        }
+        if(arcade)
+        {
+            arcadedrive();
+        }else {
+            holonomicdrive();
+        }
+
         telemetry.addData("Drive ", arcade ? "Arcade" : "Holonomic");
     }
 

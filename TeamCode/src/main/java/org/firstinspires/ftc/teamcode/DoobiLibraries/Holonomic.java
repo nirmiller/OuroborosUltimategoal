@@ -64,15 +64,24 @@ public class Holonomic {
         return a;
     }
 
-    public static double[] calcPowerAuto(double heading, double face) {
+    public static double[] calcPowerAuto(double heading, double face, double rot) {
         double difAng = Math.toRadians(face - heading);
+
+
+        if(Math.abs(rot) >= 4)
+        {
+            rot = Math.toRadians(rot);
+        }else
+        {
+            rot = 0;
+        }
 
         double[] motorPower = new double[4];
 
-        motorPower[0] = Math.cos(difAng) - Math.sin(difAng);
-        motorPower[1] = Math.cos(difAng) + Math.sin(difAng);
-        motorPower[2] = Math.cos(difAng) + Math.sin(difAng);
-        motorPower[3] = Math.cos(difAng) - Math.sin(difAng);
+        motorPower[0] = Math.cos(difAng) - Math.sin(difAng) - .5*Math.sin(rot);
+        motorPower[1] = Math.cos(difAng) + Math.sin(difAng) + .5*Math.sin(rot);;
+        motorPower[2] = Math.cos(difAng) + Math.sin(difAng) - .5*Math.sin(rot);;
+        motorPower[3] = Math.cos(difAng) - Math.sin(difAng) + .5*Math.sin(rot);
 
         normalize(motorPower);
 
