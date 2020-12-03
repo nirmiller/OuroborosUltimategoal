@@ -71,7 +71,9 @@ public class RightBlueAuto extends LinearOpMode {
             case 0:
                 //no rings
                 drive.splineMove(noRings0, 1, 5);
+                //aim
                 //shoot - wait for Nir to finish
+
                 drive.splineMove(noRings1, .5, 3);
                 wobble.wobbleDown();
                 wobble.hookUp();
@@ -80,6 +82,7 @@ public class RightBlueAuto extends LinearOpMode {
             case 1:
                 //1 ring
                 drive.splineMove(OneRing0, 1, 5);
+                //aim
                 //shoot
                 drive.splineMove(OneRing1, .7, 3);
                 wobble.wobbleDown();
@@ -90,6 +93,7 @@ public class RightBlueAuto extends LinearOpMode {
 
             case 4:
                 drive.splineMove(FourRings0, 1, 5);
+                //aim
                 //shoot
                 drive.splineMove(FourRings1, .7, 3);
                 wobble.wobbleDown();
