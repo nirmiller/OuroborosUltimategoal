@@ -35,7 +35,7 @@ public abstract class TeleLib extends OpMode {
     private Servo mag;
 
     DcMotor verticalLeft, verticalRight, horizontal;
-    String verticalLeftEncoderName = "bl", verticalRightEncoderName = "br", horizontalEncoderName = "fl";
+    String verticalLeftEncoderName = "fl", verticalRightEncoderName = "fr", horizontalEncoderName = "br";
 
     int wobblePos = 1;
     int hookPos = 1;
@@ -152,6 +152,7 @@ public abstract class TeleLib extends OpMode {
 
 
     public void arcadedrive(){
+        theta = ogcp.returnOrientation();
         left_stick_y = gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
@@ -171,7 +172,9 @@ public abstract class TeleLib extends OpMode {
             bl.setPower(0);
             br.setPower(0);
         }
-
+        telemetry.addData("Angle : ", ogcp.returnOrientation());
+        telemetry.addData("X Position : ", ogcp.returnXCoordinate());
+        telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
         }
 
