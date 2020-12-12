@@ -78,19 +78,19 @@ public abstract class TeleLib extends OpMode {
         shooter.setDirection(DcMotor.Direction.FORWARD);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        fl.setDirection(DcMotor.Direction.FORWARD);
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.FORWARD);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.FORWARD);
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        verticalLeft = bl;
-        verticalRight = br;
-        horizontal = fl;
+        verticalLeft = fl;
+        verticalRight = fr;
+        horizontal = br;
 
         theta = 0;
 
@@ -161,10 +161,10 @@ public abstract class TeleLib extends OpMode {
                 Math.abs(left_stick_y) > 0.05 ||
                 Math.abs(right_stick_x) > 0.05) {
 
-            fl.setPower(left_stick_y + left_stick_x - right_stick_x);
-            fr.setPower(left_stick_y - left_stick_x + right_stick_x);
-            bl.setPower(left_stick_y - left_stick_x - right_stick_x);
-            br.setPower(left_stick_y + left_stick_x + right_stick_x);
+            fl.setPower(left_stick_y + left_stick_x + right_stick_x);
+            fr.setPower(left_stick_y - left_stick_x - right_stick_x);
+            bl.setPower(left_stick_y - left_stick_x + right_stick_x);
+            br.setPower(left_stick_y + left_stick_x - right_stick_x);
 
         }else {
             fl.setPower(0);
