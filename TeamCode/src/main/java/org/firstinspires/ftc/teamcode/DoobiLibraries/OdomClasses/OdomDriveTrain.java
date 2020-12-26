@@ -23,8 +23,7 @@ public class OdomDriveTrain {
 
     //Hardware Map Names for drive motors and odometry wheels. THIS WILL CHANGE ON EACH ROBOT, YOU NEED TO UPDATE THESE VALUES ACCORDINGLY
     String rfName = "fr", rbName = "br", lfName = "fl", lbName = "bl";
-    String verticalLeftEncoderName = "bl", verticalRightEncoderName = "br", horizontalEncoderName = "fl";
-
+    String verticalLeftEncoderName = "fl", verticalRightEncoderName = "fr", horizontalEncoderName = "br";
     double theta;
 
     final double COUNTS_PER_INCH = 308.876;
@@ -54,9 +53,9 @@ public class OdomDriveTrain {
 
         resetEncoders();
 
-        verticalLeft = left_back;
-        verticalRight = right_back;
-        horizontal = left_front;
+        verticalLeft = left_front;
+        verticalRight = right_front;
+        horizontal = right_back;
 
         globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 35);
 

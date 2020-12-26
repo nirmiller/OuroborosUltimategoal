@@ -35,7 +35,7 @@ public abstract class TeleLib extends OpMode {
     private Servo mag;
 
     DcMotor verticalLeft, verticalRight, horizontal;
-    String verticalLeftEncoderName = "bl", verticalRightEncoderName = "br", horizontalEncoderName = "fl";
+    String verticalLeftEncoderName = "fl", verticalRightEncoderName = "fr", horizontalEncoderName = "br";
 
     int wobblePos = 1;
     int hookPos = 1;
@@ -78,19 +78,19 @@ public abstract class TeleLib extends OpMode {
         shooter.setDirection(DcMotor.Direction.FORWARD);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        fl.setDirection(DcMotor.Direction.FORWARD);
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.FORWARD);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.FORWARD);
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        verticalLeft = bl;
-        verticalRight = br;
-        horizontal = fl;
+        verticalLeft = fl;
+        verticalRight = fr;
+        horizontal = br;
 
         theta = 0;
 
@@ -152,6 +152,7 @@ public abstract class TeleLib extends OpMode {
 
 
     public void arcadedrive(){
+        theta = ogcp.returnOrientation();
         left_stick_y = gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
@@ -160,10 +161,10 @@ public abstract class TeleLib extends OpMode {
                 Math.abs(left_stick_y) > 0.05 ||
                 Math.abs(right_stick_x) > 0.05) {
 
-            fl.setPower(left_stick_y + left_stick_x - right_stick_x);
-            fr.setPower(left_stick_y - left_stick_x + right_stick_x);
-            bl.setPower(left_stick_y - left_stick_x - right_stick_x);
-            br.setPower(left_stick_y + left_stick_x + right_stick_x);
+            fl.setPower(left_stick_y + left_stick_x + right_stick_x);
+            fr.setPower(left_stick_y - left_stick_x - right_stick_x);
+            bl.setPower(left_stick_y - left_stick_x + right_stick_x);
+            br.setPower(left_stick_y + left_stick_x - right_stick_x);
 
         }else {
             fl.setPower(0);
@@ -171,7 +172,9 @@ public abstract class TeleLib extends OpMode {
             bl.setPower(0);
             br.setPower(0);
         }
-
+        telemetry.addData("Angle : ", ogcp.returnOrientation());
+        telemetry.addData("X Position : ", ogcp.returnXCoordinate());
+        telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
         }
 

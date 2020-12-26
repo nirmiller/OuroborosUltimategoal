@@ -4,9 +4,10 @@ public class Shooter {
 
         static final double g = 9.81;
 
-        public static double calcThetaY(double d, double h, double v) {
 
-            d = 2 * d;
+
+        public static double calcThetaPivot(double d, double h, double v) {
+
 
             double theta_minus = Math.atan((v * v + Math.sqrt(Math.pow(v, 4) - g * (g * d * d + 2 * v * v * h))) / (g * d));
 

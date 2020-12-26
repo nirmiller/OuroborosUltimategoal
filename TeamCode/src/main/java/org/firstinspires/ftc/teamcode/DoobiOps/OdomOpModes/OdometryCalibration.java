@@ -30,9 +30,9 @@ public class OdometryCalibration extends LinearOpMode {
 
     //Hardware Map Names for drive motors and odometry wheels. THIS WILL CHANGE ON EACH ROBOT, YOU NEED TO UPDATE THESE VALUES ACCORDINGLY
     String rfName = "fr", rbName = "br", lfName = "fl", lbName = "bl";
-    String verticalLeftEncoderName = "bl", verticalRightEncoderName = "br", horizontalEncoderName = "fl";
+    String verticalLeftEncoderName = "fl", verticalRightEncoderName = "fr", horizontalEncoderName = "br";
 
-    final double PIVOT_SPEED = 1;
+    final double PIVOT_SPEED = .25;
 
     //The amount of encoder ticks for each inch the robot moves. THIS WILL CHANGE FOR EACH ROBOT AND NEEDS TO BE UPDATED HERE
     final double COUNTS_PER_INCH = 307.699557;
@@ -138,42 +138,30 @@ public class OdometryCalibration extends LinearOpMode {
         left_front = hardwareMap.dcMotor.get(lfName);
         left_back = hardwareMap.dcMotor.get(lbName);
 
-        verticalLeft = hardwareMap.dcMotor.get(vlEncoderName);
-        verticalRight = hardwareMap.dcMotor.get(vrEncoderName);
-        horizontal = hardwareMap.dcMotor.get(hEncoderName);
-
-        right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        left_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        left_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        verticalLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        verticalRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        horizontal.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        verticalLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        verticalRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        horizontal.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
         right_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        left_front.setDirection(DcMotor.Direction.FORWARD);
-        right_front.setDirection(DcMotor.Direction.REVERSE);
-        left_back.setDirection(DcMotor.Direction.FORWARD);
-        right_back.setDirection(DcMotor.Direction.REVERSE);
-     
-        left_front.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_front.setDirection(DcMotorSimple.Direction.REVERSE);
-        right_back.setDirection(DcMotorSimple.Direction.REVERSE);
+        left_front.setDirection(DcMotor.Direction.REVERSE);
+        right_front.setDirection(DcMotor.Direction.FORWARD);
+        left_back.setDirection(DcMotor.Direction.REVERSE);
+        right_back.setDirection(DcMotor.Direction.FORWARD);
+
+        left_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        left_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+        verticalLeft = left_front;
+        verticalRight = right_front;
+        horizontal = right_back;
 
 
         telemetry.addData("Status", "Hardware Map Init Complete");
