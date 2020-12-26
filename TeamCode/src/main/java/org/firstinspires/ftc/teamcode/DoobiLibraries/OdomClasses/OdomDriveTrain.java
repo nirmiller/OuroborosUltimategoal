@@ -222,6 +222,186 @@ public class OdomDriveTrain {
         }
     }
 
+    public double getEncoderAverage() {
+        double count = 4.0;
+        if(right_front.getCurrentPosition() == 0)
+        {
+            count--;
+        }
+        if(left_front.getCurrentPosition() == 0)
+        {
+            count--;
+        }
+        if(right_back.getCurrentPosition() == 0)
+        {
+            count--;
+        }
+        if(left_back.getCurrentPosition() == 0)
+        {
+            count--;
+        }
+        if(count == 0)
+        {
+            return 0;
+        }
+        return (left_front.getCurrentPosition() + right_front.getCurrentPosition()
+                + right_back.getCurrentPosition() + left_back.getCurrentPosition()) / count;
+    }
+    private double getStrafeEncoderAverage(double direction) {
+
+        double count = 4.0;
+        double average = 0;
+
+        if(right_front.getCurrentPosition() == 0)
+        {
+            count--;
+        }
+        if(left_front.getCurrentPosition() == 0)
+        {
+            count--;
+        }
+        if(right_back.getCurrentPosition() == 0)
+        {
+            count--;
+        }
+        if(left_back.getCurrentPosition() == 0)
+        {
+            count--;
+        }
+        if(direction > 0)
+        {
+            average = (((-1*left_front.getCurrentPosition() + right_front.getCurrentPosition()
+                    + -1*right_back.getCurrentPosition() + left_back.getCurrentPosition())) ) / count;
+        }
+        else if(direction < 0)
+        {
+            average = (((left_front.getCurrentPosition() + -1*right_front.getCurrentPosition()
+                    + right_back.getCurrentPosition() + -1*left_back.getCurrentPosition())))  / count;
+        }
+        return average;
+    }
+
+    public void setMotorsPower(double power)
+    {
+
+        left_front.setPower(power);
+        right_front.setPower(power);
+        right_back.setPower(power);
+        left_back.setPower(power);
+    }
+
+    public void setStrafePower(double power)
+    {
+        right_front.setPower(-power);
+        right_back.setPower(power);
+        left_front.setPower(power);
+        left_back.setPower(-power);
+    }
+
+        public double getTargetPercentile(double reading) {
+        return Math.abs(getEncoderAverage() / reading);
+    }
+    public void encoderMove(double power, double distance, double runtime)
+    {
+        resetEncoders();
+        ElapsedTime time = new ElapsedTime();
+
+        double initEncoder = getEncoderAverage();
+
+        time.reset();
+
+        distance = distance * COUNTS_PER_INCH;
+
+        while (Math.abs(getEncoderAverage() - initEncoder) < distance && time.seconds() < runtime && opMode.opModeIsActive()) {
+            setMotorsPower(power);
+
+            opMode.telemetry.addData("Encoder distance left", (distance - getEncoderAverage()));
+            opMode.telemetry.update();
+
+        }
+        choop();
+
+    }
+    public void gyroStrafe(double power, double distance, boolean left, double timeout)
+    {
+
+        ElapsedTime time = new ElapsedTime();
+        resetEncoders();
+        double pos = 1;
+        if(!left)
+        {
+            pos = -1;
+        }
+
+
+        double pfr = -power * pos;
+        double pfl = power * pos;
+        double pbl = -power * pos;
+        double pbr = power * pos;
+
+
+
+        double angle = sensors.getGyroYaw();
+        double average = 0;
+        while(opMode.opModeIsActive() && Math.abs(average) < Math.abs(distance) * COUNTS_PER_INCH && time.seconds() < timeout)
+        {
+
+            average = getStrafeEncoderAverage(pos);
+
+            if(angle > 2)
+            {
+                if(left)
+                {
+                    pfr = -power;
+                    pfl = power;
+                    pbr = power * .86;
+                    pbl = -power * .89;
+                }
+                else if(!left)
+                {
+                    pfr = power * .9;
+                    pfl = -power * .9;
+                    pbr = -power;
+                    pbl = power;
+                }
+            }
+            else if(angle < -2)
+            {
+                if(left)
+                {
+                    pfr = -power * .86;
+                    pfl = power * .89;
+                    pbr = power;
+                    pbl = -power;
+                }
+                else if(!left)
+                {
+                    pfr = power;
+                    pfl = -power;
+                    pbr = -power * .9;
+                    pbl = power * .9;
+                }
+            }
+            else {
+
+                pfr = -power * pos;
+                pfl = power * pos;
+                pbl = -power * pos;
+                pbr = power * pos;
+            }
+
+
+            right_front.setPower(pfr);
+            left_front.setPower(pfl);
+            left_back.setPower(pbl);
+            right_back.setPower(pbr);
+            angle = sensors.getGyroYaw();
+            opMode.telemetry.addData("Angle", angle);
+            opMode.telemetry.update();
+        }
+        choop();
+    }
+
     public void choop()
     {
         left_front.setPower(0);

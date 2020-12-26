@@ -170,7 +170,7 @@ public class OdometryCalibration extends LinearOpMode {
         right_front.setDirection(DcMotor.Direction.REVERSE);
         left_back.setDirection(DcMotor.Direction.FORWARD);
         right_back.setDirection(DcMotor.Direction.REVERSE);
-
+     
         left_front.setDirection(DcMotorSimple.Direction.REVERSE);
         right_front.setDirection(DcMotorSimple.Direction.REVERSE);
         right_back.setDirection(DcMotorSimple.Direction.REVERSE);

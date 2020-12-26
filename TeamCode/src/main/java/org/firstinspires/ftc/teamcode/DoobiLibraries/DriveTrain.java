@@ -62,8 +62,6 @@ public class    DriveTrain {
     }
 
 
-
-
     public void choop()
     {
         fl.setPower(0);
