@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Holonomic;
@@ -17,29 +18,53 @@ public class OdomDriveTrain {
     DcMotor right_front, right_back, left_front, left_back;
     //Odometry Wheels
     DcMotor verticalLeft, verticalRight, horizontal;
+    private DcMotor shooter;
+    private DcMotor pivot;
+    private DcMotor lift;
+    private Servo hook;
+    private Servo wobble;
+    private Servo mag;
+
 
     public OdometryGlobalCoordinatePosition globalPositionUpdate;
     public Thread global;
 
     //Hardware Map Names for drive motors and odometry wheels. THIS WILL CHANGE ON EACH ROBOT, YOU NEED TO UPDATE THESE VALUES ACCORDINGLY
     String rfName = "fr", rbName = "br", lfName = "fl", lbName = "bl";
-    String verticalLeftEncoderName = "fl", verticalRightEncoderName = "fr", horizontalEncoderName = "br";
+    String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
     double theta;
 
     final double COUNTS_PER_INCH = 308.876;
 
     LinearOpMode opMode;
-    Sensors sensors = new Sensors(opMode);
+    Sensors sensors;
 
     public OdomDriveTrain(LinearOpMode opMode)
     {
-
         this.opMode = opMode;
+        sensors = new Sensors(opMode);
 
-        right_front = opMode.hardwareMap.dcMotor.get(rfName);
-        right_back = opMode.hardwareMap.dcMotor.get(rbName);
-        left_front = opMode.hardwareMap.dcMotor.get(lfName);
-        left_back = opMode.hardwareMap.dcMotor.get(lbName);
+        left_front = opMode.hardwareMap.dcMotor.get("fl");
+        right_front = opMode.hardwareMap.dcMotor.get("fr");
+        left_back = opMode.hardwareMap.dcMotor.get("bl");
+        right_back = opMode.hardwareMap.dcMotor.get("br");
+
+        pivot = opMode.hardwareMap.dcMotor.get("pivot");
+        shooter = opMode.hardwareMap.dcMotor.get("shooter");
+        lift = opMode.hardwareMap.dcMotor.get("lift");
+        //intake = hardwareMap.dcMotor.get("intake");
+
+        hook = opMode.hardwareMap.servo.get("whook");
+        wobble = opMode.hardwareMap.servo.get("wobble");
+        mag = opMode.hardwareMap.servo.get("mag");
+
+        pivot = opMode.hardwareMap.dcMotor.get("pivot");
+        shooter = opMode.hardwareMap.dcMotor.get("shooter");
+        lift = opMode.hardwareMap.dcMotor.get("lift");
+        //intake = hardwareMap.dcMotor.get("intake");
+
+
+        mag = opMode.hardwareMap.servo.get("mag");
 
         right_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -53,9 +78,9 @@ public class OdomDriveTrain {
 
         resetEncoders();
 
-        verticalLeft = left_front;
-        verticalRight = right_front;
-        horizontal = right_back;
+        verticalLeft = right_front;
+        verticalRight = left_front;
+        horizontal = left_back;
 
         globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 35);
 
@@ -96,7 +121,7 @@ public class OdomDriveTrain {
     public void splineMove(ArrayList<Point> spline, double power, double timeout){
         for(Point p : spline)
         {
-            goToPoint(p.getX(), p.getY(), p.getFace(), 1, 7, 2);
+            goToPoint(p.getX(), p.getY(), 0, power, 5, 2);
         }
         
 
@@ -109,15 +134,15 @@ public class OdomDriveTrain {
         time.reset();
 
         //distance to x and y for trig calculations
-        double distanceToX = (targetX * COUNTS_PER_INCH)- globalPositionUpdate.returnXCoordinate();
-        double distanceToY = (targetY * COUNTS_PER_INCH) - globalPositionUpdate.returnYCoordinate();
+        double distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
+        double distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
 
         //gets total distance needed to travel
         double distance = Math.hypot(distanceToX, distanceToY);
         double[] motor = new double[4];
         double k = 0;
-        distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
-        distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
+        //distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
+       // distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
         distance = Math.hypot(distanceToX, distanceToY);
         //uses right triange trig to figure out what ange the robot needs to move at
         //maybe could integrate Nir's holonomic odom math into?
@@ -135,10 +160,10 @@ public class OdomDriveTrain {
             motor = Holonomic.calcPowerAuto(moveAngle, globalPositionUpdate.returnOrientation(), 0);
 
 
-            left_front.setPower(motor[0]);
-            right_front.setPower(motor[1]);
-            left_back.setPower(motor[2]);
-            right_back.setPower(motor[3]);
+            left_front.setPower(motor[0] * power);
+            right_front.setPower(motor[1] * power);
+            left_back.setPower(motor[2] * power);
+            right_back.setPower(motor[3] * power);
             //figures out what power to set the motors to so we can move at this angle
             opMode.telemetry.addData("Angle : ", angleCorrection);
             opMode.telemetry.addData("X Position : ", globalPositionUpdate.returnXCoordinate());

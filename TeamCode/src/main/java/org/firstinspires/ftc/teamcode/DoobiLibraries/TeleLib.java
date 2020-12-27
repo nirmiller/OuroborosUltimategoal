@@ -29,17 +29,17 @@ public abstract class TeleLib extends OpMode {
    // private DcMotor intake;
     private DcMotor shooter;
     private DcMotor pivot;
-   // private DcMotor lift;
+   private DcMotor lift;
     private Servo hook;
     private Servo wobble;
     private Servo mag;
 
     DcMotor verticalLeft, verticalRight, horizontal;
-    String verticalLeftEncoderName = "fl", verticalRightEncoderName = "fr", horizontalEncoderName = "br";
+    String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
 
-    int wobblePos = 1;
-    int hookPos = 1;
-    int magPos = 1;
+    double wobblePos = .5;
+    double hookPos = .5;
+    double magPos = 1;
 
     double[] motorPowers;
 
@@ -58,7 +58,7 @@ public abstract class TeleLib extends OpMode {
 
         pivot = hardwareMap.dcMotor.get("pivot");
         shooter = hardwareMap.dcMotor.get("shooter");
-        //lift = hardwareMap.dcMotor.get("lift");
+        lift = hardwareMap.dcMotor.get("lift");
         //intake = hardwareMap.dcMotor.get("intake");
 
         hook = hardwareMap.servo.get("whook");
@@ -69,28 +69,28 @@ public abstract class TeleLib extends OpMode {
         //intake.setDirection(DcMotor.Direction.FORWARD);
         //intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        pivot.setDirection(DcMotor.Direction.FORWARD);
+        pivot.setDirection(DcMotor.Direction.REVERSE);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //lift.setDirection(DcMotor.Direction.FORWARD);
         //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        shooter.setDirection(DcMotor.Direction.FORWARD);
+        shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        fr.setDirection(DcMotor.Direction.FORWARD);
-        bl.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.FORWARD);
+        fl.setDirection(DcMotor.Direction.FORWARD);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.REVERSE);
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        verticalLeft = fl;
-        verticalRight = fr;
-        horizontal = br;
+        verticalLeft = fr;
+        verticalRight = fl;
+        horizontal = bl;
 
         theta = 0;
 
@@ -153,18 +153,18 @@ public abstract class TeleLib extends OpMode {
 
     public void arcadedrive(){
         theta = ogcp.returnOrientation();
-        left_stick_y = gamepad1.left_stick_y;
-        left_stick_x = gamepad1.left_stick_x;
+        left_stick_y = -gamepad1.left_stick_y;
+        left_stick_x = -gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
 
         if (Math.abs(left_stick_x) > 0.05 ||
                 Math.abs(left_stick_y) > 0.05 ||
                 Math.abs(right_stick_x) > 0.05) {
 
-            fl.setPower(left_stick_y + left_stick_x + right_stick_x);
-            fr.setPower(left_stick_y - left_stick_x - right_stick_x);
-            bl.setPower(left_stick_y - left_stick_x + right_stick_x);
-            br.setPower(left_stick_y + left_stick_x - right_stick_x);
+            fl.setPower(left_stick_y + left_stick_x - right_stick_x);
+            fr.setPower(left_stick_y - left_stick_x + right_stick_x);
+            bl.setPower(left_stick_y - left_stick_x - right_stick_x);
+            br.setPower(left_stick_y + left_stick_x + right_stick_x);
 
         }else {
             fl.setPower(0);
@@ -172,9 +172,10 @@ public abstract class TeleLib extends OpMode {
             bl.setPower(0);
             br.setPower(0);
         }
+
         telemetry.addData("Angle : ", ogcp.returnOrientation());
-        telemetry.addData("X Position : ", ogcp.returnXCoordinate());
-        telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
+        telemetry.addData("X Position : ", horizontal.getCurrentPosition());
+        telemetry.addData("Y Position : ", verticalLeft.getCurrentPosition());
 
         }
 
@@ -182,7 +183,7 @@ public abstract class TeleLib extends OpMode {
         left_stick_y = -gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
-        theta = ogcp.returnOrientation();
+        theta = -ogcp.returnOrientation();
 
 
         double[] motors = new double[4];
@@ -206,9 +207,10 @@ public abstract class TeleLib extends OpMode {
             br.setPower(0);
         }
 
-        telemetry.addData("Angle : ", ogcp.returnOrientation());
+        telemetry.addData("Angle : ", theta);
         telemetry.addData("X Position : ", ogcp.returnXCoordinate());
         telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
+
 
     }
 
@@ -239,8 +241,11 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("wobble position", wobble.getPosition());
     }
     public void shooter(){
-        if (Math.abs(gamepad2.left_stick_y) > .05){
-            shooter.setPower(gamepad2.left_stick_y);
+        if (gamepad2.b){
+            shooter.setPower(1);
+        }
+        else{
+            shooter.setPower(0);
         }
 
         if(gamepad2.dpad_up)
@@ -254,10 +259,10 @@ public abstract class TeleLib extends OpMode {
             pivot.setPower(0);
         }
 
-        if (gamepad2.right_bumper){
+       /* if (gamepad2.right_bumper){
             mag.setPosition(magPos);
             magPos = Math.abs(magPos - 1);
-        }
+        }*/
     }
 
 }

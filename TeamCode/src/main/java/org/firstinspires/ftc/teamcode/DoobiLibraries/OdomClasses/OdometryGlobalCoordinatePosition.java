@@ -73,7 +73,7 @@ public class OdometryGlobalCoordinatePosition implements Runnable{
         robotOrientationRadians = ((robotOrientationRadians + changeInRobotOrientation));
 
         //Get the components of the motion
-        normalEncoderWheelPosition = (horizontalEncoder.getCurrentPosition()*normalEncoderPositionMultiplier);
+        normalEncoderWheelPosition = (-horizontalEncoder.getCurrentPosition()*normalEncoderPositionMultiplier);
         double rawHorizontalChange = normalEncoderWheelPosition - prevNormalEncoderWheelPosition;
         double horizontalChange = rawHorizontalChange - (changeInRobotOrientation*horizontalEncoderTickPerDegreeOffset);
 
