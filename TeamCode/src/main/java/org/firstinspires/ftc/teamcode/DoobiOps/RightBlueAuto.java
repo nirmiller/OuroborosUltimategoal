@@ -55,7 +55,7 @@ public class RightBlueAuto extends LinearOpMode {
         wobble = new Wobble(this);
         runtime = new ElapsedTime();
 
-        ArrayList<Point> noRings0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, -10, -30, -10, -60));
+        ArrayList<Point> noRings0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, 0, 20, 0, 40));
         ArrayList<Point> noRings1 = Bezier.interpolateSpline(Bezier.getVariables(-10, -60, -13, -62, -16, -64));
 
         ArrayList<Point> OneRing0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, -10, -30, -10, -60));
@@ -68,17 +68,18 @@ public class RightBlueAuto extends LinearOpMode {
 
         waitForStart();
         //runtime.reset();
-        switch (1) {
+        switch (0) {
             case 0:
                 //no rings
-                drive.splineMove(noRings0, 1, 10);
+                drive.splineMove(noRings0, 1, 1);
                 //aim
                 //shoot - wait for Nir to finish
+                sleep(1000);
 
                 //drive.splineMove(noRings1, .5, 3);
-                wobble.wobbleDown();
-                wobble.hookUp();
-                wobble.wobbleUp();
+                //wobble.wobbleDown();
+                //wobble.hookUp();
+                //wobble.wobbleUp();
                 drive.end();
             case 1:
                 //1 ring

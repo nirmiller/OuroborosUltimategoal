@@ -82,7 +82,7 @@ public class OdomDriveTrain {
         verticalRight = left_front;
         horizontal = left_back;
 
-        globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 35);
+        globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 12);
 
         global = new Thread(globalPositionUpdate);
         global.start();
@@ -116,17 +116,13 @@ public class OdomDriveTrain {
 
     }
 
-
-
-    public void splineMove(ArrayList<Point> spline, double power, double timeout){
+    public void splineMove(ArrayList<Point> spline, double power, double timeout, double allowed_error){
         for(Point p : spline)
         {
-            goToPoint(p.getX(), p.getY(), 0, power, 5, 2);
+            goToPoint(p.getX(), p.getY(), 0, power, allowed_error, timeout);
         }
-        
-
+        choop();
     }
-
 
     public void goToPoint(double targetX, double targetY, double face, double power,  double allowedDistanceError, double timeout) {
 
@@ -149,7 +145,9 @@ public class OdomDriveTrain {
         double moveAngle = Math.toDegrees(Math.atan2(distanceToX, distanceToY));
         double angleCorrection = 0;
 
-        while (opMode.opModeIsActive() && distance > allowedDistanceError && time.seconds() < timeout) {
+        boolean crossed = false;
+
+        while (opMode.opModeIsActive() && distance > allowedDistanceError && time.seconds() < timeout && !crossed) {
 
 
             distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
@@ -164,6 +162,11 @@ public class OdomDriveTrain {
             right_front.setPower(motor[1] * power);
             left_back.setPower(motor[2] * power);
             right_back.setPower(motor[3] * power);
+
+            if(distanceToY < 7){
+                crossed = true;
+            }
+
             //figures out what power to set the motors to so we can move at this angle
             opMode.telemetry.addData("Angle : ", angleCorrection);
             opMode.telemetry.addData("X Position : ", globalPositionUpdate.returnXCoordinate());

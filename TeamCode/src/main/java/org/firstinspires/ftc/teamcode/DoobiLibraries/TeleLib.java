@@ -26,10 +26,10 @@ public abstract class TeleLib extends OpMode {
     private DcMotor fr;
     private DcMotor bl;
     private DcMotor br;
-   // private DcMotor intake;
+    // private DcMotor intake;
     private DcMotor shooter;
     private DcMotor pivot;
-   private DcMotor lift;
+    private DcMotor lift;
     private Servo hook;
     private Servo wobble;
     private Servo mag;
@@ -45,6 +45,8 @@ public abstract class TeleLib extends OpMode {
 
     public OdometryGlobalCoordinatePosition ogcp;
     public Thread global;
+    private boolean magout = false;
+
     @Override
     public void init() {
         //Drive base
@@ -72,8 +74,8 @@ public abstract class TeleLib extends OpMode {
         pivot.setDirection(DcMotor.Direction.REVERSE);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //lift.setDirection(DcMotor.Direction.FORWARD);
-        //lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -131,19 +133,15 @@ public abstract class TeleLib extends OpMode {
 
     }
 
-    public void drive()
-    {
-        if(arcade && gamepad1.b)
-        {
+    public void drive() {
+        if (arcade && gamepad1.b) {
             arcade = false;
-        }else if (!arcade && gamepad1.b)
-        {
+        } else if (!arcade && gamepad1.b) {
             arcade = true;
         }
-        if(arcade)
-        {
+        if (arcade) {
             arcadedrive();
-        }else {
+        } else {
             holonomicdrive();
         }
 
@@ -151,7 +149,7 @@ public abstract class TeleLib extends OpMode {
     }
 
 
-    public void arcadedrive(){
+    public void arcadedrive() {
         theta = ogcp.returnOrientation();
         left_stick_y = -gamepad1.left_stick_y;
         left_stick_x = -gamepad1.left_stick_x;
@@ -166,7 +164,7 @@ public abstract class TeleLib extends OpMode {
             bl.setPower(left_stick_y - left_stick_x - right_stick_x);
             br.setPower(left_stick_y + left_stick_x + right_stick_x);
 
-        }else {
+        } else {
             fl.setPower(0);
             fr.setPower(0);
             bl.setPower(0);
@@ -177,7 +175,7 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("X Position : ", horizontal.getCurrentPosition());
         telemetry.addData("Y Position : ", verticalLeft.getCurrentPosition());
 
-        }
+    }
 
     public void holonomicdrive() {
         left_stick_y = -gamepad1.left_stick_y;
@@ -227,7 +225,7 @@ public abstract class TeleLib extends OpMode {
 */
 
 
-    public void wobbleGoal(){
+    public void wobbleGoal() {
         if (gamepad2.x) {
             hook.setPosition(hookPos);
             hookPos = Math.abs(hookPos - 1);
@@ -240,29 +238,49 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("hook position", hook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
     }
-    public void shooter(){
-        if (gamepad2.b){
+
+    public void shooter() {
+        if (gamepad2.b) {
             shooter.setPower(1);
-        }
-        else{
+        } else {
             shooter.setPower(0);
         }
 
-        if(gamepad2.dpad_up)
-        {
+        if (gamepad2.dpad_up) {
             pivot.setPower(.5);
-        }else if(gamepad2.dpad_down)
-        {
-           pivot.setPower(-.5);
-        }else
-        {
+        } else if (gamepad2.dpad_down) {
+            pivot.setPower(-.5);
+        } else {
             pivot.setPower(0);
         }
+
+
 
        /* if (gamepad2.right_bumper){
             mag.setPosition(magPos);
             magPos = Math.abs(magPos - 1);
         }*/
+    }
+
+    public void magazine() {
+
+        double right_stick_y = gamepad2.right_stick_y;
+        if (Math.abs(right_stick_y) > .05) {
+            lift.setPower(right_stick_y);
+        } else {
+            lift.setPower(0);
+        }
+
+        telemetry.addData("Lift Pos : ", lift.getCurrentPosition());
+
+        if(gamepad2.right_bumper && !magout)
+        {
+            mag.setPosition(1);
+        }else if(gamepad2.right_bumper && magout){
+
+            mag.setPosition(0);
+        }
+        telemetry.addData("Mag pos :", mag.getPosition());
     }
 
 }

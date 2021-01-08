@@ -23,17 +23,17 @@ public class TrollAuto extends LinearOpMode {
 
 
 
-        ArrayList<Point> OneRing0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, -10, -30, -10, -60));
-        ArrayList<Point> OneRing1 = Bezier.interpolateSpline(Bezier.getVariables(-10, -60, 0, -70, 0, -80));
+        ArrayList<Point> OneRing0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, 0, 30, 0, 60));
+        ArrayList<Point> OneRing1 = Bezier.interpolateSpline(Bezier.getVariables(0, 60, -5, 60, -10, 60));
         ArrayList<Point> OneRing2 = Bezier.interpolateSpline(Bezier.getVariables(0, -80, 0, -72, 0, -64));
 
         waitForStart();
 
 
 
-        odt.splineMove(OneRing0, 1, 10);
-        odt.splineMove(OneRing1, 1, 10);
-        odt.splineMove(OneRing2, 1, 10);
+        odt.splineMove(OneRing0, .75, 10, 7);
+        odt.splineMove(OneRing1, .6, .5, 3);
+        //odt.splineMove(OneRing2, 1, 10);
 
         odt.end();
 

@@ -17,6 +17,7 @@ public class TeleOp extends TeleLib {
         holonomicdrive();
         wobbleGoal();
         shooter();
+        magazine();
        // intake();
         telemetry.update();
     }
