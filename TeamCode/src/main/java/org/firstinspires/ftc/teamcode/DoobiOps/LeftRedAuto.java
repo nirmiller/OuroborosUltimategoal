@@ -70,32 +70,32 @@ public class LeftRedAuto extends LinearOpMode {
         switch (0) {
             case 0:
                 //no rings
-                drive.splineMove(noRings0, 1, 5);
+                drive.splineMove(noRings0, 1, 5, 5);
                 //shoot - wait for Nir to finish
-                drive.splineMove(noRings1, .5, 3);
+                drive.splineMove(noRings1, .5, 3, 5);
                 wobble.wobbleDown();
                 wobble.hookUp();
                 wobble.wobbleUp();
                 drive.end();
             case 1:
                 //1 ring
-                drive.splineMove(OneRing0, 1, 5);
+                drive.splineMove(OneRing0, 1, 5, 5);
                 //shoot
-                drive.splineMove(OneRing1, .7, 3);
+                drive.splineMove(OneRing1, .7, 3, 5);
                 wobble.wobbleDown();
                 wobble.hookUp();
                 wobble.wobbleUp();
-                drive.splineMove(OneRing2, .7, 3);
+                drive.splineMove(OneRing2, .7, 3, 5);
                 drive.end();
 
             case 4:
-                drive.splineMove(FourRings0, 1, 5);
+                drive.splineMove(FourRings0, 1, 5, 5);
                 //shoot
-                drive.splineMove(FourRings1, .7, 3);
+                drive.splineMove(FourRings1, .7, 3, 5);
                 wobble.wobbleDown();
                 wobble.hookUp();
                 wobble.wobbleUp();
-                drive.splineMove(FourRings2, .7, 3);
+                drive.splineMove(FourRings2, .7, 3, 5);
                 drive.end();
         }
     }

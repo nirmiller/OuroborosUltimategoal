@@ -71,10 +71,10 @@ public class OdomDriveTrain {
         left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        left_front.setDirection(DcMotor.Direction.FORWARD);
-        right_front.setDirection(DcMotor.Direction.REVERSE);
-        left_back.setDirection(DcMotor.Direction.FORWARD);
-        right_back.setDirection(DcMotor.Direction.REVERSE);
+        left_front.setDirection(DcMotor.Direction.REVERSE);
+        right_front.setDirection(DcMotor.Direction.FORWARD);
+        left_back.setDirection(DcMotor.Direction.REVERSE);
+        right_back.setDirection(DcMotor.Direction.FORWARD);
 
         resetEncoders();
 

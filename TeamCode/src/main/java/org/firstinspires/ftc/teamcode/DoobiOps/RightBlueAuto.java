@@ -55,7 +55,7 @@ public class RightBlueAuto extends LinearOpMode {
         wobble = new Wobble(this);
         runtime = new ElapsedTime();
 
-        ArrayList<Point> noRings0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, 0, 20, 0, 40));
+        ArrayList<Point> noRings0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, -7, 35, -14, 70));
         ArrayList<Point> noRings1 = Bezier.interpolateSpline(Bezier.getVariables(-10, -60, -13, -62, -16, -64));
 
         ArrayList<Point> OneRing0 = Bezier.interpolateSpline(Bezier.getVariables(0, 0, -10, -30, -10, -60));
@@ -71,10 +71,10 @@ public class RightBlueAuto extends LinearOpMode {
         switch (0) {
             case 0:
                 //no rings
-                drive.splineMove(noRings0, 1, 1);
+                drive.splineMove(noRings0, 1, 1, 5);
                 //aim
                 //shoot - wait for Nir to finish
-                sleep(1000);
+                //sleep(1000);
 
                 //drive.splineMove(noRings1, .5, 3);
                 //wobble.wobbleDown();
@@ -83,25 +83,25 @@ public class RightBlueAuto extends LinearOpMode {
                 drive.end();
             case 1:
                 //1 ring
-                drive.splineMove(OneRing0, 1, 5);
+                drive.splineMove(OneRing0, 1, 5, 5);
                 //aim
                 //shoot
-                drive.splineMove(OneRing1, 1, 5);
+                drive.splineMove(OneRing1, 1, 5, 5);
                // wobble.wobbleDown();
                // wobble.hookUp();
                // wobble.wobbleUp();
-                drive.splineMove(OneRing2, 1, 5);
+                drive.splineMove(OneRing2, 1, 5, 5);
                 drive.end();
 
             case 4:
-                drive.splineMove(FourRings0, 1, 5);
+                drive.splineMove(FourRings0, 1, 5, 5);
                 //aim
                 //shoot
-                drive.splineMove(FourRings1, .7, 3);
+                drive.splineMove(FourRings1, .7, 3, 5);
                 wobble.wobbleDown();
                 wobble.hookUp();
                 wobble.wobbleUp();
-                drive.splineMove(FourRings2, .7, 3);
+                drive.splineMove(FourRings2, .7, 3, 5);
                 drive.end();
         }
     }
