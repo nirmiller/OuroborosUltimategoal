@@ -26,13 +26,16 @@ public abstract class TeleLib extends OpMode {
     private DcMotor fr;
     private DcMotor bl;
     private DcMotor br;
-    // private DcMotor intake;
+    private Servo intakemain;
+    private Servo intakeclaw;
     private DcMotor shooter;
     private DcMotor pivot;
     private DcMotor lift;
     private Servo hook;
     private Servo wobble;
     private Servo mag;
+    static double OPEN=0.0;
+    static double CLOSED=1;
 
     DcMotor verticalLeft, verticalRight, horizontal;
     String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
@@ -61,7 +64,8 @@ public abstract class TeleLib extends OpMode {
         pivot = hardwareMap.dcMotor.get("pivot");
         shooter = hardwareMap.dcMotor.get("shooter");
         lift = hardwareMap.dcMotor.get("lift");
-        //intake = hardwareMap.dcMotor.get("intake");
+        intakemain = hardwareMap.servo.get("intakemain");
+        intakeclaw = hardwareMap.servo.get("intakeclaw");
 
         hook = hardwareMap.servo.get("whook");
         wobble = hardwareMap.servo.get("wobble");
@@ -212,17 +216,30 @@ public abstract class TeleLib extends OpMode {
 
     }
 
-/*
+
     public void intake()
     {
-        if(gamepad2.a)
+        if(gamepad2.a && intakemain.getPosition()==OPEN)
         {
-            intake.setPower(1);
-        }else{
-            intake.setPower(0);
+            intakemain.setPosition(CLOSED);
         }
+        else if (gamepad2.a && intakemain.getPosition()==CLOSED)
+        {
+            intakemain.setPosition(OPEN);
+        }
+
+        if(gamepad2.b && intakeclaw.getPosition()==OPEN)
+        {
+            intakeclaw.setPosition(CLOSED);
+        }
+        else if (gamepad2.b && intakeclaw.getPosition()==CLOSED)
+        {
+            intakeclaw.setPosition(OPEN);
+        }
+
+
+
     }
-*/
 
 
     public void wobbleGoal() {
