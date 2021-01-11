@@ -240,7 +240,7 @@ public abstract class TeleLib extends OpMode {
 
 
     }
-
+//intake
 
     public void wobbleGoal() {
         if (gamepad2.x) {
