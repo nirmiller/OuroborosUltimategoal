@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdometryGlobalCoordinatePosition;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+
 
 
 public abstract class TeleLib extends OpMode {
@@ -219,21 +223,48 @@ public abstract class TeleLib extends OpMode {
 
     public void intake()
     {
+        ElapsedTime runtime = new ElapsedTime();
+
         if(gamepad2.a && intakemain.getPosition()==OPEN)
         {
+
+
+            runtime.reset();
+            while(runtime.milliseconds() < 300)
+            {
+
+            }
             intakemain.setPosition(CLOSED);
         }
         else if (gamepad2.a && intakemain.getPosition()==CLOSED)
         {
+
+            runtime.reset();
+            while(runtime.milliseconds() < 300)
+            {
+
+            }
             intakemain.setPosition(OPEN);
         }
 
         if(gamepad2.b && intakeclaw.getPosition()==OPEN)
         {
+
+            runtime.reset();
+            while(runtime.milliseconds() < 300)
+            {
+
+            }
             intakeclaw.setPosition(CLOSED);
         }
         else if (gamepad2.b && intakeclaw.getPosition()==CLOSED)
         {
+
+            runtime.reset();
+            while(runtime.milliseconds() < 300)
+            {
+
+            }
             intakeclaw.setPosition(OPEN);
         }
 
