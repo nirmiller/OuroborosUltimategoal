@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 
 import java.util.ArrayList;
 
-public class OdomDriveTrain {
+public class JankOdomDriveTrain {
     //Drive motors
     DcMotor right_front, right_back, left_front, left_back;
     //Odometry Wheels
@@ -39,7 +39,7 @@ public class OdomDriveTrain {
     LinearOpMode opMode;
     Sensors sensors;
 
-    public OdomDriveTrain(LinearOpMode opMode)
+    public JankOdomDriveTrain(LinearOpMode opMode)
     {
         this.opMode = opMode;
         sensors = new Sensors(opMode);
@@ -87,8 +87,6 @@ public class OdomDriveTrain {
         global = new Thread(globalPositionUpdate);
         global.start();
 
-        sensors = new Sensors(opMode);
-
         opMode.telemetry.addData("Status", "Hardware Map Init Complete");
         opMode.telemetry.update();
     }
@@ -126,30 +124,6 @@ public class OdomDriveTrain {
         choop();
     }
 
-
-
-    public void timestrafeMove(double timeout, double power, double direction){
-
-        ElapsedTime time = new ElapsedTime();
-        setStrafePower(power);
-        while(opMode.opModeIsActive() && time.milliseconds() < timeout && Math.abs(sensors.getGyroYaw()) < 10 ){
-
-        }
-        choop();
-    }
-
-    public void timeMoveForward(double timeout, double power){
-
-
-        ElapsedTime time = new ElapsedTime();
-        setMotorsPower(power);
-        while(opMode.opModeIsActive() && time.milliseconds() < timeout && Math.abs(sensors.getGyroYaw()) < 10 ){
-
-        }
-        choop();
-
-
-    }
     public void goToPoint(double targetX, double targetY, double face, double power,  double allowedDistanceError, double timeout) {
 
         ElapsedTime time = new ElapsedTime();
@@ -164,13 +138,14 @@ public class OdomDriveTrain {
         double[] motor = new double[4];
         double k = 0;
         //distanceToX = targetX - globalPositionUpdate.returnXCoordinate();
-       // distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
+        // distanceToY = targetY - globalPositionUpdate.returnYCoordinate();
         distance = Math.hypot(distanceToX, distanceToY);
         //uses right triange trig to figure out what ange the robot needs to move at
         //maybe could integrate Nir's holonomic odom math into?
         double moveAngle = Math.toDegrees(Math.atan2(distanceToX, distanceToY));
         double angleCorrection = 0;
 
+        boolean crossed = false;
 
         while (opMode.opModeIsActive() && distance > allowedDistanceError && time.seconds() < timeout) {
 
@@ -180,7 +155,7 @@ public class OdomDriveTrain {
             distance = Math.hypot(distanceToX, distanceToY);
 
             angleCorrection = face - globalPositionUpdate.returnOrientation();
-            motor = Holonomic.calcPowerAuto(moveAngle, sensors.getGyroYaw(), 0);
+            motor = Holonomic.calcPowerAuto(moveAngle, globalPositionUpdate.returnOrientation(), 0);
 
 
             left_front.setPower(motor[0] * power);
@@ -188,17 +163,19 @@ public class OdomDriveTrain {
             left_back.setPower(motor[2] * power);
             right_back.setPower(motor[3] * power);
 
-
+            if(distanceToY < 7){
+                crossed = true;
+            }
 
             //figures out what power to set the motors to so we can move at this angle
-            opMode.telemetry.addData("Angle : ", sensors.getGyroYaw());
+            opMode.telemetry.addData("Angle : ", angleCorrection);
             opMode.telemetry.addData("X Position : ", globalPositionUpdate.returnXCoordinate());
             opMode.telemetry.addData("Y Position : ", globalPositionUpdate.returnYCoordinate());
             opMode.telemetry.update();
 
         }
 
-       //choop();
+        //choop();
     }
 
     public void turnPID(double angleChange, boolean turnRight, double kP, double kI, double kD, double timeout) {
@@ -348,7 +325,7 @@ public class OdomDriveTrain {
         left_back.setPower(-power);
     }
 
-        public double getTargetPercentile(double reading) {
+    public double getTargetPercentile(double reading) {
         return Math.abs(getEncoderAverage() / reading);
     }
     public void encoderMove(double power, double distance, double runtime)

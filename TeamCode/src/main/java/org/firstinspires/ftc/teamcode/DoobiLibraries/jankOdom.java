@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses;
+package org.firstinspires.ftc.teamcode.DoobiLibraries;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ReadWriteFile;
@@ -10,7 +10,7 @@ import java.io.File;
 /**
  * Created by Sarthak on 6/1/2019.
  */
-public class OdometryGlobalCoordinatePosition implements Runnable{
+public class jankOdom implements Runnable{
 
     final double COUNTS_PER_INCH = 308.876;
     //Odometry wheels
@@ -46,7 +46,7 @@ public class OdometryGlobalCoordinatePosition implements Runnable{
      * @param horizontalEncoder horizontal odometry encoder, perpendicular to the other two odometry encoder wheels
      * @param threadSleepDelay delay in milliseconds for the GlobalPositionUpdate thread (50-75 milliseconds is suggested)
      */
-    public OdometryGlobalCoordinatePosition(DcMotor verticalEncoderLeft, DcMotor verticalEncoderRight, DcMotor horizontalEncoder, double COUNTS_PER_INCH, int threadSleepDelay){
+    public jankOdom(DcMotor verticalEncoderLeft, DcMotor verticalEncoderRight, DcMotor horizontalEncoder, double COUNTS_PER_INCH, int threadSleepDelay){
         this.verticalEncoderLeft = verticalEncoderLeft;
         this.verticalEncoderRight = verticalEncoderRight;
         this.horizontalEncoder = horizontalEncoder;
@@ -65,19 +65,19 @@ public class OdometryGlobalCoordinatePosition implements Runnable{
         verticalLeftEncoderWheelPosition = (verticalEncoderLeft.getCurrentPosition() * verticalLeftEncoderPositionMultiplier);
         verticalRightEncoderWheelPosition = (verticalEncoderRight.getCurrentPosition() * verticalRightEncoderPositionMultiplier);
 
-
-        double rightChange = verticalRightEncoderWheelPosition - previousVerticalRightEncoderWheelPosition;
         double leftChange = verticalLeftEncoderWheelPosition - previousVerticalLeftEncoderWheelPosition;
+        double rightChange = verticalRightEncoderWheelPosition - previousVerticalRightEncoderWheelPosition;
+
         //Calculate Angle
         changeInRobotOrientation = (rightChange - leftChange) / (robotEncoderWheelDistance);
-        robotOrientationRadians = ((robotOrientationRadians + changeInRobotOrientation));
+        robotOrientationRadians = 0;
 
         //Get the components of the motion
         normalEncoderWheelPosition = (-horizontalEncoder.getCurrentPosition()*normalEncoderPositionMultiplier);
         double rawHorizontalChange = normalEncoderWheelPosition - prevNormalEncoderWheelPosition;
         double horizontalChange = rawHorizontalChange - (changeInRobotOrientation*horizontalEncoderTickPerDegreeOffset);
 
-        double p = ((rightChange + leftChange) / 2);
+        double p =leftChange;
         double n = horizontalChange;
 
         //Calculate and update the position values

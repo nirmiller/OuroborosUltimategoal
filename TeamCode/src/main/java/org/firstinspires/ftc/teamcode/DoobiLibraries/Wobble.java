@@ -14,14 +14,18 @@ public class Wobble {
     public Wobble(LinearOpMode opMode){
         wobble = opMode.hardwareMap.servo.get("wobble");
         hook = opMode.hardwareMap.servo.get("whook");
-        wobble.setPosition(wobbleUpPos);
+
+        wobble.setDirection(Servo.Direction.FORWARD);
+
     }
 
+
+
     public void wobbleUp(){
-        wobble.setPosition(wobbleUpPos);
+        wobble.setPosition(0);
     }
     public void wobbleDown(){
-        wobble.setPosition(wobbleDownPos);
+        wobble.setPosition(1);
     }
     public void hookDown(){
         wobble.setPosition(hookDownPos);

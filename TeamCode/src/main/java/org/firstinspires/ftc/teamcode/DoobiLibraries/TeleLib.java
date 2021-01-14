@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdometryGlobalCoordinatePosition;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -35,7 +36,7 @@ public abstract class TeleLib extends OpMode {
     private DcMotor shooter;
     private DcMotor pivot;
     private DcMotor lift;
-    private Servo hook;
+    private Servo whook;
     private Servo wobble;
     private Servo mag;
     static double OPEN=0.0;
@@ -71,10 +72,11 @@ public abstract class TeleLib extends OpMode {
         intakemain = hardwareMap.servo.get("intakemain");
         intakeclaw = hardwareMap.servo.get("intakeclaw");
 
-        hook = hardwareMap.servo.get("whook");
+        whook = hardwareMap.servo.get("whook");
         wobble = hardwareMap.servo.get("wobble");
         mag = hardwareMap.servo.get("mag");
 
+        wobble.setDirection(Servo.Direction.FORWARD);
 
         //intake.setDirection(DcMotor.Direction.FORWARD);
         //intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -180,8 +182,8 @@ public abstract class TeleLib extends OpMode {
         }
 
         telemetry.addData("Angle : ", ogcp.returnOrientation());
-        telemetry.addData("X Position : ", horizontal.getCurrentPosition());
-        telemetry.addData("Y Position : ", verticalLeft.getCurrentPosition());
+        telemetry.addData("X Position : ", ogcp.returnXCoordinate());
+        telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
     }
 
@@ -274,16 +276,25 @@ public abstract class TeleLib extends OpMode {
 //intake
 
     public void wobbleGoal() {
-        if (gamepad2.x) {
-            hook.setPosition(hookPos);
-            hookPos = Math.abs(hookPos - 1);
+        if (gamepad2.x && whook.getPosition() == 0) {
+            ElapsedTime time = new ElapsedTime();
+            while (gamepad2.x && time.milliseconds() < 300){}
+            whook.setPosition(.5);
+        }else if(gamepad2.x && whook.getPosition() != 0){
+            ElapsedTime time = new ElapsedTime();
+            while (gamepad2.x && time.milliseconds() < 300){}
+            whook.setPosition(0);
         }
-
-        if (gamepad2.y) {
-            wobble.setPosition(wobblePos);
-            wobblePos = Math.abs(wobblePos - 1);
+        else if (gamepad2.y && wobble.getPosition() == 0) {
+            ElapsedTime time = new ElapsedTime();
+            while (gamepad2.y && time.milliseconds() < 300){}
+            wobble.setPosition(1);
+        }else if(gamepad2.y && wobble.getPosition() != 0){
+            ElapsedTime time = new ElapsedTime();
+            while (gamepad2.y && time.milliseconds() < 300){}
+            wobble.setPosition(0);
         }
-        telemetry.addData("hook position", hook.getPosition());
+        telemetry.addData("hook position", whook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
     }
 
