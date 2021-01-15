@@ -143,7 +143,7 @@ public class OdomDriveTrain {
 
         ElapsedTime time = new ElapsedTime();
         setMotorsPower(power);
-        while(opMode.opModeIsActive() && time.milliseconds() < timeout && Math.abs(sensors.getGyroYaw()) < 10 ){
+        while(opMode.opModeIsActive() && time.milliseconds() < timeout){
 
         }
         choop();

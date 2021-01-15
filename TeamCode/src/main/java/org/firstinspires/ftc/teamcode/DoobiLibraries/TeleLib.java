@@ -273,14 +273,14 @@ public abstract class TeleLib extends OpMode {
 
 
     }
-//intake
 
     public void wobbleGoal() {
         if (gamepad2.x && whook.getPosition() == 0) {
             ElapsedTime time = new ElapsedTime();
             while (gamepad2.x && time.milliseconds() < 300){}
             whook.setPosition(.5);
-        }else if(gamepad2.x && whook.getPosition() != 0){
+        }
+        else if(gamepad2.x && whook.getPosition() != 0){
             ElapsedTime time = new ElapsedTime();
             while (gamepad2.x && time.milliseconds() < 300){}
             whook.setPosition(0);
@@ -289,7 +289,8 @@ public abstract class TeleLib extends OpMode {
             ElapsedTime time = new ElapsedTime();
             while (gamepad2.y && time.milliseconds() < 300){}
             wobble.setPosition(1);
-        }else if(gamepad2.y && wobble.getPosition() != 0){
+        }
+        else if(gamepad2.y && wobble.getPosition() != 0){
             ElapsedTime time = new ElapsedTime();
             while (gamepad2.y && time.milliseconds() < 300){}
             wobble.setPosition(0);
@@ -299,7 +300,7 @@ public abstract class TeleLib extends OpMode {
     }
 
     public void shooter() {
-        if (gamepad2.b) {
+        if (gamepad2.right_bumper) {
             shooter.setPower(1);
         } else {
             shooter.setPower(0);
