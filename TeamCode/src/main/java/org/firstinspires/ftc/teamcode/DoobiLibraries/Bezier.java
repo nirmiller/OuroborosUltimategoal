@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public class Bezier {
 
+    //random comment
 
     public static ArrayList<Point> interpolateSpline(double[][] variables) {
         ArrayList<Point> bezierPoints = new ArrayList<Point>();
