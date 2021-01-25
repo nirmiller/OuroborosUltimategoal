@@ -13,10 +13,11 @@ public class VisionTrollAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         vision = new BackupVision(this);
+        //vision.initVision(this);
 
         waitForStart();
         //TODO: Test and note the values of the pixels
-        vision.senseBlue(this);
+        telemetry.addData("vision", vision.senseBlue(this));
 
     }
 }

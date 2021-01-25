@@ -80,6 +80,7 @@ public class BackupVision {
         // allowing the frame to only be 3 images at a time
         vuforia.setFrameQueueCapacity(3);
         opMode.telemetry.addLine("Vision init");
+        opMode.telemetry.update();
     }
     public Bitmap getBitmap() throws InterruptedException{
         // method to actually capture frame
@@ -135,11 +136,11 @@ public class BackupVision {
 
             // can change this but prob not neccesary
             //TODO: may need to change if sensing other yellow stuff
-            for (int colNum = bitmap.getWidth(); colNum < bitmap.getWidth(); colNum++) {
+            for (int colNum = 0; colNum < bitmap.getWidth(); colNum++) {
 
                 //Shouldnt need to change this, but the colors in the backround maybe might mess it up\
                 //TODO: may need to change if sensing other yellow stuff
-                for (int rowNum = bitmap.getHeight(); rowNum < bitmap.getHeight() + 200; rowNum++) {
+                for (int rowNum = 0; rowNum < bitmap.getHeight(); rowNum++) {
                     int pixel = bitmap.getPixel(colNum, rowNum);
 
                     // receive R, G, and B values for each pixel
@@ -154,7 +155,7 @@ public class BackupVision {
 
                     // only add y-coordinates of yellow pixels to list
                     //TODO: Test whether these are the right RGB values for yellow
-                    if (redPixel > 150 && greenPixel < 150 && bluePixel < 30) {
+                    if (redPixel > 140 && greenPixel > 100 && bluePixel < 60) {
                         StoneX.add(rowNum);
                     }
 
@@ -177,11 +178,12 @@ public class BackupVision {
             //TODO: note the num pixels for each position
             opMode.telemetry.addData("AVG X = ", stonexAvg);
             opMode.telemetry.update();
+            opMode.sleep(2000);
 //calculates based on pixel size
             //TODO: Change these numbers based on testing how many pixels there are
-            if (stonexAvg < 500 && stonexAvg > 100) {
+            if (stonexAvg < 2000 && stonexAvg > 1800) {
                 pos = 1;
-            } else if (stonexAvg > 500) {
+            } else if (stonexAvg > 2000) {
                 pos = 2;
             } else {
                 pos = 0;
