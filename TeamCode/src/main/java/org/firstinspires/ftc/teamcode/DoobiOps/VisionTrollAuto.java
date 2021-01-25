@@ -15,7 +15,7 @@ public class VisionTrollAuto extends LinearOpMode {
         vision = new BackupVision(this);
 
         waitForStart();
-
+        //TODO: Test and note the values of the pixels
         vision.senseBlue(this);
 
     }
