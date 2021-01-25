@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdometryGlobalC
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
+import static android.os.SystemClock.sleep;
 
 
 public abstract class TeleLib extends OpMode {
@@ -161,8 +161,8 @@ public abstract class TeleLib extends OpMode {
 
     public void arcadedrive() {
         theta = ogcp.returnOrientation();
-        left_stick_y = -gamepad1.left_stick_y;
-        left_stick_x = -gamepad1.left_stick_x;
+        left_stick_y = gamepad1.left_stick_y;
+        left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
 
         if (Math.abs(left_stick_x) > 0.05 ||
@@ -227,26 +227,23 @@ public abstract class TeleLib extends OpMode {
     {
         ElapsedTime runtime = new ElapsedTime();
 
-        if(gamepad2.a && intakemain.getPosition()==OPEN)
+        if(gamepad2.a && intakemain.getPosition()==.35)
         {
-
-
             runtime.reset();
             while(runtime.milliseconds() < 300)
             {
 
             }
-            intakemain.setPosition(CLOSED);
+            intakemain.setPosition(1);
         }
-        else if (gamepad2.a && intakemain.getPosition()==CLOSED)
+        else if (gamepad2.a)
         {
-
             runtime.reset();
             while(runtime.milliseconds() < 300)
             {
 
             }
-            intakemain.setPosition(OPEN);
+            intakemain.setPosition(.35);
         }
 
         if(gamepad2.b && intakeclaw.getPosition()==OPEN)
@@ -269,36 +266,41 @@ public abstract class TeleLib extends OpMode {
             }
             intakeclaw.setPosition(OPEN);
         }
+        if (gamepad1.a)
+        {
+            intakemain.setPosition(0);
+        }
 
 
 
     }
 
     public void wobbleGoal() {
-        if (gamepad2.x && whook.getPosition() == 0) {
+        if (gamepad2.y && whook.getPosition() == 0) {
             ElapsedTime time = new ElapsedTime();
-            while (gamepad2.x && time.milliseconds() < 300){}
-            whook.setPosition(.5);
+            while (gamepad2.y && time.milliseconds() < 300){}
+            whook.setPosition(1);
         }
-        else if(gamepad2.x && whook.getPosition() != 0){
+        else if(gamepad2.y && whook.getPosition() != 0){
             ElapsedTime time = new ElapsedTime();
-            while (gamepad2.x && time.milliseconds() < 300){}
+            while (gamepad2.y && time.milliseconds() < 300){}
             whook.setPosition(0);
         }
-        else if (gamepad2.y && wobble.getPosition() == 0) {
+        else if (gamepad2.x && wobble.getPosition() == 0) {
             ElapsedTime time = new ElapsedTime();
-            while (gamepad2.y && time.milliseconds() < 300){}
+            while (gamepad2.x && time.milliseconds() < 300){}
             wobble.setPosition(1);
         }
-        else if(gamepad2.y && wobble.getPosition() != 0){
+        else if(gamepad2.x && wobble.getPosition() != 0){
             ElapsedTime time = new ElapsedTime();
-            while (gamepad2.y && time.milliseconds() < 300){}
+            while (gamepad2.x && time.milliseconds() < 300){}
             wobble.setPosition(0);
         }
         telemetry.addData("hook position", whook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
     }
 
+    double pivotPower = 0;
     public void shooter() {
         if (gamepad2.right_bumper) {
             shooter.setPower(1);
@@ -308,10 +310,13 @@ public abstract class TeleLib extends OpMode {
 
         if (gamepad2.dpad_up) {
             pivot.setPower(.5);
+            pivotPower = .3;
+
         } else if (gamepad2.dpad_down) {
             pivot.setPower(-.5);
+            pivotPower = 0;
         } else {
-            pivot.setPower(0);
+            pivot.setPower(pivotPower);
         }
 
 
@@ -326,19 +331,18 @@ public abstract class TeleLib extends OpMode {
 
         double right_stick_y = gamepad2.right_stick_y;
         if (Math.abs(right_stick_y) > .05) {
-            lift.setPower(right_stick_y);
+            lift.setPower(right_stick_y/2);
         } else {
             lift.setPower(0);
         }
 
         telemetry.addData("Lift Pos : ", lift.getCurrentPosition());
 
-        if(gamepad2.right_bumper && !magout)
-        {
-            mag.setPosition(1);
-        }else if(gamepad2.right_bumper && magout){
-
+        if(gamepad2.left_bumper && !magout) {
             mag.setPosition(0);
+            sleep(200);
+            mag.setPosition(1);
+
         }
         telemetry.addData("Mag pos :", mag.getPosition());
     }

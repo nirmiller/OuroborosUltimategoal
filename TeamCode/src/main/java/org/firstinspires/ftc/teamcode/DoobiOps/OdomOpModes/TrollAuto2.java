@@ -26,7 +26,7 @@ public class TrollAuto2 extends LinearOpMode {
         odt = new OdomDriveTrain(this);
         wobble = new Wobble(this);
 
-        int pos = 2;
+        int pos = 0;
 
         waitForStart();
         if (pos == 0) {
@@ -34,10 +34,10 @@ public class TrollAuto2 extends LinearOpMode {
             wobble.wobbleUp();
             wobble.wobbleDown();
             odt.timeMoveForward(2000, .7);
-            odt.turnPID(45, false, .5/45, .1, .02/45, 2);
-            /*odt.turn(.6, false);
+            //odt.turnPID(45, false, .3/45, .1, .02/45, 2);
+            odt.turn(.6, false);
             sleep(400);
-            odt.choop();*/
+            odt.choop();
             odt.timeMoveForward(500, .5);
             odt.timeMoveForward(500, -.5);
 
@@ -45,15 +45,15 @@ public class TrollAuto2 extends LinearOpMode {
         }
         else if (pos == 1){
             odt.timeMoveForward(2500, .7);
-            /*odt.turn(.6, true);
+            odt.turn(.6, true);
             sleep(400);
-            odt.choop();*/
-            odt.turnPID(45, true, .5/45, .1, .02/45, 2);
-            odt.timeMoveForward(500, .5);
-            /*odt.turn(.6, false);
+            odt.choop();
+            //odt.turnPID(45, true, .5/45, .1, .02/45, 2);
+            odt.timeMoveForward(500, .4);
+            odt.turn(.6, false);
             sleep(300);
-            odt.choop();*/
-            odt.turnPID(45, false, .5/45, .1, .02/45, 2);
+            odt.choop();
+            //odt.turnPID(45, false, .5/45, .1, .02/45, 2);
             odt.timeMoveForward(900, -.5);
 
         }
