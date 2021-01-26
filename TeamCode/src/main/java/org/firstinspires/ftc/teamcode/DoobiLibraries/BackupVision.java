@@ -136,11 +136,11 @@ public class BackupVision {
 
             // can change this but prob not neccesary
             //TODO: may need to change if sensing other yellow stuff
-            for (int colNum = 0; colNum < bitmap.getWidth(); colNum++) {
+            for (int colNum = (bitmap.getWidth()/2); colNum < bitmap.getWidth(); colNum++) {
 
                 //Shouldnt need to change this, but the colors in the backround maybe might mess it up\
                 //TODO: may need to change if sensing other yellow stuff
-                for (int rowNum = 0; rowNum < bitmap.getHeight(); rowNum++) {
+                for (int rowNum = (bitmap.getHeight()/3); rowNum < bitmap.getHeight(); rowNum++) {
                     int pixel = bitmap.getPixel(colNum, rowNum);
 
                     // receive R, G, and B values for each pixel
