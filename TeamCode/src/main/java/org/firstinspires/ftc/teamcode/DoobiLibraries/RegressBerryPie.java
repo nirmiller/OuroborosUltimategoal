@@ -18,9 +18,7 @@ public class RegressBerryPie {
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
 
-    //is it working? I can't tell if the model update went through.
-
-    private static final String VUFORIA_KEY =
+    private static final String key =
             "AQdAZAn/////AAABmTMBJaMcIUWAiBTGUzGG95SDuyikdfzZayCTxqFCKhHnJqiaqXa7qw0UZsekRNRaL" +
                     "L7mV8EnwA+AcHfZSTIcMdmxwAdbgb2u1NHpFGUUi/nkG3fLMeRfqbJrUrJmIcOx9CK21XaK6u" +
                     "uU7MAQ4b1+YbGcAbTRwn0Pj1I8t5/lAK+QZCZZIrOq7FLEr4WLEHWVJVmB8xhky5ZJivcwEkyOk" +
@@ -72,10 +70,8 @@ public class RegressBerryPie {
 
     private void initVuforia() {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.vuforiaLicenseKey = key;
         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-
         regress = ClassFactory.getInstance().createVuforia(parameters);
     }
 
