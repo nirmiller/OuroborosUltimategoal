@@ -18,6 +18,8 @@ public class RegressBerryPie {
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
 
+    //is it working? I can't tell if the model update went through.
+
     private static final String VUFORIA_KEY =
             "AQdAZAn/////AAABmTMBJaMcIUWAiBTGUzGG95SDuyikdfzZayCTxqFCKhHnJqiaqXa7qw0UZsekRNRaL" +
                     "L7mV8EnwA+AcHfZSTIcMdmxwAdbgb2u1NHpFGUUi/nkG3fLMeRfqbJrUrJmIcOx9CK21XaK6u" +
