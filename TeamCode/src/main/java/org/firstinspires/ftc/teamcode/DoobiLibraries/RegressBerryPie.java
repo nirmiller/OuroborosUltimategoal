@@ -13,9 +13,9 @@ import java.util.List;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 public class RegressBerryPie {
-    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Quad";
-    private static final String LABEL_SECOND_ELEMENT = "Single";
+    private static final String asset = "UltimateGoal.tflite";
+    private static final String quad = "Quad";
+    private static final String single = "Single";
 
     private static final String key =
             "AQdAZAn/////AAABmTMBJaMcIUWAiBTGUzGG95SDuyikdfzZayCTxqFCKhHnJqiaqXa7qw0UZsekRNRaL" +
@@ -50,7 +50,7 @@ public class RegressBerryPie {
                     List<Recognition> updatedRecognitions = berry.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                         for (Recognition recognition : updatedRecognitions) {
-                          if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) stackSize = 4;
+                          if (recognition.getLabel().equals(quad)) stackSize = 4;
                           else stackSize = 1;
                         }
                         opMode.telemetry.update();
@@ -77,6 +77,6 @@ public class RegressBerryPie {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
        tfodParameters.minResultConfidence = 0.8f;
        berry = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, regress);
-       berry.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+       berry.loadModelFromAsset(asset, quad, single);
     }
 }
