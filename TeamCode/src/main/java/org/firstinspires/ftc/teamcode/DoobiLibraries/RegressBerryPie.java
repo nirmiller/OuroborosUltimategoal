@@ -49,7 +49,6 @@ public class RegressBerryPie {
                 if (berry != null) {
                     List<Recognition> updatedRecognitions = berry.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
-                        int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
                           if (recognition.getLabel().equals(LABEL_FIRST_ELEMENT)) stackSize = 4;
                           else stackSize = 1;
