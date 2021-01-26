@@ -155,7 +155,7 @@ public class BackupVision {
 
                     // only add y-coordinates of yellow pixels to list
                     //TODO: Test whether these are the right RGB values for yellow
-                    if (redPixel > 140 && greenPixel > 100 && bluePixel < 60) {
+                    if (redPixel > 150 && greenPixel > 100 && bluePixel < 90) {
                         StoneX.add(rowNum);
                     }
 
