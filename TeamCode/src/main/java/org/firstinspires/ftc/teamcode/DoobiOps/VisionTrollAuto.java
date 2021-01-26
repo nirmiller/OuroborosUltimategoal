@@ -4,20 +4,18 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.BackupVision;
+import org.firstinspires.ftc.teamcode.DoobiLibraries.RegressBerryPie;
 
 @Autonomous(group = "Auto", name = "VisionTesting")
 public class VisionTrollAuto extends LinearOpMode {
 
-    BackupVision vision;
+    RegressBerryPie vision;
     @Override
     public void runOpMode() throws InterruptedException {
 
-        vision = new BackupVision(this);
-        //vision.initVision(this);
-
+        vision = new RegressBerryPie(this);
         waitForStart();
-        //TODO: Test and note the values of the pixels
-        telemetry.addData("vision", vision.senseBlue(this));
+        int number = vision.pie();
 
     }
 }
