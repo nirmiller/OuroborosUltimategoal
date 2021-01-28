@@ -15,7 +15,7 @@ public class VisionTrollAuto extends LinearOpMode {
 
         vision = new RegressBerryPie(this);
         waitForStart();
-        int number = vision.pie();
+        telemetry.addData("position", vision.pie());
 
     }
 }
