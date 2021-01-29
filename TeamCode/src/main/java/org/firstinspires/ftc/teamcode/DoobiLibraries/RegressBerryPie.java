@@ -55,7 +55,6 @@ public class RegressBerryPie {
                         }
                         opMode.telemetry.update();
                     }
-                    else stackSize = 0;
                 }
             }
         }
