@@ -45,7 +45,7 @@ public class RegressBerryPie {
         int stackSize = 0;
 
         if (opMode.opModeIsActive()) {
-            while (opMode.opModeIsActive() && time.milliseconds() <= 500) {
+            while (opMode.opModeIsActive() && time.milliseconds() <= 2000) {
                 if (berry != null) {
                     List<Recognition> updatedRecognitions = berry.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
