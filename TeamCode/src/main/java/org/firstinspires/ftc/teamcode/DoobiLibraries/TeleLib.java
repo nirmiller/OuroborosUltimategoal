@@ -342,12 +342,8 @@ public abstract class TeleLib extends OpMode {
             pivot.setPower(pivotPower);
         }
 
+        telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
 
-
-       /* if (gamepad2.right_bumper){
-            mag.setPosition(magPos);
-            magPos = Math.abs(magPos - 1);
-        }*/
     }
 
     public void magazine() {
