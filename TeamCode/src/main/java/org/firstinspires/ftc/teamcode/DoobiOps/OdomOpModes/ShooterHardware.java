@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses;
+package org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
