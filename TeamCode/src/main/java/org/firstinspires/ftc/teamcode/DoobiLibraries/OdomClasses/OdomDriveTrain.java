@@ -351,7 +351,7 @@ public class OdomDriveTrain {
         public double getTargetPercentile(double reading) {
         return Math.abs(getEncoderAverage() / reading);
     }
-    public void encoderMove(double power, double distance, double runtime)
+    public void encoderMove(double power, double distance, double runtimeS)
     {
         resetEncoders();
         ElapsedTime time = new ElapsedTime();
@@ -362,7 +362,7 @@ public class OdomDriveTrain {
 
         distance = distance * COUNTS_PER_INCH;
 
-        while (Math.abs(getEncoderAverage() - initEncoder) < distance && time.seconds() < runtime && opMode.opModeIsActive()) {
+        while (Math.abs(getEncoderAverage() - initEncoder) < distance && time.seconds() < runtimeS && opMode.opModeIsActive()) {
             setMotorsPower(power);
 
             opMode.telemetry.addData("Encoder distance left", (distance - getEncoderAverage()));
@@ -370,8 +370,8 @@ public class OdomDriveTrain {
 
         }
         choop();
-
     }
+
     public void gyroStrafe(double power, double distance, boolean left, double timeout)
     {
 
@@ -433,14 +433,11 @@ public class OdomDriveTrain {
                 }
             }
             else {
-
                 pfr = -power * pos;
                 pfl = power * pos;
                 pbl = -power * pos;
                 pbr = power * pos;
             }
-
-
             right_front.setPower(pfr);
             left_front.setPower(pfl);
             left_back.setPower(pbl);

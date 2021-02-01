@@ -64,15 +64,29 @@ public class RegressBerryPie {
     }
 
     private void initVuforia() {
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        int cameraMonitorViewId = opMode.hardwareMap.appContext.getResources()
+                .getIdentifier("cameraMonitorViewId", "id",
+                        opMode.hardwareMap.appContext.getPackageName());
+        opMode.telemetry.addLine("here 1");
+        opMode.telemetry.update();
+
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         parameters.vuforiaLicenseKey = key;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        opMode.telemetry.addLine("here 2");
+        opMode.telemetry.update();
+
+        parameters.cameraName = opMode.hardwareMap.get(WebcamName.class, "Webcam 1");
+        opMode.telemetry.addLine("here 3");
+        opMode.telemetry.update();
+
         regress = ClassFactory.getInstance().createVuforia(parameters);
     }
 
     private void initTfod() {
-       int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+       int tfodMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier(
+            "tfodMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
+       opMode.telemetry.addLine("here 4");
+       opMode.telemetry.update();
        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
        tfodParameters.minResultConfidence = 0.8f;
        berry = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, regress);

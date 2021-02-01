@@ -37,6 +37,7 @@ public abstract class TeleLib extends OpMode {
     private DcMotor shooter;
     private DcMotor pivot;
     private DcMotor lift;
+    private DcMotor intake;
     private Servo whook;
     private Servo wobble;
     private Servo mag;
@@ -73,8 +74,9 @@ public abstract class TeleLib extends OpMode {
         pivot = hardwareMap.dcMotor.get("pivot");
         shooter = hardwareMap.dcMotor.get("shooter");
         lift = hardwareMap.dcMotor.get("lift");
-        intakemain = hardwareMap.servo.get("intakemain");
-        intakeclaw = hardwareMap.servo.get("intakeclaw");
+        intake = hardwareMap.dcMotor.get("intake");
+        //intakemain = hardwareMap.servo.get("intakemain");
+        //intakeclaw = hardwareMap.servo.get("intakeclaw");
 
         whook = hardwareMap.servo.get("whook");
         wobble = hardwareMap.servo.get("wobble");
@@ -90,6 +92,9 @@ public abstract class TeleLib extends OpMode {
 
         lift.setDirection(DcMotor.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        intake.setDirection(DcMotor.Direction.FORWARD);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -244,41 +249,51 @@ public abstract class TeleLib extends OpMode {
 
     public void intake() {
         ElapsedTime runtime = new ElapsedTime();
-
-        if (gamepad2.a && intakemain.getPosition() == .35) {
+        if (gamepad2.right_trigger > .5)
+        {
+            intake.setPower(1);
+        }
+        /*if(gamepad2.a && intakemain.getPosition()==.35)
+        {
             runtime.reset();
-            while (runtime.milliseconds() < 300) {
-
-            }
+            while(runtime.milliseconds() < 300){}
             intakemain.setPosition(1);
-        } else if (gamepad2.a) {
+        }
+        else if (gamepad2.a)
+        {
             runtime.reset();
-            while (runtime.milliseconds() < 300) {
+            while(runtime.milliseconds() < 300)
+            {
 
             }
             intakemain.setPosition(.35);
         }
 
-        if (gamepad2.b && intakeclaw.getPosition() == OPEN) {
+        if(gamepad2.b && intakeclaw.getPosition()==OPEN)
+        {
 
             runtime.reset();
-            while (runtime.milliseconds() < 300) {
+            while(runtime.milliseconds() < 300)
+            {
 
             }
             intakeclaw.setPosition(CLOSED);
-        } else if (gamepad2.b && intakeclaw.getPosition() == CLOSED) {
+        }
+        else if (gamepad2.b && intakeclaw.getPosition()==CLOSED)
+        {
 
             runtime.reset();
-            while (runtime.milliseconds() < 300) {
+            while(runtime.milliseconds() < 300)
+            {
 
             }
             intakeclaw.setPosition(OPEN);
         }
-        if (gamepad1.a) {
+        if (gamepad1.a)
+        {
             intakemain.setPosition(0);
         }
-
-
+*/
     }
 
     public void wobbleGoal() {

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.DoobiLibraries.BackupVision;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Bezier;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.JankOdomDriveTrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
@@ -33,6 +34,7 @@ public class TrollAuto3 extends LinearOpMode {
         sh = new ShooterHardware(this);
         loop = new Loop();
 
+
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -56,13 +58,23 @@ public class TrollAuto3 extends LinearOpMode {
         loop.add(thread2);
 
         waitForStart();
+        int pos = 0;
+        telemetry.addData("pos", pos);
+        telemetry.update();
+
+        if (pos == 0) {
+
+
+        }
+        else if (pos == 1){
+
+        }
+        else if(pos == 2){
+
+        }
 
         loop.run();
         loop.end();
-
-
-
-
 
     }
 }

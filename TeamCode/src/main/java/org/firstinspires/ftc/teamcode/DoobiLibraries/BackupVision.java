@@ -125,7 +125,6 @@ public class BackupVision {
     public int senseBlue(LinearOpMode opMode) throws InterruptedException {
 
         Bitmap bitmap = getBitmap();
-        ArrayList<Integer> StoneX = new ArrayList<Integer>();
 
         int pos = 0;
         int stonexAvg = 0;
@@ -135,11 +134,9 @@ public class BackupVision {
         while(opMode.opModeIsActive()) {
 
             // can change this but prob not neccesary
-            //TODO: may need to change if sensing other yellow stuff
             for (int colNum = (bitmap.getWidth()/2); colNum < bitmap.getWidth(); colNum++) {
 
                 //Shouldnt need to change this, but the colors in the backround maybe might mess it up\
-                //TODO: may need to change if sensing other yellow stuff
                 for (int rowNum = (bitmap.getHeight()/3); rowNum < bitmap.getHeight(); rowNum++) {
                     int pixel = bitmap.getPixel(colNum, rowNum);
 
@@ -154,18 +151,11 @@ public class BackupVision {
                     opMode.telemetry.update();*/
 
                     // only add y-coordinates of yellow pixels to list
-                    //TODO: Test whether these are the right RGB values for yellow
                     if (redPixel > 150 && greenPixel > 100 && bluePixel < 90) {
-                        StoneX.add(rowNum);
+                        stonexAvg++;
                     }
 
                 }
-            }
-
-
-            // counts how many yellow pixels there
-            for (int x : StoneX) {
-                stonexAvg++;
             }
 /*
             if(StoneX.size() > 0) stonexAvg /= StoneX.size();
@@ -175,13 +165,11 @@ public class BackupVision {
             }
 */
             // get average x-coordinate value of all yellow pixels
-            //TODO: note the num pixels for each position
             opMode.telemetry.addData("AVG X = ", stonexAvg);
             opMode.telemetry.update();
             opMode.sleep(2000);
 //calculates based on pixel size
-            //TODO: Change these numbers based on testing how many pixels there are
-            if (stonexAvg < 2000 && stonexAvg > 1800) {
+            if (stonexAvg < 2000 && stonexAvg > 500) {
                 pos = 1;
             } else if (stonexAvg > 2000) {
                 pos = 2;
@@ -189,7 +177,6 @@ public class BackupVision {
                 pos = 0;
             }
 
-            //TODO: may need to comment this out when testing for the num of pixels
             opMode.telemetry.addData("Position", pos);
             opMode.telemetry.update();
             break;
