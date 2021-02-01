@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.jankOdom;
+import org.firstinspires.ftc.teamcode.Loop;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class TrollAuto3 extends LinearOpMode {
     OdomDriveTrain odt;
     Wobble wobble;
     ShooterHardware sh;
+    Loop loop;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -29,6 +31,7 @@ public class TrollAuto3 extends LinearOpMode {
         odt = new OdomDriveTrain(this);
         wobble = new Wobble(this);
         sh = new ShooterHardware(this);
+        loop = new Loop();
 
         Thread thread1 = new Thread(new Runnable() {
             @Override
@@ -49,13 +52,13 @@ public class TrollAuto3 extends LinearOpMode {
             }
         });
 
+        loop.add(thread1);
+        loop.add(thread2);
+
         waitForStart();
 
-        thread1.start();
-        thread2.start();
-
-        thread1.interrupt();
-        thread2.interrupt();
+        loop.run();
+        loop.end();
 
 
 
