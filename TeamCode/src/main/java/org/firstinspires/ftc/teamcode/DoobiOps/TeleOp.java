@@ -11,20 +11,22 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.TeleLib;
 public class TeleOp extends TeleLib {
 
 
+
+
     @Override
     public void loop() {
 
-        arcadedrive();
-        wobbleGoal();
-        shooter();
-        magazine();
-        intake();
+
+
         telemetry.update();
     }
 
     @Override
     public void stop() {
 
+
+        gamer_1.interrupt();
+        gamer_2.interrupt();
         global.interrupt();
         super.stop();
 
