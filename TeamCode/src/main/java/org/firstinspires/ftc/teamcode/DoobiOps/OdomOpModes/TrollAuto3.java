@@ -38,7 +38,7 @@ public class TrollAuto3 extends LinearOpMode {
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                odt.timeMoveForward(4, .5);
+                odt.timeMoveForward(4000, -.5);
             }
         });
 
@@ -51,6 +51,7 @@ public class TrollAuto3 extends LinearOpMode {
 
                 }
                 sh.withdraw();
+
             }
         });
 
@@ -58,23 +59,10 @@ public class TrollAuto3 extends LinearOpMode {
         loop.add(thread2);
 
         waitForStart();
-        int pos = 0;
-        telemetry.addData("pos", pos);
-        telemetry.update();
-
-        if (pos == 0) {
-
-
-        }
-        else if (pos == 1){
-
-        }
-        else if(pos == 2){
-
-        }
 
         loop.run();
-        loop.end();
+
+
 
     }
 }

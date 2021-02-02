@@ -18,12 +18,9 @@ public class OdomDriveTrain {
     DcMotor right_front, right_back, left_front, left_back;
     //Odometry Wheels
     DcMotor verticalLeft, verticalRight, horizontal;
-    private DcMotor shooter;
-    private DcMotor pivot;
-    private DcMotor lift;
-    private Servo hook;
-    private Servo wobble;
-    private Servo mag;
+    Servo hook;
+    Servo wobble;
+    Servo mag;
 
 
     public OdometryGlobalCoordinatePosition globalPositionUpdate;
@@ -49,18 +46,14 @@ public class OdomDriveTrain {
         left_back = opMode.hardwareMap.dcMotor.get("bl");
         right_back = opMode.hardwareMap.dcMotor.get("br");
 
-        pivot = opMode.hardwareMap.dcMotor.get("pivot");
-        shooter = opMode.hardwareMap.dcMotor.get("shooter");
-        lift = opMode.hardwareMap.dcMotor.get("lift");
+
         //intake = hardwareMap.dcMotor.get("intake");
 
         hook = opMode.hardwareMap.servo.get("whook");
         wobble = opMode.hardwareMap.servo.get("wobble");
         mag = opMode.hardwareMap.servo.get("mag");
 
-        pivot = opMode.hardwareMap.dcMotor.get("pivot");
-        shooter = opMode.hardwareMap.dcMotor.get("shooter");
-        lift = opMode.hardwareMap.dcMotor.get("lift");
+
         //intake = hardwareMap.dcMotor.get("intake");
 
 

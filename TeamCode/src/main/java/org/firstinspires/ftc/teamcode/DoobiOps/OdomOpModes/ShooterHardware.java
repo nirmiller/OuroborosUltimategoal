@@ -34,6 +34,10 @@ public class ShooterHardware {
     {
         this.opMode = opMode;
 
+        shooter = opMode.hardwareMap.dcMotor.get("shooter");
+        pivot = opMode.hardwareMap.dcMotor.get("pivot");
+        lift = opMode.hardwareMap.dcMotor.get("lift");
+
         pivot.setDirection(DcMotor.Direction.FORWARD);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

@@ -24,12 +24,20 @@ public class Loop {
 
     public void run(){
 
+
         if(threads.size() < 1){
             return;
         }
         for(Thread t : threads){
             t.start();
         }
+
+        while(threads.get(threads.size() - 1).isAlive()){
+
+        }
+        end();
+
+
     }
     public void clear(){
         threads.clear();

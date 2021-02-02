@@ -124,19 +124,6 @@ public abstract class TeleLib extends OpMode {
         global.start();
         arcade = false;
 
-        gamer_1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                gamer_1();
-            }
-        });
-
-        gamer_2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                gamer_2();
-            }
-        });
 
 
     }
@@ -163,6 +150,10 @@ public abstract class TeleLib extends OpMode {
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
 
     }
@@ -193,9 +184,9 @@ public abstract class TeleLib extends OpMode {
                 Math.abs(left_stick_y) > 0.05 ||
                 Math.abs(right_stick_x) > 0.05) {
 
-            fl.setPower(left_stick_y + left_stick_x - right_stick_x);
+            fl.setPower(left_stick_y - left_stick_x - right_stick_x);
             fr.setPower(left_stick_y - left_stick_x + right_stick_x);
-            bl.setPower(left_stick_y - left_stick_x - right_stick_x);
+            bl.setPower(left_stick_y + left_stick_x - right_stick_x);
             br.setPower(left_stick_y + left_stick_x + right_stick_x);
 
         } else {
@@ -298,31 +289,63 @@ public abstract class TeleLib extends OpMode {
 
     public void wobbleGoal() {
         if (gamepad2.y && whook.getPosition() == 0) {
-            ElapsedTime time = new ElapsedTime();
-            while (gamepad2.y && time.milliseconds() < 300) {
-            }
-            whook.setPosition(1);
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ElapsedTime time = new ElapsedTime();
+                    while (gamepad2.y && time.milliseconds() < 300) { }
+                    whook.setPosition(1);
+                }
+            });
+
+            thread.start();
+
         } else if (gamepad2.y && whook.getPosition() != 0) {
-            ElapsedTime time = new ElapsedTime();
-            while (gamepad2.y && time.milliseconds() < 300) {
-            }
-            whook.setPosition(0);
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ElapsedTime time = new ElapsedTime();
+                    while (gamepad2.y && time.milliseconds() < 300) {
+                    }
+                    whook.setPosition(0);
+                }
+            });
+
+            thread.start();
+
         } else if (gamepad2.x && wobble.getPosition() == 0) {
-            ElapsedTime time = new ElapsedTime();
-            while (gamepad2.x && time.milliseconds() < 300) {
-            }
-            wobble.setPosition(1);
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ElapsedTime time = new ElapsedTime();
+                    while (gamepad2.x && time.milliseconds() < 300) {
+                    }
+                    wobble.setPosition(1);
+                }
+            });
+
+            thread.start();
+
         } else if (gamepad2.x && wobble.getPosition() != 0) {
-            ElapsedTime time = new ElapsedTime();
-            while (gamepad2.x && time.milliseconds() < 300) {
-            }
-            wobble.setPosition(0);
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ElapsedTime time = new ElapsedTime();
+                    while (gamepad2.x && time.milliseconds() < 300) {
+                    }
+                    wobble.setPosition(0);
+                }
+            });
+            thread.start();
         }
         telemetry.addData("hook position", whook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
     }
 
-    double pivotPower = 0;
 
     public void shooter() {
         if (gamepad2.right_bumper) {
@@ -333,13 +356,12 @@ public abstract class TeleLib extends OpMode {
 
         if (gamepad2.dpad_up) {
             pivot.setPower(.5);
-            pivotPower = .3;
 
         } else if (gamepad2.dpad_down) {
             pivot.setPower(-.5);
-            pivotPower = 0;
-        } else {
-            pivot.setPower(pivotPower);
+        }else
+        {
+            pivot.setPower(0);
         }
 
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
@@ -366,13 +388,6 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("Mag pos :", mag.getPosition());
     }
 
-    public void gamer_1() {
-        gamer_1.start();
-    }
-
-    public void gamer_2() {
-        gamer_2.start();
-    }
 
 
 }

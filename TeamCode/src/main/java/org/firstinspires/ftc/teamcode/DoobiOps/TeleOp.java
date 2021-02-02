@@ -26,10 +26,6 @@ public class TeleOp extends TeleLib {
     @Override
     public void stop() {
 
-
-        gamer_1.interrupt();
-        gamer_2.interrupt();
-        global.interrupt();
         super.stop();
 
     }
