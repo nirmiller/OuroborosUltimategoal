@@ -244,47 +244,6 @@ public abstract class TeleLib extends OpMode {
         {
             intake.setPower(1);
         }
-        /*if(gamepad2.a && intakemain.getPosition()==.35)
-        {
-            runtime.reset();
-            while(runtime.milliseconds() < 300){}
-            intakemain.setPosition(1);
-        }
-        else if (gamepad2.a)
-        {
-            runtime.reset();
-            while(runtime.milliseconds() < 300)
-            {
-
-            }
-            intakemain.setPosition(.35);
-        }
-
-        if(gamepad2.b && intakeclaw.getPosition()==OPEN)
-        {
-
-            runtime.reset();
-            while(runtime.milliseconds() < 300)
-            {
-
-            }
-            intakeclaw.setPosition(CLOSED);
-        }
-        else if (gamepad2.b && intakeclaw.getPosition()==CLOSED)
-        {
-
-            runtime.reset();
-            while(runtime.milliseconds() < 300)
-            {
-
-            }
-            intakeclaw.setPosition(OPEN);
-        }
-        if (gamepad1.a)
-        {
-            intakemain.setPosition(0);
-        }
-*/
     }
 
     public void wobbleGoal() {
@@ -367,17 +326,24 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
 
     }
-
+    double liftPower = 0;
     public void magazine() {
 
         double right_stick_y = gamepad2.right_stick_y;
-        if (Math.abs(right_stick_y) > .05) {
-            lift.setPower(right_stick_y / 2);
-        } else {
-            lift.setPower(0);
+        double left_stick_y = gamepad2.left_stick_y;
+        if (right_stick_y > .05) {
+            liftPower = .2;
+        } else if (right_stick_y < .05) {
+            liftPower = 0;
         }
 
+        if (Math.abs(left_stick_y) > .05) {
+            liftPower = left_stick_y / 2;
+        }
+
+        lift.setPower(liftPower);
         telemetry.addData("Lift Pos : ", lift.getCurrentPosition());
+        telemetry.addData("Lift Power", lift.getPower());
 
         if (gamepad2.left_bumper && !magout) {
             mag.setPosition(0);
