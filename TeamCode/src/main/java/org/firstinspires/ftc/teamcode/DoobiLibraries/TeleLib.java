@@ -338,7 +338,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             lift.setPower(.5);
             sleep(900);
-            lift.setPower(.3);
+            lift.setPower(.2);
         }
     });
 
