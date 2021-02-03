@@ -351,23 +351,30 @@ public abstract class TeleLib extends OpMode {
         }
     });
 
+    boolean lift_bottom = true;
+    boolean lift_top = false;
+
     public void magazine() {
         double right_stick_y = -gamepad2.right_stick_y;
-        if (right_stick_y > .05) {
+        if (right_stick_y > .05 && !lift_top) {
             if(liftDown_thread.isAlive()){
                 liftDown_thread.interrupt();
             }
 
             liftUp_thread.start();
+            lift_top = true;
+            lift_bottom = false;
 
 
         }
-        else if (right_stick_y < -.05) {
+        else if (right_stick_y < -.05 && !lift_bottom) {
             if(liftUp_thread.isAlive()){
                 liftUp_thread.interrupt();
             }
 
             liftDown_thread.start();
+            lift_bottom = true;
+            lift_top = false;
         }
 
 
