@@ -22,21 +22,19 @@ public class Loop {
         }
     }
 
-    public void run(){
-
+    public void run() throws InterruptedException {
 
         if(threads.size() < 1){
             return;
         }
+
         for(Thread t : threads){
             t.start();
         }
-
-        while(threads.get(threads.size() - 1).isAlive()){
-
+        for(Thread t : threads){
+            t.join();
         }
-        end();
-
+        //end();
 
     }
     public void clear(){

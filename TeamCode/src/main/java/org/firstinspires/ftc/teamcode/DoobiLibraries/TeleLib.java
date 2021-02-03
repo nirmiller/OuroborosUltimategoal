@@ -125,7 +125,6 @@ public abstract class TeleLib extends OpMode {
         arcade = false;
 
 
-
     }
 
 
@@ -155,7 +154,6 @@ public abstract class TeleLib extends OpMode {
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
-
     }
 
     public void drive() {
@@ -176,7 +174,7 @@ public abstract class TeleLib extends OpMode {
 
     public void arcadedrive() {
         theta = ogcp.returnOrientation();
-        left_stick_y = gamepad1.left_stick_y;
+        left_stick_y = -gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
 
@@ -240,9 +238,15 @@ public abstract class TeleLib extends OpMode {
 
     public void intake() {
         ElapsedTime runtime = new ElapsedTime();
-        if (gamepad2.right_trigger > .5)
-        {
-            intake.setPower(1);
+        double right_trigger = gamepad2.right_trigger;
+        double left_trigger = gamepad2.left_trigger;
+        if (right_trigger > .5) {
+            intake.setPower(-right_trigger);
+        } else if(left_trigger > .5){
+            intake.setPower(left_trigger);
+        }
+        else {
+            intake.setPower(0);
         }
     }
 
@@ -253,7 +257,8 @@ public abstract class TeleLib extends OpMode {
                 @Override
                 public void run() {
                     ElapsedTime time = new ElapsedTime();
-                    while (gamepad2.y && time.milliseconds() < 300) { }
+                    while (gamepad2.y && time.milliseconds() < 300) {
+                    }
                     whook.setPosition(1);
                 }
             });
@@ -318,42 +323,69 @@ public abstract class TeleLib extends OpMode {
 
         } else if (gamepad2.dpad_down) {
             pivot.setPower(-.5);
-        }else
-        {
+        } else {
             pivot.setPower(0);
         }
 
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
 
     }
+
     double liftPower = 0;
+
+    Thread liftUp_thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            lift.setPower(.5);
+            sleep(900);
+            lift.setPower(.3);
+        }
+    });
+
+    Thread liftDown_thread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            lift.setPower(-.3);
+            sleep(1000);
+            lift.setPower(0);
+        }
+    });
+
     public void magazine() {
-
-        double right_stick_y = gamepad2.right_stick_y;
-        double left_stick_y = gamepad2.left_stick_y;
+        double right_stick_y = -gamepad2.right_stick_y;
         if (right_stick_y > .05) {
-            liftPower = .2;
-        } else if (right_stick_y < .05) {
-            liftPower = 0;
+            if(liftDown_thread.isAlive()){
+                liftDown_thread.interrupt();
+            }
+
+            liftUp_thread.start();
+
+
+        }
+        else if (right_stick_y < -.05) {
+            if(liftUp_thread.isAlive()){
+                liftUp_thread.interrupt();
+            }
+
+            liftDown_thread.start();
         }
 
-        if (Math.abs(left_stick_y) > .05) {
-            liftPower = left_stick_y / 2;
-        }
-
-        lift.setPower(liftPower);
-        telemetry.addData("Lift Pos : ", lift.getCurrentPosition());
-        telemetry.addData("Lift Power", lift.getPower());
 
         if (gamepad2.left_bumper && !magout) {
-            mag.setPosition(0);
-            sleep(200);
-            mag.setPosition(1);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mag.setPosition(0);
+                    sleep(200);
+                    mag.setPosition(1);
+                }
+            });
 
+            thread.start();
         }
-        telemetry.addData("Mag pos :", mag.getPosition());
-    }
 
+        telemetry.addData("LIFT POWER ", lift.getPower());
+    }
 
 
 }
