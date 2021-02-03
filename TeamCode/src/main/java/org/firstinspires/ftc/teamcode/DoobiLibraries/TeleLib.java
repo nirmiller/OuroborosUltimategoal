@@ -53,7 +53,6 @@ public abstract class TeleLib extends OpMode {
 
     double[] motorPowers;
 
-    public OdometryGlobalCoordinatePosition ogcp;
     public Thread global;
     private boolean magout = false;
 
@@ -119,9 +118,6 @@ public abstract class TeleLib extends OpMode {
 
         resetEncoders();
 
-        ogcp = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 35);
-        global = new Thread(ogcp);
-        global.start();
         arcade = false;
 
 
@@ -173,7 +169,6 @@ public abstract class TeleLib extends OpMode {
 
 
     public void arcadedrive() {
-        theta = ogcp.returnOrientation();
         left_stick_y = -gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
@@ -194,9 +189,9 @@ public abstract class TeleLib extends OpMode {
             br.setPower(0);
         }
 
-        telemetry.addData("Angle : ", ogcp.returnOrientation());
-        telemetry.addData("X Position : ", ogcp.returnXCoordinate());
-        telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
+       // telemetry.addData("Angle : ", ogcp.returnOrientation());
+        // telemetry.addData("X Position : ", ogcp.returnXCoordinate());
+       // telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
     }
 
@@ -204,7 +199,7 @@ public abstract class TeleLib extends OpMode {
         left_stick_y = -gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
-        theta = -ogcp.returnOrientation();
+        //theta = -ogcp.returnOrientation();
 
 
         double[] motors = new double[4];
@@ -228,9 +223,9 @@ public abstract class TeleLib extends OpMode {
             br.setPower(0);
         }
 
-        telemetry.addData("Angle : ", theta);
-        telemetry.addData("X Position : ", ogcp.returnXCoordinate());
-        telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
+     //   telemetry.addData("Angle : ", theta);
+      //  telemetry.addData("X Position : ", ogcp.returnXCoordinate());
+     //   telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
 
     }
