@@ -189,9 +189,6 @@ public abstract class TeleLib extends OpMode {
             br.setPower(0);
         }
 
-       // telemetry.addData("Angle : ", ogcp.returnOrientation());
-        // telemetry.addData("X Position : ", ogcp.returnXCoordinate());
-       // telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
     }
 
