@@ -87,12 +87,11 @@ public class TrollAuto3 extends LinearOpMode {
             case 0:
                 odt.encoderMove(.7, 72,  4);
                 odt.turnPID(45, true, .7/45, .02, .02/45, 1.5);
-                wobble.wobbleDown();
-                odt.encoderMove(.3, 2,  4);
-                wobble.wobbleUp();
+                odt.encoderMove(.4, 10,  4);
                 odt.turnPID(45, false, .7/45, .02, .02/45, 2);
                 odt.encoderMove(-.6, 24,  4);
                 odt.gyroStrafe(.4, 36, false, 5);
+                loop.run();
 
                 break;
 
@@ -100,6 +99,14 @@ public class TrollAuto3 extends LinearOpMode {
                 break;
 
             case 4:
+                odt.encoderMove(.8, 106, 5); //moves forward 106 inches
+                odt.turnPID(45, false, .7/45, .02, .02/45, 1.5); //turns left
+                odt.encoderMove(.5, 10, 5); //moves forward 10 inches
+                odt.turnPID(45, true, .7/45, .02, .02/45, 1.5); //turns right back to straight
+                odt.encoderMove(-.6, 60, 5); //moves backwards 60 inches
+                odt.gyroStrafe(.5, 24, false, 5); //strafes right 24 inches
+                loop.run();
+
                 break;
         }
 
