@@ -145,9 +145,9 @@ public abstract class TeleLib extends OpMode {
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       // pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+     //   pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
@@ -189,9 +189,6 @@ public abstract class TeleLib extends OpMode {
             br.setPower(0);
         }
 
-       // telemetry.addData("Angle : ", ogcp.returnOrientation());
-        // telemetry.addData("X Position : ", ogcp.returnXCoordinate());
-       // telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
     }
 
