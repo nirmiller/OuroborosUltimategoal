@@ -22,7 +22,10 @@ public class TrollAuto extends LinearOpMode {
         wobble = new Wobble(this);
         waitForStart();
 
-        odt.turnPID(45, true, .7/45, .02, .02/45, 1.5);
+        odt.encoderMove(.7, 30,  4);
+        odt.gyroStrafe(.4, 24, false, 5);
+
+
         odt.end();
 
     }
