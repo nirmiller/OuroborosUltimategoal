@@ -64,7 +64,6 @@ public class ShooterHardware {
             pivot.setPower(.5);
         }
         pivot.setPower(0);
-
     }
 
     public void setLift()
