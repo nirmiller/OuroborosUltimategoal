@@ -43,7 +43,6 @@ public class TrollAuto3 extends LinearOpMode {
                 odt.gyroStrafe(.7, 24, false, 4);
             }
         });
-
         Thread thread2 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,8 +51,14 @@ public class TrollAuto3 extends LinearOpMode {
                 sh.setLift();
             }
         });
-
         Thread thread3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //4. shoot the whole time
+                sh.ignite();
+            }
+        });
+        Thread thread4 = new Thread(new Runnable() {
             @Override
             public void run() {
                 //3. pivot + ring shoot
@@ -67,13 +72,7 @@ public class TrollAuto3 extends LinearOpMode {
                 sh.hitRing();
             }
         });
-        Thread thread4 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //4. shoot the whole time
-                sh.ignite();
-            }
-        });
+
 
 
         loop.add(thread1);

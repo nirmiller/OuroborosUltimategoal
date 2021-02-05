@@ -398,7 +398,6 @@ public abstract class TeleLib extends OpMode {
             thread.start();
         }
 
-        telemetry.addData("LIFT POWER ", lift.getPower());
     }
 
 
