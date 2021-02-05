@@ -28,10 +28,10 @@ public abstract class TeleLib extends OpMode {
     boolean arcade = false;
 
 
-    private DcMotor fl;
-    private DcMotor fr;
-    private DcMotor bl;
     private DcMotor br;
+    private DcMotor bl;
+    private DcMotor fr;
+    private DcMotor fl;
     private Servo intakemain;
     private Servo intakeclaw;
     private DcMotor shooter;
@@ -50,6 +50,7 @@ public abstract class TeleLib extends OpMode {
     double wobblePos = .5;
     double hookPos = .5;
     double magPos = 1;
+    double position = 1;
 
     double[] motorPowers;
 
@@ -65,10 +66,10 @@ public abstract class TeleLib extends OpMode {
 
         //Init complete
 
-        fl = hardwareMap.dcMotor.get("fl");
-        fr = hardwareMap.dcMotor.get("fr");
-        bl = hardwareMap.dcMotor.get("bl");
-        br = hardwareMap.dcMotor.get("br");
+            br = hardwareMap.dcMotor.get("fl");
+            bl = hardwareMap.dcMotor.get("fr");
+            fr = hardwareMap.dcMotor.get("bl");
+            fl = hardwareMap.dcMotor.get("br");
 
         pivot = hardwareMap.dcMotor.get("pivot");
         shooter = hardwareMap.dcMotor.get("shooter");
@@ -113,6 +114,7 @@ public abstract class TeleLib extends OpMode {
         horizontal = bl;
 
         theta = 0;
+        position=1;
 
         motorPowers = new double[4];
 
@@ -223,6 +225,19 @@ public abstract class TeleLib extends OpMode {
      //   telemetry.addData("Angle : ", theta);
       //  telemetry.addData("X Position : ", ogcp.returnXCoordinate());
      //   telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
+
+
+        if (gamepad2.left_bumper)
+            {
+
+                intakemain.setPosition(position-.1);
+                position = intakemain.getPosition();
+
+
+}
+
+
+
 
 
     }
