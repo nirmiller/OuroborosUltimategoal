@@ -331,9 +331,9 @@ public abstract class TeleLib extends OpMode {
     Thread liftUp_thread = new Thread(new Runnable() {
         @Override
         public void run() {
-            lift.setPower(.5);
+            lift.setPower(.4);
             sleep(900);
-            lift.setPower(.2);
+            lift.setPower(.18);
         }
     });
 
@@ -341,8 +341,8 @@ public abstract class TeleLib extends OpMode {
         @Override
         public void run() {
             lift.setPower(-.3);
-            sleep(1000);
-            lift.setPower(0);
+            //sleep(1000);
+            //lift.setPower(0);
         }
     });
 

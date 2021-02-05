@@ -242,8 +242,15 @@ public class OdomDriveTrain {
             lastError = error;
 
             opMode.idle();
+            if (Math.abs(sensors.getGyroYaw() - (angleChange + initAngle)) < 1)
+            {
+                break;
+            }
 
         }
+        opMode.telemetry.addLine("exited");
+        opMode.telemetry.update();
+
         choop();
 
     }

@@ -38,20 +38,34 @@ public class TrollAuto3 extends LinearOpMode {
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                odt.timeMoveForward(4000, -.5);
+                sleep(1000);
+                odt.gyroStrafe(.7, 24, false, 4);
             }
         });
 
         Thread thread2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                ElapsedTime time = new ElapsedTime();
-                sh.ignite();
-                while (time.milliseconds() < 2000){
+                //1. mag up
+                //2. pivot
+                //3. ready to shoot
+                //4. spaced out intervals for measuring ring
+                sh.setLift();
+            }
+        });
 
-                }
-                sh.withdraw();
-
+        Thread thread3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //1. mag up
+                //2. pivot
+                //3. ready to shoot
+                //4. spaced out intervals for measuring ring
+                sleep(1000);
+                sh.setPivotAngle();
+                sleep(300);
+                sh.hitRing();
+                sleep(300);
             }
         });
 
@@ -59,6 +73,17 @@ public class TrollAuto3 extends LinearOpMode {
         loop.add(thread2);
 
         waitForStart();
+
+        switch (1) {
+            case 0:
+                break;
+
+            case 1:
+                break;
+
+            case 4:
+                break;
+        }
 
         loop.run();
 

@@ -3,8 +3,11 @@ package org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
+
+import static android.os.SystemClock.sleep;
 
 public class ShooterHardware {
 
@@ -26,6 +29,8 @@ public class ShooterHardware {
     private DcMotor shooter;
     private DcMotor pivot;
     private DcMotor lift;
+    private Servo mag;
+
     private double currentAngle;
 
     private double currentLiftHeightIndex;
@@ -37,6 +42,7 @@ public class ShooterHardware {
         shooter = opMode.hardwareMap.dcMotor.get("shooter");
         pivot = opMode.hardwareMap.dcMotor.get("pivot");
         lift = opMode.hardwareMap.dcMotor.get("lift");
+        mag = opMode.hardwareMap.servo.get("mag");
 
         pivot.setDirection(DcMotor.Direction.FORWARD);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -50,26 +56,30 @@ public class ShooterHardware {
     }
 
 
-    public void setPivotAngle(double theta)
+    public void setPivotAngle()
     {
+        double encoder = 100;
+        while (pivot.getCurrentPosition() < encoder)
+        {
+            pivot.setPower(.5);
+        }
+        pivot.setPower(0);
 
-        double angleChange = theta - currentAngle;
-
-
-        //turn on pivot motors until reached equal encoder level-set an level of error
-
-
-        currentAngle = theta;
     }
 
-    public void setLift(double heightIndex)
+    public void setLift()
     {
-
-        double indexChange = heightIndex - currentLiftHeightIndex;
-
-        //move motors until reached height index
-
-        currentLiftHeightIndex = heightIndex;
+        double encoder = 100;
+        while (lift.getCurrentPosition() < encoder)
+        {
+            if (lift.getCurrentPosition() < (encoder / 2)) {
+                lift.setPower(.4);
+            }
+            else
+            {
+                lift.setPower(.19);
+            }
+        }
 
     }
 
@@ -105,16 +115,16 @@ public class ShooterHardware {
         double theta = Shooter.calcThetaPivot(distance, z, 1 * POWER_TO_VELOCITY);
 
         ignite();
-        loadShooter();
+        //loadShooter();
 
 
 
     }
 
-    public void loadShooter() {
-        //BRINGS NEXT DISC INTO CHAMBER
-
-
+    public void hitRing() {
+        mag.setPosition(0);
+        sleep(200);
+        mag.setPosition(1);
     }
 
 }
