@@ -345,13 +345,13 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             liftPower = .3;
             //double power = 0;
-            while(lift.getCurrentPosition() != 300)
+            while(lift.getCurrentPosition() != 400)
             {
                 lift.getCurrentPosition();
-                if(lift.getCurrentPosition() > 300){
+                if(lift.getCurrentPosition() > 400){
                     liftPower = liftPower*.98;
                 }
-                if(lift.getCurrentPosition() < 300){
+                if(lift.getCurrentPosition() < 400){
                     liftPower = liftPower*1.02;
                 }
             }
