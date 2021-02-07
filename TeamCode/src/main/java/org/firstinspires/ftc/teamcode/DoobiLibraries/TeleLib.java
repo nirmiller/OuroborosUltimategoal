@@ -99,10 +99,10 @@ public abstract class TeleLib extends OpMode {
         shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        fl.setDirection(DcMotor.Direction.FORWARD);
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.FORWARD);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.FORWARD);
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -136,7 +136,7 @@ public abstract class TeleLib extends OpMode {
 
         br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        //lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -146,10 +146,10 @@ public abstract class TeleLib extends OpMode {
 
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       // pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-     //   pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }
@@ -190,6 +190,10 @@ public abstract class TeleLib extends OpMode {
             bl.setPower(0);
             br.setPower(0);
         }
+        telemetry.addData("fl encoder", fl.getCurrentPosition());
+        telemetry.addData("fr encoder", fr.getCurrentPosition());
+        telemetry.addData("bl encoder", bl.getCurrentPosition());
+        telemetry.addData("br encoder", br.getCurrentPosition());
 
 
     }
@@ -335,6 +339,8 @@ public abstract class TeleLib extends OpMode {
         }
 
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
+
 
     }
 

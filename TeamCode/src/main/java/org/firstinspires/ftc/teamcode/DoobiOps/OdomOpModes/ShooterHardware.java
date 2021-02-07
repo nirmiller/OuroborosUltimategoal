@@ -44,7 +44,7 @@ public class ShooterHardware {
         lift = opMode.hardwareMap.dcMotor.get("lift");
         mag = opMode.hardwareMap.servo.get("mag");
 
-        pivot.setDirection(DcMotor.Direction.FORWARD);
+        pivot.setDirection(DcMotor.Direction.REVERSE);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift.setDirection(DcMotor.Direction.FORWARD);
@@ -52,33 +52,46 @@ public class ShooterHardware {
 
         shooter.setDirection(DcMotor.Direction.FORWARD);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
 
     public void setPivotAngle()
     {
-        double encoder = 100;
+        double encoder = 500;
         while (pivot.getCurrentPosition() < encoder)
         {
-            pivot.setPower(.5);
+            pivot.setPower(.7);
         }
         pivot.setPower(0);
-    }
+        opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        opMode.telemetry.update();
 
+    }
+boolean liftReady = false;
     public void setLift()
     {
-        double encoder = 100;
+        double encoder = 400;
         while (lift.getCurrentPosition() < encoder)
         {
-            if (lift.getCurrentPosition() < (encoder / 2)) {
-                lift.setPower(.4);
+            if (lift.getCurrentPosition() < (encoder * .75)) {
+                lift.setPower(.5);
             }
             else
             {
                 lift.setPower(.19);
+                liftReady = true;
             }
+            //opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
+            opMode.telemetry.update();
+
         }
+        liftReady = true;
+        lift.setPower(.19);
+
 
     }
 

@@ -31,7 +31,7 @@ public class OdomDriveTrain {
     String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
     double theta;
 
-    final double COUNTS_PER_INCH = 308.876;
+    final double COUNTS_PER_INCH = 35;
 
     LinearOpMode opMode;
     Sensors sensors;
@@ -125,7 +125,7 @@ public class OdomDriveTrain {
 
         ElapsedTime time = new ElapsedTime();
         setStrafePower(power);
-        while(opMode.opModeIsActive() && time.milliseconds() < timeout && Math.abs(sensors.getGyroYaw()) < 10 ){
+        while(opMode.opModeIsActive() && time.milliseconds() < timeout  ){
 
         }
         choop();
@@ -318,15 +318,19 @@ public class OdomDriveTrain {
         {
             count--;
         }
-        if(direction > 0)
+        if (count == 0)
         {
-            average = (((-1*left_front.getCurrentPosition() + right_front.getCurrentPosition()
-                    + -1*right_back.getCurrentPosition() + left_back.getCurrentPosition())) ) / count;
+            return 0;
         }
-        else if(direction < 0)
+        if(direction < 0)
         {
-            average = (((left_front.getCurrentPosition() + -1*right_front.getCurrentPosition()
-                    + right_back.getCurrentPosition() + -1*left_back.getCurrentPosition())))  / count;
+            average = (((-left_front.getCurrentPosition() + -1*right_front.getCurrentPosition()
+                    + -right_back.getCurrentPosition() + left_back.getCurrentPosition())) ) / count;
+        }
+        else if(direction > 0)
+        {
+            average = (((left_front.getCurrentPosition() + -right_front.getCurrentPosition()
+                    + right_back.getCurrentPosition() + -1*-left_back.getCurrentPosition())))  / count;
         }
         return average;
     }
@@ -344,8 +348,8 @@ public class OdomDriveTrain {
     {
         right_front.setPower(-power);
         right_back.setPower(power);
-        left_front.setPower(power);
-        left_back.setPower(-power);
+        left_front.setPower(-power);
+        left_back.setPower(power);
     }
 
         public double getTargetPercentile(double reading) {
@@ -356,7 +360,7 @@ public class OdomDriveTrain {
         resetEncoders();
         ElapsedTime time = new ElapsedTime();
 
-        double initEncoder = getEncoderAverage();
+        double initEncoder = 0;
 
         time.reset();
 
@@ -378,7 +382,7 @@ public class OdomDriveTrain {
         ElapsedTime time = new ElapsedTime();
         resetEncoders();
         double pos = 1;
-        if(!left)
+        if(left)
         {
             pos = -1;
         }
@@ -393,57 +397,69 @@ public class OdomDriveTrain {
 
         double angle = sensors.getGyroYaw();
         double average = 0;
-        while(opMode.opModeIsActive() && Math.abs(average) < Math.abs(distance) * COUNTS_PER_INCH && time.seconds() < timeout)
+        resetEncoders();
+        opMode.telemetry.addData("Math.abs(average)", Math.abs(getStrafeEncoderAverage(pos)));
+        opMode.telemetry.update();
+        while(opMode.opModeIsActive() && ((distance * 4) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeout)
         {
+            opMode.telemetry.addLine("entered");
 
             average = getStrafeEncoderAverage(pos);
 
             if(angle > 2)
             {
-                if(left)
+                if(!left)
                 {
-                    pfr = -power;
-                    pfl = power;
-                    pbr = power * .86;
-                    pbl = -power * .89;
+                    pfr = -power * 1.1;
+                    pfl = -power * .86;
+                    pbr = power * .89;
+                    pbl = power * 1.1;
                 }
-                else if(!left)
+                else if(left)
                 {
                     pfr = power * .9;
-                    pfl = -power * .9;
+                    pfl = power * .9;
                     pbr = -power;
-                    pbl = power;
+                    pbl = -power;
                 }
             }
             else if(angle < -2)
             {
-                if(left)
+                if(!left)
                 {
                     pfr = -power * .86;
-                    pfl = power * .89;
+                    pfl = -power * .89;
                     pbr = power;
-                    pbl = -power;
+                    pbl = power;
                 }
-                else if(!left)
+                else if(left)
                 {
                     pfr = power;
-                    pfl = -power;
+                    pfl = power;
                     pbr = -power * .9;
-                    pbl = power * .9;
+                    pbl = -power * .9;
                 }
+
             }
             else {
                 pfr = -power * pos;
-                pfl = power * pos;
-                pbl = -power * pos;
+                pfl = -power * pos;
+                pbl = power * pos;
                 pbr = power * pos;
             }
+            //setStrafePower(power * pos);
             right_front.setPower(pfr);
             left_front.setPower(pfl);
             left_back.setPower(pbl);
             right_back.setPower(pbr);
             angle = sensors.getGyroYaw();
             opMode.telemetry.addData("Angle", angle);
+            opMode.telemetry.addData("Encoder distance left", ((distance * 4) - Math.abs(getStrafeEncoderAverage(pos))));
+            opMode.telemetry.addData("Math.abs(average)", Math.abs(getStrafeEncoderAverage(pos)));
+            opMode.telemetry.addData("Math.abs(distance * 5)", Math.abs(distance * 4));
+
+            //opMode.sleep(1000);
+
             opMode.telemetry.update();
         }
         choop();
