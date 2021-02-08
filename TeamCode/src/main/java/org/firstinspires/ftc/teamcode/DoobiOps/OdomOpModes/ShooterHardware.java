@@ -62,7 +62,7 @@ public class ShooterHardware {
     public void setPivotAngle()
     {
         double encoder = 500;
-        while (pivot.getCurrentPosition() < encoder)
+        while (pivot.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             pivot.setPower(.7);
         }
@@ -75,7 +75,7 @@ boolean liftReady = false;
     public void setLift()
     {
         double encoder = 400;
-        while (lift.getCurrentPosition() < encoder)
+        while (lift.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             if (lift.getCurrentPosition() < (encoder * .75)) {
                 lift.setPower(.7);
@@ -90,7 +90,13 @@ boolean liftReady = false;
 
         }
         liftReady = true;
-        lift.setPower(.19);
+
+
+        if (!opMode.opModeIsActive()){
+            lift.setPower(0);
+        }else{
+            lift.setPower(.19);
+        }
 
 
     }

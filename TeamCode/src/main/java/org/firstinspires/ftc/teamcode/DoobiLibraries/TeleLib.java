@@ -64,6 +64,10 @@ public abstract class TeleLib extends OpMode {
     ThreadHandler th_wobble;
     ThreadHandler th_shooter;
 
+    double kill_count;
+    boolean lift_bottom;
+    boolean lift_top;
+
     @Override
     public void init() {
         //Drive base
@@ -128,6 +132,9 @@ public abstract class TeleLib extends OpMode {
 
         th_wobble = new ThreadHandler();
         th_shooter = new ThreadHandler();
+        kill_count = 0;
+        lift_bottom = true;
+        lift_top = false;
 
     }
 
@@ -247,6 +254,22 @@ public abstract class TeleLib extends OpMode {
         }
 
 
+    }
+
+
+    public void killAll(){
+
+        if(gamepad2.right_stick_button){
+            kill_count++;
+        }
+
+        if(kill_count >= 2){
+            th_shooter.th_kill();
+            th_wobble.th_kill();
+            pivot.setPower(0);
+            lift.setPower(0);
+
+        }
     }
 
 
@@ -379,8 +402,7 @@ public abstract class TeleLib extends OpMode {
         }
     });
 
-    boolean lift_bottom = true;
-    boolean lift_top = false;
+
 
     public void magazine() {
         double right_stick_y = -gamepad2.right_stick_y;
