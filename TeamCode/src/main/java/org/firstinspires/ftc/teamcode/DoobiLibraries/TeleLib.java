@@ -44,6 +44,9 @@ public abstract class TeleLib extends OpMode {
     private Servo mag;
     static double OPEN = 0.0;
     static double CLOSED = 1;
+    double liftPower;
+    double lift_pos;
+
 
     DcMotor verticalLeft, verticalRight, horizontal;
     String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
@@ -136,6 +139,8 @@ public abstract class TeleLib extends OpMode {
         lift_bottom = true;
         lift_top = false;
 
+        lift_pos = 0;
+        liftPower = 0;
     }
 
 
@@ -268,6 +273,8 @@ public abstract class TeleLib extends OpMode {
             th_wobble.th_kill();
             pivot.setPower(0);
             lift.setPower(0);
+            intake.setPower(0);
+            shooter.setPower(0);
 
         }
     }
@@ -372,24 +379,14 @@ public abstract class TeleLib extends OpMode {
 
     }
 
-    double liftPower = 0;
+
 
     Thread liftUp_thread = new Thread(new Runnable() {
         @Override
         public void run() {
-            liftPower = .3;
-            //double power = 0;
-
-            while (lift.getCurrentPosition() < 400) {
-                if (lift.getCurrentPosition() > 400) {
-                    liftPower = liftPower * .98;
-                }
-                if (lift.getCurrentPosition() < 400) {
-                    liftPower = liftPower * 1.02;
-                }
-            }
-
-            lift.setPower(liftPower);
+            lift.setPower(.7);
+            sleep(700);
+            lift.setPower(.2);
         }
     });
 
