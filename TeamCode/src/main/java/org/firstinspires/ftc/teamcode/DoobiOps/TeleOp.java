@@ -20,6 +20,7 @@ public class TeleOp extends TeleLib {
         shooter();
         wobbleGoal();
         intake();
+        killAll();
         telemetry.update();
     }
 
