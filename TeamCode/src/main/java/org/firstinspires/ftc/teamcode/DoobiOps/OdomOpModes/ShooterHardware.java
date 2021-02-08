@@ -26,10 +26,10 @@ public class ShooterHardware {
 
     LinearOpMode opMode;
 
-    private DcMotor shooter;
-    private DcMotor pivot;
-    private DcMotor lift;
-    private Servo mag;
+    DcMotor shooter;
+     DcMotor pivot;
+    DcMotor lift;
+    Servo mag;
 
     private double currentAngle;
 
@@ -78,11 +78,11 @@ boolean liftReady = false;
         while (lift.getCurrentPosition() < encoder)
         {
             if (lift.getCurrentPosition() < (encoder * .75)) {
-                lift.setPower(.5);
+                lift.setPower(.7);
             }
             else
             {
-                lift.setPower(.19);
+                lift.setPower(.3);
                 liftReady = true;
             }
             //opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());

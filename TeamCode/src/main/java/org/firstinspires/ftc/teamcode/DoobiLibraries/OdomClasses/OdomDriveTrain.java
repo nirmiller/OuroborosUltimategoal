@@ -378,19 +378,19 @@ public class OdomDriveTrain {
 
     public void gyroStrafe(double power, double distance, boolean left, double timeout)
     {
-
+        distance = distance * COUNTS_PER_INCH;
         ElapsedTime time = new ElapsedTime();
         resetEncoders();
-        double pos = 1;
+        double pos = -1;
         if(left)
         {
-            pos = -1;
+            pos = 1;
         }
 
 
         double pfr = -power * pos;
-        double pfl = power * pos;
-        double pbl = -power * pos;
+        double pfl = -power * pos;
+        double pbl = power * pos;
         double pbr = power * pos;
 
 
@@ -400,7 +400,7 @@ public class OdomDriveTrain {
         resetEncoders();
         opMode.telemetry.addData("Math.abs(average)", Math.abs(getStrafeEncoderAverage(pos)));
         opMode.telemetry.update();
-        while(opMode.opModeIsActive() && ((distance * 4) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeout)
+        while(opMode.opModeIsActive() && ((distance) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeout)
         {
             opMode.telemetry.addLine("entered");
 
@@ -410,34 +410,34 @@ public class OdomDriveTrain {
             {
                 if(!left)
                 {
-                    pfr = -power * 1.1;
-                    pfl = -power * .86;
-                    pbr = power * .89;
-                    pbl = power * 1.1;
+                    pfr = power;
+                    pfl = power * .7;
+                    pbr = -power;
+                    pbl = -power * .7;
                 }
                 else if(left)
                 {
-                    pfr = power * .9;
-                    pfl = power * .9;
-                    pbr = -power;
-                    pbl = -power;
+                    pfr = -power *.7;
+                    pfl = -power ;
+                    pbr = power *.7;
+                    pbl = power;
                 }
             }
             else if(angle < -2)
             {
                 if(!left)
                 {
-                    pfr = -power * .86;
-                    pfl = -power * .89;
-                    pbr = power;
-                    pbl = power;
+                    pfr = power * .7;
+                    pfl = power;
+                    pbr = -power * .7;
+                    pbl = -power;
                 }
                 else if(left)
                 {
-                    pfr = power;
-                    pfl = power;
-                    pbr = -power * .9;
-                    pbl = -power * .9;
+                    pfr = -power;
+                    pfl = -power*.7;
+                    pbr = power ;
+                    pbl = power *.7;
                 }
 
             }
@@ -447,7 +447,8 @@ public class OdomDriveTrain {
                 pbl = power * pos;
                 pbr = power * pos;
             }
-            //setStrafePower(power * pos);
+
+
             right_front.setPower(pfr);
             left_front.setPower(pfl);
             left_back.setPower(pbl);

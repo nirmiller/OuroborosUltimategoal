@@ -61,20 +61,8 @@ public class TrollAuto3 extends LinearOpMode {
             @Override
             public void run() {
                 //3. pivot + ring shoot
-                while (sh.liftReady == false) {
 
-                }
-                sleep(500);
-                sh.setPivotAngle();
-                sleep(300);
-                sh.hitRing();
-                sleep(300);
-                sh.hitRing();
-                sleep(300);
-                sh.hitRing();
-                sleep(300);
-                sh.hitRing();
-                sleep(300);
+
             }
         });
 
@@ -82,7 +70,7 @@ public class TrollAuto3 extends LinearOpMode {
         loop.add(thread1);
         loop.add(thread2);
         loop.add(thread3);
-        loop.add(thread4);
+        //loop.add(thread4);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -93,7 +81,7 @@ public class TrollAuto3 extends LinearOpMode {
                     odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
                     odt.encoderMove(.4, 15, 4);
                     odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
-                    odt.encoderMove(-.6, 5, 4);
+                    odt.encoderMove(-.6, 10, 4);
                     odt.turnPID(179, false, .5 / 180, .02, .02 / 180, 1.5);
                     odt.resetEncoders();
                     odt.choop();
@@ -116,6 +104,19 @@ public class TrollAuto3 extends LinearOpMode {
                     odt.turnPID(179, false, .5 / 180, .02, .02 / 180, 3); //turns left
 
                     loop.run();
+
+                    sleep(3000);
+                    sh.setPivotAngle();
+                    sleep(300);
+                    sh.hitRing();
+                    sleep(300);
+                    sh.hitRing();
+                    sleep(300);
+                    sh.hitRing();
+                    sleep(300);
+                    sh.hitRing();
+                    sleep(300);
+
                     loop.end();
                     break;
 
@@ -133,5 +134,8 @@ public class TrollAuto3 extends LinearOpMode {
             loop.end();
         }
         loop.end();
+        sh.lift.setPower(0);
+        sh.withdraw();
+        sh.pivot.setPower(0);
     }
 }
