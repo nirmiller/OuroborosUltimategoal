@@ -25,11 +25,20 @@ public class ThreadHandler {
     }
 
     public void th_kill(){
-        this.thread.interrupt();
+
+        if(this.thread != null){
+            if(live()){
+                this.thread.interrupt();
+            }
+        }
+
     }
 
     public boolean live(){
-        return this.thread.isAlive();
+        if(this.thread != null){
+            return this.thread.isAlive();
+        }
+        return false;
     }
 
 }

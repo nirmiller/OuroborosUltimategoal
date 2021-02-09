@@ -74,7 +74,7 @@ public class ShooterHardware {
 boolean liftReady = false;
     public void setLift()
     {
-        double encoder = 400;
+        double encoder = 500;
         while (lift.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             if (lift.getCurrentPosition() < (encoder * .75)) {
@@ -82,7 +82,7 @@ boolean liftReady = false;
             }
             else
             {
-                lift.setPower(.3);
+                lift.setPower(.4);
                 liftReady = true;
             }
             //opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());

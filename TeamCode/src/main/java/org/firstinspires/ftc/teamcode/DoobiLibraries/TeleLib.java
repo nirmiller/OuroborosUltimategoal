@@ -115,10 +115,10 @@ public abstract class TeleLib extends OpMode {
         bl.setDirection(DcMotor.Direction.REVERSE);
         br.setDirection(DcMotor.Direction.FORWARD);
 
-        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         verticalLeft = fr;
         verticalRight = fl;
@@ -275,7 +275,7 @@ public abstract class TeleLib extends OpMode {
             lift.setPower(0);
             intake.setPower(0);
             shooter.setPower(0);
-
+            kill_count = 0;
         }
     }
 
@@ -384,8 +384,10 @@ public abstract class TeleLib extends OpMode {
     Thread liftUp_thread = new Thread(new Runnable() {
         @Override
         public void run() {
-            lift.setPower(.7);
-            sleep(700);
+            lift.setPower(.5);
+            while(lift.getCurrentPosition() < 400){
+
+            }
             lift.setPower(.2);
         }
     });

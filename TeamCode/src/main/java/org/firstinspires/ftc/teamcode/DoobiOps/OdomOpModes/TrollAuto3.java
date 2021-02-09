@@ -39,15 +39,29 @@ public class TrollAuto3 extends LinearOpMode {
             @Override
             public void run() {
                 //1. strafe
-                odt.gyroStrafe(.7, 24, false, 4);
+                sh.setLift();
             }
         });
         Thread thread2 = new Thread(new Runnable() {
             @Override
             public void run() {
                 //2. mag up
+                sleep(2000);
+                while (!sh.liftReady) {
+                }
+                sh.ignite();
+                sh.setPivotAngle();
+                odt.turnPID(60, false, .5 / 60, .02, .02 / 60, 1);
+                sh.hitRing();
+                sleep(300);
+                odt.turnPID(10, false, .4 / 10, .02, .02 / 10, 1);
+                sh.hitRing();
+                sleep(300);
+                odt.turnPID(10, false, .4 / 10, .02, .02 / 10, 1);
+                sh.hitRing();
+                sleep(300);
 
-                sh.setLift();
+
             }
         });
         Thread thread3 = new Thread(new Runnable() {
@@ -69,73 +83,66 @@ public class TrollAuto3 extends LinearOpMode {
 
         loop.add(thread1);
         loop.add(thread2);
-        loop.add(thread3);
+        //loop.add(thread3);
         //loop.add(thread4);
 
         waitForStart();
+        int pos = 4;
         while (opModeIsActive()) {
 
-            switch (0) {
-                case 0:
-                    odt.encoderMove(.7, 78, 4);
-                    odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
-                    odt.encoderMove(.4, 15, 4);
-                    odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
-                    odt.encoderMove(-.6, 10, 4);
-                    odt.turnPID(179, false, .5 / 180, .02, .02 / 180, 1.5);
-                    odt.resetEncoders();
-                    odt.choop();
-                    sleep(200);
-                    odt.gyroStrafe(.5, 24, false, 5);
-                    //loop.run();
+            if (pos == 0) {
+                odt.encoderMove(.5, 65, 5);
+                //odt.encoderMove(.5, 55, 4);
+                odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
+                odt.encoderMove(.4, 15, 4);
+                odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
+                odt.encoderMove(-.4, 5, 4);
+                odt.gyroTurnStraight(500);
+                odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
+                odt.encoderMove(-.4, 10, 4);
 
-                    break;
+                //loop.run();
 
-                case 1:
-                    odt.encoderMove(.7, 72, 4);
-                    odt.turnPID(45, true, .7 / 45, .02, .02 / 45, 1.5);
-                    odt.encoderMove(.4, 10, 4);
-                    odt.turnPID(45, false, .7 / 45, .02, .02 / 45, 2);
-                    odt.encoderMove(-.6, 24, 4);
-                    loop.run();
-                    break;
+                break;
+            } else if (pos == 1) {
+                odt.encoderMove(.5, 85, 7);
+                //odt.encoderMove(.5, 55, 4);
+                odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
+                odt.encoderMove(.4, 15, 4);
+                odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
+                odt.encoderMove(-.4, 15, 4);
+                odt.gyroTurnStraight(500);
+                odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
+                //odt.encoderMove(-.4, 10, 4);
 
-                case 2:
-                    odt.turnPID(179, false, .5 / 180, .02, .02 / 180, 3); //turns left
+                //loop.run();
+                break;
+            } else if (pos == 2) {
+                loop.run();
 
-                    loop.run();
+                loop.end();
+                break;
+            } else if (pos == 4) {
+                odt.encoderMove(.5, 90, 10);
+                //odt.encoderMove(.5, 55, 4);
+                odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
+                odt.encoderMove(.4, 15, 4);
+                odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
+                odt.encoderMove(-.4, 5, 4);
+                odt.gyroTurnStraight(500);
+                odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
+                odt.encoderMove(-.4, 10, 4);
 
-                    sleep(3000);
-                    sh.setPivotAngle();
-                    sleep(300);
-                    sh.hitRing();
-                    sleep(300);
-                    sh.hitRing();
-                    sleep(300);
-                    sh.hitRing();
-                    sleep(300);
-                    sh.hitRing();
-                    sleep(300);
+                //loop.run();
 
-                    loop.end();
-                    break;
-
-                case 4:
-                    odt.encoderMove(.8, 106, 5); //moves forward 106 inches
-                    odt.turnPID(45, false, .7 / 45, .02, .02 / 45, 1.5); //turns left
-                    odt.encoderMove(.5, 10, 5); //moves forward 10 inches
-                    odt.turnPID(45, true, .7 / 45, .02, .02 / 45, 1.5); //turns right back to straight
-                    odt.encoderMove(-.6, 60, 5); //moves backwards 60 inches
-                    odt.gyroStrafe(.5, 24, false, 5); //strafes right 24 inches
-                    loop.run();
-
-                    break;
+                break;
             }
+            //loop.end();
+
             loop.end();
+            sh.lift.setPower(0);
+            sh.withdraw();
+            sh.pivot.setPower(0);
         }
-        loop.end();
-        sh.lift.setPower(0);
-        sh.withdraw();
-        sh.pivot.setPower(0);
     }
 }
