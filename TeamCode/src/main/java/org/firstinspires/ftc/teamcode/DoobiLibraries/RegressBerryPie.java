@@ -39,6 +39,7 @@ public class RegressBerryPie {
 
         if (berry != null) {
             berry.activate();
+            //TODO: May need to adjust zoom
             berry.setZoom(2.5, 1.78);
         }
 
@@ -46,7 +47,7 @@ public class RegressBerryPie {
         int stackSize = 0;
 
         if (opMode.opModeIsActive()) {
-            while (opMode.opModeIsActive() && time.milliseconds() <= 2000) {
+            while (opMode.opModeIsActive() && time.milliseconds() <= 1000) {
                 if (berry != null) {
                     List<Recognition> updatedRecognitions = berry.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
