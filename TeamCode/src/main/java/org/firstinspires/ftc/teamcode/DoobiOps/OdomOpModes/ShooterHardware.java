@@ -74,18 +74,19 @@ public class ShooterHardware {
 boolean liftReady = false;
     public void setLift()
     {
-        double encoder = 500;
+        //TODO: encoder pos now 300 so make sure to start the auto at the highest pos the lift can be without falling
+        double encoder = 300;
         while (lift.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             if (lift.getCurrentPosition() < (encoder * .75)) {
-                lift.setPower(.7);
+                lift.setPower(.6);
             }
             else
             {
                 lift.setPower(.4);
                 liftReady = true;
             }
-            //opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
+            opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
             opMode.telemetry.update();
 
         }

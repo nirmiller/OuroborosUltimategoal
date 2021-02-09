@@ -384,8 +384,8 @@ public abstract class TeleLib extends OpMode {
     Thread liftUp_thread = new Thread(new Runnable() {
         @Override
         public void run() {
-            lift.setPower(.5);
-            while(lift.getCurrentPosition() < 400){
+            lift.setPower(.4);
+            while(lift.getCurrentPosition() < 300){
 
             }
             lift.setPower(.2);
@@ -396,8 +396,10 @@ public abstract class TeleLib extends OpMode {
         @Override
         public void run() {
             lift.setPower(-.3);
-            sleep(1000);
+            sleep(500);
             lift.setPower(0);
+            lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     });
 

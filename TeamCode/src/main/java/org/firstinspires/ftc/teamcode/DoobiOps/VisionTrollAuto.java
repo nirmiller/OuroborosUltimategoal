@@ -13,7 +13,7 @@ public class VisionTrollAuto extends LinearOpMode {
     BackupVision backupVision;
     @Override
     public void runOpMode() throws InterruptedException {
-
+        //TODO: test and see if this works. If not, try running backup vision (you may have to adjust some values)
         vision = new RegressBerryPie(this);
         //backupVision = new BackupVision(this);
         waitForStart();

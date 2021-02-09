@@ -52,12 +52,16 @@ public class TrollAuto3 extends LinearOpMode {
                 sh.ignite();
                 sh.setPivotAngle();
                 odt.turnPID(60, false, .5 / 60, .02, .02 / 60, 1);
+                sleep(300);
                 sh.hitRing();
                 sleep(300);
-                odt.turnPID(10, false, .4 / 10, .02, .02 / 10, 1);
+                sh.hitRing();
+                odt.turnPID(10, false, .3 / 10, .02, .02 / 10, 1);
+                sleep(300);
                 sh.hitRing();
                 sleep(300);
-                odt.turnPID(10, false, .4 / 10, .02, .02 / 10, 1);
+                odt.turnPID(10, false, .3 / 10, .02, .02 / 10, 1);
+                sleep(300);
                 sh.hitRing();
                 sleep(300);
 
@@ -87,7 +91,7 @@ public class TrollAuto3 extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = 4;
+        int pos = 2;
         while (opModeIsActive()) {
 
             if (pos == 0) {
@@ -118,20 +122,26 @@ public class TrollAuto3 extends LinearOpMode {
                 //loop.run();
                 break;
             } else if (pos == 2) {
+                //TODO: Run this to check if the loop works. After you get it working, add it to the other cases
                 loop.run();
 
                 loop.end();
                 break;
             } else if (pos == 4) {
-                odt.encoderMove(.5, 90, 10);
+                odt.encoderMove(.5, 30, 10);
+                //TODO: if the robot is moving too crooked, add this turn PID to it
+                odt.turnPID(10, false, .4 / 10, .02, .02 / 10, 1);
+                odt.encoderMove(.6, 80, 10);
+
                 //odt.encoderMove(.5, 55, 4);
+                odt.gyroTurnStraight(1000);
                 odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(.4, 15, 4);
+                odt.encoderMove(.4, 20, 4);
                 odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(-.4, 5, 4);
+                odt.encoderMove(-.4, 50, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
-                odt.encoderMove(-.4, 10, 4);
+                odt.encoderMove(-.4, 15, 4);
 
                 //loop.run();
 
