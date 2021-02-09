@@ -298,66 +298,48 @@ public abstract class TeleLib extends OpMode {
         }
     }
 
-    Thread whook_up = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            ElapsedTime time = new ElapsedTime();
-            while (gamepad2.y && time.milliseconds() < 300) {
-            }
-            whook.setPosition(1);
-        }
-    });
 
-    Thread whook_down = new Thread(new Runnable() {
+    Thread whook_button = new Thread(new Runnable() {
         @Override
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
             while (gamepad2.y && time.milliseconds() < 300) {
             }
-            whook.setPosition(0);
         }
     });
 
-    Thread wobble_down = new Thread(new Runnable() {
+    Thread wobble_button = new Thread(new Runnable() {
         @Override
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
             while (gamepad2.x && time.milliseconds() < 300) {
             }
-            wobble.setPosition(0);
-        }
-    });
-
-    Thread wobble_up = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            ElapsedTime time = new ElapsedTime();
-            time.reset();
-            while (gamepad2.x && time.milliseconds() < 300) {
-            }
-            wobble.setPosition(1);
         }
     });
 
     public void wobbleGoal() {
         if (gamepad2.y && whook.getPosition() == 0) {
 
-            th_whook.queue(whook_up);
+            th_whook.queue(whook_button);
+            wobble.setPosition(1);
 
 
         } else if (gamepad2.y && whook.getPosition() != 0) {
 
-            th_whook.queue(whook_down);
+            th_whook.queue(whook_button);
+            wobble.setPosition(0);
 
         } else if (gamepad2.x && wobble.getPosition() == 0) {
 
-            th_wobble.queue(wobble_up);
+            th_wobble.queue(wobble_button);
+            wobble.setPosition(1);
 
         } else if (gamepad2.x && wobble.getPosition() != 0) {
 
-            th_wobble.queue(wobble_down);
+            th_wobble.queue(wobble_button);
+            wobble.setPosition(0);
         }
         telemetry.addData("hook position", whook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
@@ -413,19 +395,20 @@ public abstract class TeleLib extends OpMode {
 
 
 
+
     public void magazine() {
         double right_stick_y = -gamepad2.right_stick_y;
-        if (right_stick_y > .05 && !lift_top) {
+        if (right_stick_y > .05 && !lift_top && !liftDown_thread.isAlive()) {
 
-            th_shooter.queue(liftUp_thread);
+            liftUp_thread.start();
             lift_top = true;
             lift_bottom = false;
 
 
-        } else if (right_stick_y < -.05 && !lift_bottom) {
+        } else if (right_stick_y < -.05 && !lift_bottom && !liftUp_thread.isAlive()) {
 
 
-            th_shooter.queue(liftDown_thread);
+            liftDown_thread.start();
             lift_bottom = true;
             lift_top = false;
         }
