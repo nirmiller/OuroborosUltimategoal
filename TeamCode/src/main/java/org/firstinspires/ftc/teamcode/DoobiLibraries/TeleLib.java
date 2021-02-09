@@ -66,6 +66,7 @@ public abstract class TeleLib extends OpMode {
 
     ThreadHandler th_wobble;
     ThreadHandler th_shooter;
+    ThreadHandler th_whook;
 
     double kill_count;
     boolean lift_bottom;
@@ -135,12 +136,15 @@ public abstract class TeleLib extends OpMode {
 
         th_wobble = new ThreadHandler();
         th_shooter = new ThreadHandler();
+        th_whook = new ThreadHandler();
+
         kill_count = 0;
         lift_bottom = true;
         lift_top = false;
 
         lift_pos = 0;
         liftPower = 0;
+
     }
 
 
@@ -271,6 +275,7 @@ public abstract class TeleLib extends OpMode {
         if(kill_count >= 2){
             th_shooter.th_kill();
             th_wobble.th_kill();
+            th_whook.th_kill();
             pivot.setPower(0);
             lift.setPower(0);
             intake.setPower(0);
@@ -307,6 +312,7 @@ public abstract class TeleLib extends OpMode {
         @Override
         public void run() {
             ElapsedTime time = new ElapsedTime();
+            time.reset();
             while (gamepad2.y && time.milliseconds() < 300) {
             }
             whook.setPosition(0);
@@ -317,6 +323,7 @@ public abstract class TeleLib extends OpMode {
         @Override
         public void run() {
             ElapsedTime time = new ElapsedTime();
+            time.reset();
             while (gamepad2.x && time.milliseconds() < 300) {
             }
             wobble.setPosition(0);
@@ -327,6 +334,7 @@ public abstract class TeleLib extends OpMode {
         @Override
         public void run() {
             ElapsedTime time = new ElapsedTime();
+            time.reset();
             while (gamepad2.x && time.milliseconds() < 300) {
             }
             wobble.setPosition(1);
@@ -336,12 +344,12 @@ public abstract class TeleLib extends OpMode {
     public void wobbleGoal() {
         if (gamepad2.y && whook.getPosition() == 0) {
 
-            th_wobble.queue(whook_up);
+            th_whook.queue(whook_up);
 
 
         } else if (gamepad2.y && whook.getPosition() != 0) {
 
-            th_wobble.queue(whook_down);
+            th_whook.queue(whook_down);
 
         } else if (gamepad2.x && wobble.getPosition() == 0) {
 
@@ -422,6 +430,7 @@ public abstract class TeleLib extends OpMode {
             lift_top = false;
         }
 
+        telemetry.addData("Shooter Thread", th_shooter.live());
 
         if (gamepad2.left_bumper && !magout) {
             Thread thread = new Thread(new Runnable() {

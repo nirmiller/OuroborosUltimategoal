@@ -14,9 +14,9 @@ public class ThreadHandler {
         if(thread == null){
             this.thread = new_thread;
         }else{
-            if(this.thread.isAlive())
+            if(live())
             {
-                this.thread.interrupt();
+                return;
             }
             this.thread = new_thread;
         }

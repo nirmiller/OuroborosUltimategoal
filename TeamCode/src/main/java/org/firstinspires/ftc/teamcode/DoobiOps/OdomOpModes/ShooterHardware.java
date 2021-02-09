@@ -20,6 +20,7 @@ public class ShooterHardware {
 
     public static double INITIAL_Z = 0.0;
 
+    public boolean liftReady;
     static double PIVOT_THETA_TO_ENCODER = 0.0;
     static double LIFT_INDEX_TO_ENCODER = 0.0;
     static double POWER_TO_VELOCITY = 0.0;
@@ -27,7 +28,7 @@ public class ShooterHardware {
     LinearOpMode opMode;
 
     DcMotor shooter;
-     DcMotor pivot;
+    DcMotor pivot;
     DcMotor lift;
     Servo mag;
 
@@ -55,7 +56,7 @@ public class ShooterHardware {
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        liftReady = false;
     }
 
 
@@ -71,7 +72,7 @@ public class ShooterHardware {
         opMode.telemetry.update();
 
     }
-boolean liftReady = false;
+
     public void setLift()
     {
         //TODO: encoder pos now 300 so make sure to start the auto at the highest pos the lift can be without falling
@@ -84,7 +85,6 @@ boolean liftReady = false;
             else
             {
                 lift.setPower(.4);
-                liftReady = true;
             }
             opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
             opMode.telemetry.update();
