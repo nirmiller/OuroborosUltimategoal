@@ -68,7 +68,7 @@ public abstract class TeleLib extends OpMode {
     ThreadHandler th_shooter;
     ThreadHandler th_whook;
 
-    double kill_count;
+    public double kill_count;
     boolean lift_bottom;
     boolean lift_top;
 
@@ -320,6 +320,7 @@ public abstract class TeleLib extends OpMode {
     });
 
     public void wobbleGoal() {
+
         if (gamepad2.y && whook.getPosition() == 0) {
 
             th_whook.queue(whook_button);

@@ -26,7 +26,8 @@ public class TeleOp extends TeleLib {
 
     @Override
     public void stop() {
-
+        kill_count = 10;
+        killAll();
 
         super.stop();
 
