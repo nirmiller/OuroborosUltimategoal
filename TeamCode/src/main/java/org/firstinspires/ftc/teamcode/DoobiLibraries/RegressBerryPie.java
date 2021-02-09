@@ -13,7 +13,8 @@ import java.util.List;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 public class RegressBerryPie {
-    private static final String asset = "UltimateGoal.tflite";
+    private static final String asset = "model_unquant.tflite";
+    //TODO: if 1 and 4 are switched, go to the labels.txt file in assets and switch where Single and Quad is
     private static final String quad = "Quad";
     private static final String single = "Single";
 
