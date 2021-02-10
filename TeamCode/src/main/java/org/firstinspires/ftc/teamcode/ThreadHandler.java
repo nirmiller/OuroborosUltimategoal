@@ -12,31 +12,31 @@ public class ThreadHandler {
     public void queue(Thread new_thread){
 
         if(thread == null){
-            this.thread = new_thread;
+            thread = new_thread;
         }else{
             if(live())
             {
                 return;
             }
-            this.thread = new_thread;
+            thread = new_thread;
         }
 
-        this.thread.start();
+        thread.start();
     }
 
     public void th_kill(){
 
-        if(this.thread != null){
+        if(thread != null){
             if(live()){
-                this.thread.interrupt();
+                thread.interrupt();
             }
         }
 
     }
 
     public boolean live(){
-        if(this.thread != null){
-            return this.thread.isAlive();
+        if(thread != null){
+            return thread.isAlive();
         }
         return false;
     }

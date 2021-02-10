@@ -16,10 +16,10 @@ public class TeleOp extends TeleLib {
     @Override
     public void loop() {
         arcadedrive();
-        magazine();
         shooter();
-        wobbleGoal();
         intake();
+        magazine();
+        wobbleGoal();
         killAll();
         telemetry.update();
     }

@@ -48,6 +48,8 @@ public abstract class TeleLib extends OpMode {
     double lift_pos;
 
 
+    ThreadHandler th_whook;
+    ThreadHandler th_wobble;
     DcMotor verticalLeft, verticalRight, horizontal;
     String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
 
@@ -63,10 +65,6 @@ public abstract class TeleLib extends OpMode {
 
     public Thread gamer_1;
     public Thread gamer_2;
-
-    ThreadHandler th_wobble;
-    ThreadHandler th_shooter;
-    ThreadHandler th_whook;
 
     public double kill_count;
     boolean lift_bottom;
@@ -134,9 +132,6 @@ public abstract class TeleLib extends OpMode {
 
         arcade = false;
 
-        th_wobble = new ThreadHandler();
-        th_shooter = new ThreadHandler();
-        th_whook = new ThreadHandler();
 
         kill_count = 0;
         lift_bottom = true;
@@ -145,6 +140,8 @@ public abstract class TeleLib extends OpMode {
         lift_pos = 0;
         liftPower = 0;
 
+        th_whook = new ThreadHandler();
+        th_wobble = new ThreadHandler();
     }
 
 
@@ -273,9 +270,6 @@ public abstract class TeleLib extends OpMode {
         }
 
         if(kill_count >= 2){
-            th_shooter.th_kill();
-            th_wobble.th_kill();
-            th_whook.th_kill();
             pivot.setPower(0);
             lift.setPower(0);
             intake.setPower(0);
@@ -309,47 +303,81 @@ public abstract class TeleLib extends OpMode {
         }
     });
 
-    Thread wobble_button = new Thread(new Runnable() {
+    Thread wobble_up = new Thread(new Runnable() {
         @Override
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
             while (gamepad2.x && time.milliseconds() < 350) {
             }
+            wobble.setPosition(1);
+            sleep(700);
         }
     });
 
+    Thread wobble_down = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while (gamepad2.x && time.milliseconds() < 350) {
+            }
+            wobble.setPosition(0);
+            sleep(700);
+        }
+    });
 
+    Thread whook_open = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while (gamepad2.y && time.milliseconds() < 350) {
+            }
+            whook.setPosition(1);
+            sleep(700);
+        }
+    });
+
+    Thread whook_close = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while (gamepad2.y && time.milliseconds() < 350) {
+            }
+            whook.setPosition(0);
+            sleep(700);
+        }
+    });
 
     public void wobbleGoal() {
 
         if (gamepad2.y && whook.getPosition() == 0) {
 
 
-            th_whook.queue(whook_button);
-            whook.setPosition(1);
+            th_whook.queue(whook_open);
 
 
         } else if (gamepad2.y && whook.getPosition() != 0) {
 
-            th_whook.queue(whook_button);
-            whook.setPosition(0);
+            th_whook.queue(whook_close);
 
         }
 
         if (gamepad2.x && wobble.getPosition() == 0) {
 
-            th_wobble.queue(wobble_button);
-            wobble.setPosition(1);
+            th_wobble.queue(wobble_up);
 
         } else if (gamepad2.x && wobble.getPosition() != 0) {
 
-            th_wobble.queue(wobble_button);
-            wobble.setPosition(0);
+            th_wobble.queue(wobble_down);
         }
         telemetry.addData("hook position", whook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
         telemetry.addData("Wobble Thread", th_wobble.live());
+        telemetry.addData("Whook Thread", th_whook.live());
+
     }
 
 
@@ -389,6 +417,7 @@ public abstract class TeleLib extends OpMode {
             lift.setPower(.25);
             lift_top = true;
             lift_bottom = false;
+            sleep(300);
         }
     });
 
@@ -402,50 +431,41 @@ public abstract class TeleLib extends OpMode {
             lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift_bottom = true;
             lift_top = false;
+            sleep(300);
         }
     });
 
-
-
+    Thread mag_thread= new Thread(new Runnable() {
+        @Override
+        public void run() {
+            mag.setPosition(0);
+            sleep(200);
+            mag.setPosition(1);
+        }
+    });
 
     public void magazine() {
         double right_stick_y = -gamepad2.right_stick_y;
-        if (right_stick_y > .05 && !lift_top) {
+        if (right_stick_y > .05 && !lift_top && !lift_down.isAlive()) {
 
-
-            lift.setPower(.5);
-
-            sleep(700);
-            lift.setPower(.25);
-            lift_top = true;
-            lift_bottom = false;
-
-        } else if (right_stick_y < -.05 && !lift_bottom) {
-
-
-            lift.setPower(-.3);
-            sleep(500);
             lift.setPower(0);
-            lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift_bottom = true;
-            lift_top = false;
+            lift_up.start();
+
+        } else if (right_stick_y < -.05 && !lift_bottom && !lift_up.isAlive()) {
+
+            lift.setPower(0);
+            lift_down.start();
         }
 
-        telemetry.addData("Shooter Thread", th_shooter.live());
 
         if (gamepad2.left_bumper && !magout) {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mag.setPosition(0);
-                    sleep(200);
-                    mag.setPosition(1);
-                }
-            });
 
-            thread.start();
+
+            mag_thread.start();
         }
+
+        telemetry.addData("Lift Threading Up : ", lift_up.isAlive());
+        telemetry.addData("Lift Threading Down : ", lift_down.isAlive());
 
     }
 
