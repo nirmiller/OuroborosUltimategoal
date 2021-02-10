@@ -50,6 +50,7 @@ public abstract class TeleLib extends OpMode {
 
     ThreadHandler th_whook;
     ThreadHandler th_wobble;
+    ThreadHandler th_lift;
     DcMotor verticalLeft, verticalRight, horizontal;
     String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
 
@@ -142,6 +143,7 @@ public abstract class TeleLib extends OpMode {
 
         th_whook = new ThreadHandler();
         th_wobble = new ThreadHandler();
+        th_lift = new ThreadHandler();
     }
 
 
@@ -293,15 +295,6 @@ public abstract class TeleLib extends OpMode {
     }
 
 
-    Thread whook_button = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            ElapsedTime time = new ElapsedTime();
-            time.reset();
-            while (gamepad2.y && time.milliseconds() < 350) {
-            }
-        }
-    });
 
     Thread wobble_up = new Thread(new Runnable() {
         @Override
@@ -409,8 +402,10 @@ public abstract class TeleLib extends OpMode {
         @Override
         public void run() {
             lift.setPower(.5);
+            ElapsedTime time = new ElapsedTime();
 
-            while(lift.getCurrentPosition() < 300){
+            time.reset();
+            while(lift.getCurrentPosition() < 200 && time.milliseconds() < 500){
 
             }
             //sleep(700);
@@ -446,15 +441,13 @@ public abstract class TeleLib extends OpMode {
 
     public void magazine() {
         double right_stick_y = -gamepad2.right_stick_y;
-        if (right_stick_y > .05 && !lift_top && !lift_down.isAlive()) {
+        if (right_stick_y > .05 && !lift_top) {
 
-            lift.setPower(0);
-            lift_up.start();
+            th_lift.queue(lift_up);
 
-        } else if (right_stick_y < -.05 && !lift_bottom && !lift_up.isAlive()) {
+        } else if (right_stick_y < -.05 && !lift_bottom) {
 
-            lift.setPower(0);
-            lift_down.start();
+            th_lift.queue(lift_down);
         }
 
 

@@ -100,7 +100,7 @@ public class TrollAuto3 extends LinearOpMode {
                 //odt.encoderMove(.5, 55, 4);
                 odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(.4, 15, 4);
-                odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
+                odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(-.4, 15, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
