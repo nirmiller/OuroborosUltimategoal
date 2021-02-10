@@ -51,19 +51,20 @@ public class TrollAuto3 extends LinearOpMode {
                 }
                 sh.ignite();
                 sh.setPivotAngle();
-                odt.turnPID(60, false, .5 / 60, .02, .02 / 60, 1);
+                odt.turnPID(80, false, .5 / 80, .02, .02 / 80, 2);
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
                 sh.hitRing();
-                odt.turnPID(10, false, .3 / 10, .02, .02 / 10, 1);
+                odt.turnPID(10, true, .3 / 10, .02, .02 / 10, 2);
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
-                odt.turnPID(10, false, .3 / 10, .02, .02 / 10, 1);
+                odt.turnPID(10, true, .3 / 10, .02, .02 / 10, 2);
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
+                odt.encoderMove(.5, 10, 3);
 
 
             }
@@ -72,7 +73,7 @@ public class TrollAuto3 extends LinearOpMode {
             @Override
             public void run() {
                 //4. shoot the whole time
-                sh.ignite();
+                //sh.ignite();
             }
         });
         Thread thread4 = new Thread(new Runnable() {
@@ -100,10 +101,10 @@ public class TrollAuto3 extends LinearOpMode {
                 odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(.4, 15, 4);
                 odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(-.4, 5, 4);
+                odt.encoderMove(-.4, 15, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
-                odt.encoderMove(-.4, 10, 4);
+                odt.encoderMove(-.4, 25, 4);
 
                 //loop.run();
 
@@ -114,9 +115,10 @@ public class TrollAuto3 extends LinearOpMode {
                 odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(.4, 15, 4);
                 odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(-.4, 15, 4);
+                odt.encoderMove(-.4, 34, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
+                odt.encoderMove(-.4, 4, 4);
                 //odt.encoderMove(-.4, 10, 4);
 
                 //loop.run();
@@ -134,14 +136,14 @@ public class TrollAuto3 extends LinearOpMode {
                 odt.encoderMove(.6, 80, 10);
 
                 //odt.encoderMove(.5, 55, 4);
-                odt.gyroTurnStraight(1000);
-                odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
+                //odt.gyroTurnStraight(1000);
+                odt.turnPID(30, false, .7 / 30, .03, .02 / 30, 1);
                 odt.encoderMove(.4, 20, 4);
-                odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(-.4, 50, 4);
+                odt.turnPID(30, true, .7 / 30, .03, .02 / 30, 1);
+                odt.encoderMove(-.4, 67, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
-                odt.encoderMove(-.4, 15, 4);
+                odt.encoderMove(-.4, 25, 4);
 
                 //loop.run();
 
@@ -149,7 +151,7 @@ public class TrollAuto3 extends LinearOpMode {
             }
             //loop.end();
 
-            loop.end();
+            //loop.end();
             sh.lift.setPower(0);
             sh.withdraw();
             sh.pivot.setPower(0);

@@ -116,10 +116,10 @@ public abstract class TeleLib extends OpMode {
         bl.setDirection(DcMotor.Direction.REVERSE);
         br.setDirection(DcMotor.Direction.FORWARD);
 
-        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         verticalLeft = fr;
         verticalRight = fl;
@@ -304,7 +304,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.y && time.milliseconds() < 300) {
+            while (gamepad2.y && time.milliseconds() < 350) {
             }
         }
     });
@@ -314,25 +314,30 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.x && time.milliseconds() < 300) {
+            while (gamepad2.x && time.milliseconds() < 350) {
             }
         }
     });
+
+
 
     public void wobbleGoal() {
 
         if (gamepad2.y && whook.getPosition() == 0) {
 
+
             th_whook.queue(whook_button);
-            wobble.setPosition(1);
+            whook.setPosition(1);
 
 
         } else if (gamepad2.y && whook.getPosition() != 0) {
 
             th_whook.queue(whook_button);
-            wobble.setPosition(0);
+            whook.setPosition(0);
 
-        } else if (gamepad2.x && wobble.getPosition() == 0) {
+        }
+
+        if (gamepad2.x && wobble.getPosition() == 0) {
 
             th_wobble.queue(wobble_button);
             wobble.setPosition(1);
@@ -355,10 +360,11 @@ public abstract class TeleLib extends OpMode {
             shooter.setPower(0);
         }
 
-        if (gamepad2.dpad_up) {
+
+        if (gamepad2.dpad_up && lift_top) {
             pivot.setPower(.5);
 
-        } else if (gamepad2.dpad_down) {
+        } else if (gamepad2.dpad_down && lift_top) {
             pivot.setPower(-.5);
         } else {
             pivot.setPower(0);
@@ -371,19 +377,22 @@ public abstract class TeleLib extends OpMode {
     }
 
 
-
-    Thread liftUp_thread = new Thread(new Runnable() {
+    Thread lift_up = new Thread(new Runnable() {
         @Override
         public void run() {
-            lift.setPower(.4);
+            lift.setPower(.5);
+
             while(lift.getCurrentPosition() < 300){
 
             }
-            lift.setPower(.2);
+            //sleep(700);
+            lift.setPower(.25);
+            lift_top = true;
+            lift_bottom = false;
         }
     });
 
-    Thread liftDown_thread = new Thread(new Runnable() {
+    Thread lift_down = new Thread(new Runnable() {
         @Override
         public void run() {
             lift.setPower(-.3);
@@ -391,6 +400,8 @@ public abstract class TeleLib extends OpMode {
             lift.setPower(0);
             lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift_bottom = true;
+            lift_top = false;
         }
     });
 
@@ -399,17 +410,24 @@ public abstract class TeleLib extends OpMode {
 
     public void magazine() {
         double right_stick_y = -gamepad2.right_stick_y;
-        if (right_stick_y > .05 && !lift_top && !liftDown_thread.isAlive()) {
+        if (right_stick_y > .05 && !lift_top) {
 
-            liftUp_thread.start();
+
+            lift.setPower(.5);
+
+            sleep(700);
+            lift.setPower(.25);
             lift_top = true;
             lift_bottom = false;
 
+        } else if (right_stick_y < -.05 && !lift_bottom) {
 
-        } else if (right_stick_y < -.05 && !lift_bottom && !liftUp_thread.isAlive()) {
 
-
-            liftDown_thread.start();
+            lift.setPower(-.3);
+            sleep(500);
+            lift.setPower(0);
+            lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift_bottom = true;
             lift_top = false;
         }
