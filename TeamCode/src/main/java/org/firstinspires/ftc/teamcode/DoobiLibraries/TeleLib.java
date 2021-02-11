@@ -325,7 +325,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.y && time.milliseconds() < 350) {
+            while (gamepad2.y && time.milliseconds() < 300) {
             }
             whook.setPosition(1);
             sleep(700);
@@ -337,7 +337,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.y && time.milliseconds() < 350) {
+            while (gamepad2.y && time.milliseconds() < 300) {
             }
             whook.setPosition(0);
             sleep(700);
@@ -441,11 +441,11 @@ public abstract class TeleLib extends OpMode {
 
     public void magazine() {
         double right_stick_y = -gamepad2.right_stick_y;
-        if (right_stick_y > .05 && !lift_top) {
+        if (right_stick_y > .1 && !lift_top) {
 
             th_lift.queue(lift_up);
 
-        } else if (right_stick_y < -.05 && !lift_bottom) {
+        } else if (right_stick_y < -.1 && !lift_bottom) {
 
             th_lift.queue(lift_down);
         }
