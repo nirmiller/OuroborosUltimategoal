@@ -96,6 +96,19 @@ public class ShooterHardware {
 
     }
 
+    public void pivotDown()
+    {
+        double encoder = 0;
+        while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
+        {
+            pivot.setPower(-.3);
+        }
+        pivot.setPower(0);
+        opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        opMode.telemetry.update();
+
+    }
+
     public void setLift()
     {
         //TODO: encoder pos now 300 so make sure to start the auto at the highest pos the lift can be without falling

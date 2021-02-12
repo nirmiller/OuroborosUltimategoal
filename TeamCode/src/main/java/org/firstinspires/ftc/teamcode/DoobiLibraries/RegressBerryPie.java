@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 public class RegressBerryPie {
-    private static final String asset = "model.tflite";
+    private static final String asset = "model_unquant.tflite";
     //TODO: if 1 and 4 are switched, go to the labels.txt file in assets and switch where Single and Quad is
     private static final String quad = "Quad";
     private static final String single = "Single";

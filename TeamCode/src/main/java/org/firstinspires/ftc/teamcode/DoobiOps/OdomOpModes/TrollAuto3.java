@@ -67,7 +67,9 @@ public class TrollAuto3 extends LinearOpMode {
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
-                //odt.encoderMove(.5, 6, 3);
+                sh.pivotDown();
+                sh.withdraw();
+                odt.encoderMove(.5, 6, 3);
 
 
             }
