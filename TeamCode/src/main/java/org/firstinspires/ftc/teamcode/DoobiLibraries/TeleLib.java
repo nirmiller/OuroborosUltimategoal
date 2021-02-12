@@ -397,7 +397,7 @@ public abstract class TeleLib extends OpMode {
             pivot.setPower(0);
         }
 
-        /*
+
         if(pivot.getCurrentPosition() > 500){
             pivot_top = true;
             pivot_bottom = false;
@@ -409,7 +409,7 @@ public abstract class TeleLib extends OpMode {
             pivot_top = false;
         }
 
-         */
+
 
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
