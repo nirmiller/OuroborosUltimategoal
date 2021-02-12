@@ -53,7 +53,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 @TeleOp(name = "Concept: TensorFlow Object Detection Switchable Cameras", group = "Concept")
 @Disabled
 public class ConceptTensorFlowObjectDetectionSwitchableCameras extends LinearOpMode {
-    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
+    private static final String TFOD_MODEL_ASSET = "org/firstinspires/ftc/teamcode/DoobiLibraries/VisionStuff/model.savedmodel/assets/UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
 

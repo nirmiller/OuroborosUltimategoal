@@ -51,7 +51,7 @@ public class ShooterHardware {
         lift.setDirection(DcMotor.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        shooter.setDirection(DcMotor.Direction.FORWARD);
+        shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -62,10 +62,33 @@ public class ShooterHardware {
 
     public void setPivotAngle()
     {
-        double encoder = 500;
+        double encoder = 660;
         while (pivot.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             pivot.setPower(.7);
+        }
+        pivot.setPower(0);
+        opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        opMode.telemetry.update();
+
+    }public void setPivotAngle2()
+    {
+        double encoder = 650;
+        while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
+        {
+            pivot.setPower(-.2);
+        }
+        pivot.setPower(0);
+        opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        opMode.telemetry.update();
+
+    }
+    public void setPivotAngle3()
+    {
+        double encoder = 640;
+        while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
+        {
+            pivot.setPower(-.2);
         }
         pivot.setPower(0);
         opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
@@ -76,7 +99,7 @@ public class ShooterHardware {
     public void setLift()
     {
         //TODO: encoder pos now 300 so make sure to start the auto at the highest pos the lift can be without falling
-        double encoder = 300;
+        double encoder = 250;
         while (lift.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             if (lift.getCurrentPosition() < (encoder * .75)) {
@@ -141,8 +164,9 @@ public class ShooterHardware {
     }
 
     public void hitRing() {
+
         mag.setPosition(0);
-        sleep(200);
+        opMode.sleep(200);
         mag.setPosition(1);
     }
 

@@ -387,11 +387,11 @@ public abstract class TeleLib extends OpMode {
             shooter.setPower(0);
         }
 
-
-        if (gamepad2.dpad_up && lift_top && !pivot_top) {
+        double pivotPos = pivot.getCurrentPosition() + 700;
+        if (gamepad2.dpad_up && lift_top) {
             pivot.setPower(.5);
 
-        } else if (gamepad2.dpad_down && lift_top && !pivot_bottom) {
+        } else if (gamepad2.dpad_down && lift_top && pivotPos > 0) {
             pivot.setPower(-.5);
         } else {
             pivot.setPower(0);
@@ -441,7 +441,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             lift.setPower(-.3);
             sleep(500);
-            lift.setPower(0);
+            lift.setPower(-.2);
             lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift_bottom = true;

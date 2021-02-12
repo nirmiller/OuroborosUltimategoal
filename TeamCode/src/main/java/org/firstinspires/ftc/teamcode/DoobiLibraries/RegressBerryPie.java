@@ -10,10 +10,9 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 public class RegressBerryPie {
-    private static final String asset = "model_unquant.tflite";
+    private static final String asset = "model.tflite";
     //TODO: if 1 and 4 are switched, go to the labels.txt file in assets and switch where Single and Quad is
     private static final String quad = "Quad";
     private static final String single = "Single";
@@ -30,17 +29,20 @@ public class RegressBerryPie {
 
     LinearOpMode opMode;
     public RegressBerryPie(LinearOpMode opMode) {
+
         this.opMode = opMode;
+        initVuforia();
+        initTfod();
     }
 
     public int pie() {
-        initVuforia();
-        initTfod();
+        //initVuforia();
+        //initTfod();
 
         if (berry != null) {
             berry.activate();
             //TODO: May need to adjust zoom
-            berry.setZoom(2.5, 1.78);
+            berry.setZoom(1.5, 1.78);
         }
 
         ElapsedTime time = new ElapsedTime();
@@ -92,6 +94,6 @@ public class RegressBerryPie {
        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
        tfodParameters.minResultConfidence = 0.8f;
        berry = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, regress);
-       berry.loadModelFromAsset(asset, quad, single);
+       berry.loadModelFromAsset(asset, single, quad);
     }
 }
