@@ -71,6 +71,9 @@ public abstract class TeleLib extends OpMode {
     boolean lift_bottom;
     boolean lift_top;
 
+    boolean pivot_top;
+    boolean pivot_bottom;
+
     @Override
     public void init() {
         //Drive base
@@ -140,6 +143,9 @@ public abstract class TeleLib extends OpMode {
 
         lift_pos = 0;
         liftPower = 0;
+
+        pivot_top = false;
+        pivot_bottom = true;
 
         th_whook = new ThreadHandler();
         th_wobble = new ThreadHandler();
@@ -301,7 +307,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.x && time.milliseconds() < 350) {
+            while (gamepad2.a && time.milliseconds() < 350) {
             }
             wobble.setPosition(1);
             sleep(700);
@@ -313,7 +319,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.x && time.milliseconds() < 350) {
+            while (gamepad2.a && time.milliseconds() < 350) {
             }
             wobble.setPosition(0);
             sleep(700);
@@ -325,7 +331,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.y && time.milliseconds() < 300) {
+            while (gamepad2.b && time.milliseconds() < 300) {
             }
             whook.setPosition(1);
             sleep(700);
@@ -337,7 +343,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.y && time.milliseconds() < 300) {
+            while (gamepad2.b && time.milliseconds() < 300) {
             }
             whook.setPosition(0);
             sleep(700);
@@ -346,23 +352,23 @@ public abstract class TeleLib extends OpMode {
 
     public void wobbleGoal() {
 
-        if (gamepad2.y && whook.getPosition() == 0) {
+        if (gamepad2.b && whook.getPosition() == 0) {
 
 
             th_whook.queue(whook_open);
 
 
-        } else if (gamepad2.y && whook.getPosition() != 0) {
+        } else if (gamepad2.b && whook.getPosition() != 0) {
 
             th_whook.queue(whook_close);
 
         }
 
-        if (gamepad2.x && wobble.getPosition() == 0) {
+        if (gamepad2.a && wobble.getPosition() == 0) {
 
             th_wobble.queue(wobble_up);
 
-        } else if (gamepad2.x && wobble.getPosition() != 0) {
+        } else if (gamepad2.a && wobble.getPosition() != 0) {
 
             th_wobble.queue(wobble_down);
         }
@@ -382,14 +388,28 @@ public abstract class TeleLib extends OpMode {
         }
 
 
-        if (gamepad2.dpad_up && lift_top) {
+        if (gamepad2.dpad_up && lift_top && !pivot_top) {
             pivot.setPower(.5);
 
-        } else if (gamepad2.dpad_down && lift_top) {
+        } else if (gamepad2.dpad_down && lift_top && !pivot_bottom) {
             pivot.setPower(-.5);
         } else {
             pivot.setPower(0);
         }
+
+        /*
+        if(pivot.getCurrentPosition() > 500){
+            pivot_top = true;
+            pivot_bottom = false;
+        }else if(pivot.getCurrentPosition() < 100){
+            pivot_bottom = true;
+            pivot_top = false;
+        }else{
+            pivot_bottom = false;
+            pivot_top = false;
+        }
+
+         */
 
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
