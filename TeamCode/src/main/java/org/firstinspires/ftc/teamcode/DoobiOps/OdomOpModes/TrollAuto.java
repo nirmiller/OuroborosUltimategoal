@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Bezier;
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 
 import java.util.ArrayList;
-
+@Disabled
 @Autonomous(group = "Auto", name = "Troll Auto")
 public class TrollAuto extends LinearOpMode {
     OdomDriveTrain odt;

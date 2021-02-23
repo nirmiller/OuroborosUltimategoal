@@ -468,16 +468,9 @@ public class OdomDriveTrain {
     public void gyroTurnNinety(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal;
+        double goal = 90;
 
         do  {
-
-            if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
-                goal = 90;
-            }
-            else {
-                goal = 360;
-            }
 
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());

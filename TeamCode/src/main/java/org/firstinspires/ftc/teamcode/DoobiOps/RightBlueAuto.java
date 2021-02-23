@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.DoobiOps;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -40,7 +41,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 
 import java.util.ArrayList;
 
-
+@Disabled
 @Autonomous(name="RightBlueAuto", group="Linear Opmode")
 public class RightBlueAuto extends LinearOpMode {
 

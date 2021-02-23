@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Loop;
 import java.util.ArrayList;
 
 @Autonomous(group = "Auto", name = "Threaded Auto")
-public class TrollAuto3 extends LinearOpMode {
+public class GoodAuto extends LinearOpMode {
 
     OdomDriveTrain odt;
     Wobble wobble;
@@ -138,12 +138,12 @@ public class TrollAuto3 extends LinearOpMode {
                 loop.end();
                 break;
             } else if (pos == 2) {
-                //TODO: Run this to check if the loop works. After you get it working, add it to the other cases
                 loop.run();
 
                 loop.end();
                 break;
             } else if (pos == 4) {
+
                 odt.encoderMove(.5, 30, 10);
                 //TODO: if the robot is moving too crooked, add this turn PID to it
                 odt.turnPID(10, false, .4 / 10, .02, .02 / 10, 1);
@@ -157,9 +157,11 @@ public class TrollAuto3 extends LinearOpMode {
                 odt.encoderMove(-.4, 67, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
-                odt.encoderMove(-.4, 25, 4);
-                odt.gyroTurnStraight(1000);
+                odt.encoderMove(-.4, 7, 4);
+                odt.turnPID(90, false, .5 / 90, .01, .02 / 90, 2);
 
+                loop.run();
+                loop.end();
 
                 //loop.run();
 
