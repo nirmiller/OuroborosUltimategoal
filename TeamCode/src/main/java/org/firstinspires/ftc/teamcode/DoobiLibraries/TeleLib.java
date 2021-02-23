@@ -387,9 +387,8 @@ public abstract class TeleLib extends OpMode {
             shooter.setPower(0);
         }
 
-        //TODO: comment this entire section out if it doesnt work (BTW made for after auto finishes
         double pivotPos = pivot.getCurrentPosition();
-        if (gamepad2.dpad_up && lift_top) {
+        if (gamepad2.dpad_up && lift_top && pivotPos < 1450) {
             pivot.setPower(.5);
 
         } else if (gamepad2.dpad_down && lift_top && pivotPos > -10) {
@@ -397,30 +396,6 @@ public abstract class TeleLib extends OpMode {
         } else {
             pivot.setPower(0);
         }
-
-
-        if(pivot.getCurrentPosition() > 500){
-            pivot_top = true;
-            pivot_bottom = false;
-        }else if(pivot.getCurrentPosition() < 100){
-            pivot_bottom = true;
-            pivot_top = false;
-        }else{
-            pivot_bottom = false;
-            pivot_top = false;
-        }
-        //TODO: uncomment if it doesn't work
-        /*
-        if (gamepad2.dpad_up && lift_top) {
-            pivot.setPower(.5);
-
-        } else if (gamepad2.dpad_down && lift_top) {
-            pivot.setPower(-.5);
-        } else {
-            pivot.setPower(0);
-        }
-*/
-
 
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
