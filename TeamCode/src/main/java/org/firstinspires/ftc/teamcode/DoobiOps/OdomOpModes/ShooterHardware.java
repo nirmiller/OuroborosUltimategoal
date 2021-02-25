@@ -62,36 +62,36 @@ public class ShooterHardware {
 
     public void setPivotAngle()
     {
-        double encoder = 660;
+        double encoder = 665;
         while (pivot.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
-            pivot.setPower(.7);
+            pivot.setPower(.8);
         }
         pivot.setPower(0);
-        opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        //opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         opMode.telemetry.update();
 
     }public void setPivotAngle2()
     {
-        double encoder = 650;
+        double encoder = 655;
         while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
         {
-            pivot.setPower(-.2);
+            pivot.setPower(-.05);
         }
         pivot.setPower(0);
-        opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        //opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         opMode.telemetry.update();
 
     }
     public void setPivotAngle3()
     {
-        double encoder = 640;
+        double encoder = 643;
         while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
         {
-            pivot.setPower(-.2);
+            pivot.setPower(-.05);
         }
         pivot.setPower(0);
-        opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        //opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         opMode.telemetry.update();
 
     }
@@ -104,7 +104,7 @@ public class ShooterHardware {
             pivot.setPower(-.3);
         }
         pivot.setPower(0);
-        opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        //opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         opMode.telemetry.update();
 
     }
@@ -122,7 +122,7 @@ public class ShooterHardware {
             {
                 lift.setPower(.4);
             }
-            opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
+            //opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
             opMode.telemetry.update();
 
         }

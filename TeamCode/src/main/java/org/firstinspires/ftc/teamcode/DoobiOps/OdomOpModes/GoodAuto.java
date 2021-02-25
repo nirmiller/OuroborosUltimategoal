@@ -46,30 +46,35 @@ public class GoodAuto extends LinearOpMode {
             @Override
             public void run() {
                 //2. mag up
+                //odt.gyroTurn180(500);
                 ElapsedTime time = new ElapsedTime();
                 time.reset();
                 while (!sh.liftReady && time.milliseconds() < 1500) {
                 }
                 //sh.ignite();
+                sleep(1000);
                 sh.setPivotAngle();
                 //odt.turnPID(80, false, .5 / 80, .02, .02 / 80, 2);
                 //sleep(300);
                 sh.hitRing();
                 sleep(300);
                 sh.hitRing();
-                odt.turnPID(6, true, .4 / 10, .01, 0, 1);
+                sleep(300);
+                odt.turnPID(5, true, .28 / 7, 0, 0, .4);
                 sh.setPivotAngle2();
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
-                odt.turnPID(6, true, .4 / 10, .01, 0, 1);
+                odt.turnPID(4, true, .28 / 7, 0, 0, .3);
                 sh.setPivotAngle3();
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
                 sh.pivotDown();
                 sh.withdraw();
-                odt.encoderMove(.5, 6, 3);
+                sh.lift.setPower(0);
+                odt.encoderMove(-.5, 12, 3);
+                sh.lift.setPower(0);
 
 
             }
@@ -97,21 +102,22 @@ public class GoodAuto extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = 1;
+        int pos = 4;
         while (opModeIsActive()) {
 
             if (pos == 0) {
-                odt.encoderMove(.5, 65, 5);
+                odt.encoderMove(.5, 62, 5);
                 //odt.encoderMove(.5, 55, 4);
                 odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(.4, 17, 4);
                 odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(-.4, 5, 4);
+                odt.encoderMove(-.4, 4, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 2);
-                odt.encoderMove(-.4, 7, 4);
-                odt.turnPID(90, false, .5 / 90, .01, .02 / 90, 2);
-                //odt.gyroTurnStraight(1000);
+                odt.encoderMove(-.4, 15, 4);
+                odt.gyroTurnNinety(500);
+                odt.turnPID(88, false, .5 / 90, .01, .02 / 90, 2);
+                odt.gyroTurn180(1000);
 
                 loop.run();
                 loop.end();
@@ -120,15 +126,17 @@ public class GoodAuto extends LinearOpMode {
             } else if (pos == 1) {
                 odt.encoderMove(.5, 85, 7);
                 //odt.encoderMove(.5, 55, 4);
-                odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(.4, 15, 4);
-                odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(-.4, 20, 4);
+                odt.gyroTurnStraight(500);
+                odt.turnPID(30, true, .7 / 45, .03, .02 / 45, 1);
+                odt.encoderMove(.4, 14, 4);
+                odt.turnPID(30, false, .7 / 45, .03, .02 / 45, 1);
+                odt.encoderMove(-.4, 27, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
-                odt.encoderMove(.4, 6, 4);
-                odt.gyroTurnNinety(500);
-                odt.turnPID(90, false, .6 / 90, .02, 0, 2);
+                //odt.encoderMove(-.4, 4, 1);
+                odt.gyroTurnNinety(1000);
+                odt.turnPID(88, false, .7 / 90, .01, .02/90, 2);
+                odt.gyroTurn180(500);
 
                 //odt.gyroTurnStraight(1000);
 
@@ -138,27 +146,35 @@ public class GoodAuto extends LinearOpMode {
                 loop.end();
                 break;
             } else if (pos == 2) {
+                odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
+                //odt.encoderMove(-.4, 4, 1);
+                odt.gyroTurnNinety(1000);
+                odt.turnPID(88, false, .7 / 90, .01, .02/90, 2);
+                odt.gyroTurn180(500);
                 loop.run();
-
                 loop.end();
+
                 break;
             } else if (pos == 4) {
 
                 odt.encoderMove(.5, 30, 10);
                 //TODO: if the robot is moving too crooked, add this turn PID to it
-                odt.turnPID(10, false, .4 / 10, .02, .02 / 10, 1);
-                odt.encoderMove(.6, 80, 10);
+                //odt.turnPID(10, false, .7 / 10, .01, 0, 1);
+                odt.encoderMove(.7, 80, 10);
 
                 //odt.encoderMove(.5, 55, 4);
                 //odt.gyroTurnStraight(1000);
-                odt.turnPID(30, false, .7 / 30, .03, .02 / 30, 1);
+                odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(.4, 20, 4);
-                odt.turnPID(30, true, .7 / 30, .03, .02 / 30, 1);
-                odt.encoderMove(-.4, 67, 4);
+                odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
+                odt.gyroTurnStraight(500);
+                odt.encoderMove(-.4, 57, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
                 odt.encoderMove(-.4, 7, 4);
-                odt.turnPID(90, false, .5 / 90, .01, .02 / 90, 2);
+                odt.gyroTurnNinety(500);
+                odt.turnPID(88, false, .5 / 90, .01, .02 / 90, 2);
+                odt.gyroTurn180(1000);
 
                 loop.run();
                 loop.end();

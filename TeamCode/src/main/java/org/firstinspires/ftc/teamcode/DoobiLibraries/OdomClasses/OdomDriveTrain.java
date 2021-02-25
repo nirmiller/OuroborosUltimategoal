@@ -209,6 +209,10 @@ public class OdomDriveTrain {
         double prevRunTime;
 
         double initAngle = sensors.getGyroYaw();
+        if (initAngle <= -180 && initAngle >= -175)
+        {
+            initAngle = 180;
+        }
         double lastError = angleChange - Math.abs(sensors.getGyroYaw() - initAngle);
 
         time.reset();
@@ -229,6 +233,11 @@ public class OdomDriveTrain {
 
 
             power = proportional + integral + derivative;
+
+            if (power < .3 && kI == 0 && kD == 0)
+            {
+                power = .2;
+            }
 
             turn(power, turnRight);
 
@@ -487,7 +496,35 @@ public class OdomDriveTrain {
 
         choop();
     }
+    public void gyroTurn180(double timeOutMS) {
 
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 180;
+        if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
+            goal = 180;
+        }
+        else {
+            goal = 180;
+        }
+
+
+        do  {
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
+                turn(.21, false);
+            }
+            else {
+                turn(.21, true);
+            }
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
 
 
 

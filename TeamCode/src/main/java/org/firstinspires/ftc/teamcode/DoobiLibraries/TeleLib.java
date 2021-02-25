@@ -73,6 +73,7 @@ public abstract class TeleLib extends OpMode {
 
     boolean pivot_top;
     boolean pivot_bottom;
+    Sensors sensors;
 
     @Override
     public void init() {
@@ -222,6 +223,7 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("fr encoder", fr.getCurrentPosition());
         telemetry.addData("bl encoder", bl.getCurrentPosition());
         telemetry.addData("br encoder", br.getCurrentPosition());
+        //telemetry.addData("angle", sensors.getGyroYaw());
 
 
     }
