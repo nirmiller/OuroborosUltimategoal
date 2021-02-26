@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.jankOdom;
+import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class GoodAuto extends LinearOpMode {
     Wobble wobble;
     ShooterHardware sh;
     Loop loop;
+    BackupVision backupVision;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -33,6 +35,7 @@ public class GoodAuto extends LinearOpMode {
         wobble = new Wobble(this);
         sh = new ShooterHardware(this);
         loop = new Loop();
+        backupVision = new BackupVision(this);
 
 
         Thread thread1 = new Thread(new Runnable() {
@@ -102,7 +105,7 @@ public class GoodAuto extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = 4;
+        int pos = backupVision.senseBlue(this);
         while (opModeIsActive()) {
 
             if (pos == 0) {
