@@ -390,7 +390,7 @@ public abstract class TeleLib extends OpMode {
         }
 
         double pivotPos = pivot.getCurrentPosition();
-        if (gamepad2.dpad_up && lift_top && pivotPos < 1450) {
+        if (gamepad2.dpad_up && lift_top && pivotPos < 1700) {
             pivot.setPower(.5);
 
         } else if (gamepad2.dpad_down && lift_top && pivotPos > -10) {

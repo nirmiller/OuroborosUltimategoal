@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
 
@@ -62,7 +63,7 @@ public class ShooterHardware {
 
     public void setPivotAngle()
     {
-        double encoder = 665;
+        double encoder = 650;
         while (pivot.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             pivot.setPower(.8);
@@ -73,7 +74,7 @@ public class ShooterHardware {
 
     }public void setPivotAngle2()
     {
-        double encoder = 655;
+        double encoder = 645;
         while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
         {
             pivot.setPower(-.05);
@@ -85,7 +86,7 @@ public class ShooterHardware {
     }
     public void setPivotAngle3()
     {
-        double encoder = 643;
+        double encoder = 640;
         while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
         {
             pivot.setPower(-.05);
@@ -107,6 +108,73 @@ public class ShooterHardware {
         //opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         opMode.telemetry.update();
 
+    }
+
+    public void pivotPID (double pos, boolean moveUp, double kP, double kI, double kD, double timeout)
+    {
+        ElapsedTime time = new ElapsedTime();
+        ElapsedTime timeoutTimer = new ElapsedTime();
+
+        double error;
+        double power;
+
+        double proportional;
+        double integral = 0;
+        double derivative;
+
+        double prevRunTime;
+
+        double initPos = pivot.getCurrentPosition();
+
+        double lastError = pos - initPos;
+
+        time.reset();
+        timeoutTimer.reset();
+
+        while (Math.abs(pos - pivot.getCurrentPosition()) > 1 && timeoutTimer.seconds() < timeout && opMode.opModeIsActive()) {
+            prevRunTime = time.seconds();
+
+            error = pos - pivot.getCurrentPosition();
+
+            proportional = error * kP;
+
+            integral += (error * (time.seconds() - prevRunTime)) * kI;
+
+
+            derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
+
+
+            power = proportional + integral + derivative;
+
+            if (moveUp)
+            {
+                pivot.setPower(power);
+            }
+            else
+            {
+                pivot.setPower(-power);
+            }
+
+            opMode.telemetry.addData("error ", error);
+            opMode.telemetry.addData("P", proportional);
+            opMode.telemetry.addData("I", integral);
+            opMode.telemetry.addData("D", derivative);
+            opMode.telemetry.addData("power", power);
+            opMode.telemetry.update();
+
+            lastError = error;
+
+            opMode.idle();
+            if (Math.abs(pos - pivot.getCurrentPosition()) < 2)
+            {
+                break;
+            }
+
+        }
+        opMode.telemetry.addLine("exited");
+        opMode.telemetry.update();
+
+        pivot.setPower(0);
     }
 
     public void setLift()
