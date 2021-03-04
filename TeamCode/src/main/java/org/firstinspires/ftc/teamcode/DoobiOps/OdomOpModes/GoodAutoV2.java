@@ -6,21 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.BackupVision;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.Bezier;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.JankOdomDriveTrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.jankOdom;
-import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
-import java.util.ArrayList;
-
-@Autonomous(group = "Auto", name = "Good Auto")
-public class GoodAuto extends LinearOpMode {
+@Autonomous(group = "Auto", name = "Good Auto V2")
+public class GoodAutoV2 extends LinearOpMode {
 
     OdomDriveTrain odt;
     Wobble wobble;
@@ -105,7 +96,8 @@ public class GoodAuto extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = backupVision.senseBlue(this);
+        //int pos = backupVision.senseBlue(this);
+        int pos = 0;
         while (opModeIsActive()) {
 
             if (pos == 0) {
@@ -119,11 +111,11 @@ public class GoodAuto extends LinearOpMode {
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 2);
                 odt.encoderMove(-.4, 15, 4);
                 odt.gyroTurnNinety(500);
-                odt.turnPID(90, false, .5 / 90, .01, .02 / 90, 2);
+                odt.turnPID(88, false, .5 / 90, .01, .02 / 90, 2);
                 odt.gyroTurn180(1000);
 
-                loop.run();
-                loop.end();
+                //loop.run();
+                //loop.end();
 
                 break;
             } else if (pos == 1) {
@@ -145,14 +137,14 @@ public class GoodAuto extends LinearOpMode {
 
                 //odt.encoderMove(-.4, 10, 4);
 
-                loop.run();
-                loop.end();
+               // loop.run();
+               // loop.end();
                 break;
             } else if (pos == 2) {
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
                 //odt.encoderMove(-.4, 4, 1);
                 odt.gyroTurnNinety(1000);
-                odt.turnPID(90, false, .7 / 90, .01, .02/90, 2);
+                odt.turnPID(88, false, .7 / 90, .01, .02/90, 2);
                 odt.gyroTurn180(500);
                 loop.run();
                 loop.end();
@@ -176,11 +168,11 @@ public class GoodAuto extends LinearOpMode {
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 1.5);
                 odt.encoderMove(-.4, 7, 4);
                 odt.gyroTurnNinety(500);
-                odt.turnPID(90, false, .5 / 90, .01, .02 / 90, 2);
+                odt.turnPID(88, false, .5 / 90, .01, .02 / 90, 2);
                 odt.gyroTurn180(1000);
 
-                loop.run();
-                loop.end();
+                //loop.run();
+                //loop.end();
 
                 //loop.run();
 
