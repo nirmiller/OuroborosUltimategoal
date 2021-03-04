@@ -236,7 +236,7 @@ public class OdomDriveTrain {
 
             if (power < .3 && kI == 0 && kD == 0)
             {
-                power = .2;
+                power = .19;
             }
 
             turn(power, turnRight);

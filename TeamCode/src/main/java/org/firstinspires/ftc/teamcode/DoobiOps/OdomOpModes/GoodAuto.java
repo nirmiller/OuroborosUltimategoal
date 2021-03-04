@@ -114,10 +114,10 @@ public class GoodAuto extends LinearOpMode {
                 odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(.4, 17, 4);
                 odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(-.4, 4, 4);
+                odt.encoderMove(-.4, 8, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 2);
-                odt.encoderMove(-.4, 15, 4);
+                odt.encoderMove(-.4, 13, 4);
                 odt.gyroTurnNinety(500);
                 odt.turnPID(90, false, .5 / 90, .01, .02 / 90, 2);
                 odt.gyroTurn180(1000);
@@ -127,11 +127,11 @@ public class GoodAuto extends LinearOpMode {
 
                 break;
             } else if (pos == 1) {
-                odt.encoderMove(.5, 85, 7);
+                odt.encoderMove(.5, 89, 7);
                 //odt.encoderMove(.5, 55, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(30, true, .7 / 45, .03, .02 / 45, 1);
-                odt.encoderMove(.4, 14, 4);
+                odt.encoderMove(.4, 10, 4);
                 odt.turnPID(30, false, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(-.4, 27, 4);
                 odt.gyroTurnStraight(500);
