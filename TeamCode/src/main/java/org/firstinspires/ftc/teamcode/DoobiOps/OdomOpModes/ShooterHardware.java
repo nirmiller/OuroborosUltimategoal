@@ -130,7 +130,6 @@ public class ShooterHardware {
 
         time.reset();
         timeoutTimer.reset();
-
         while (Math.abs(pos - pivot.getCurrentPosition()) > 1 && timeoutTimer.seconds() < timeout && opMode.opModeIsActive()) {
             prevRunTime = time.seconds();
 
