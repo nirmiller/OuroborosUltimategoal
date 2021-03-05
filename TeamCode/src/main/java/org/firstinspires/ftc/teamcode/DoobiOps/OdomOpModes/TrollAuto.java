@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 
 import java.util.ArrayList;
+@Disabled
 @Autonomous(group = "Auto", name = "Troll Auto")
 public class TrollAuto extends LinearOpMode {
     OdomDriveTrain odt;
@@ -25,7 +26,7 @@ public class TrollAuto extends LinearOpMode {
         //odt.encoderMove(.7, 24,  4);
         //odt.turnPID(179, false, .5 / 180, .02, .02 / 180, 2);
 
-        odt.gyroStrafe(.7, 24, true, 3000);
+        odt.gyroStrafe(.7, 24, false, 3000);
         //odt.timestrafeMove(3000, .5, 1);
 
 

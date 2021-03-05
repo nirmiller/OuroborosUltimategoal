@@ -51,6 +51,8 @@ public abstract class TeleLib extends OpMode {
     ThreadHandler th_whook;
     ThreadHandler th_wobble;
     ThreadHandler th_lift;
+    ThreadHandler th_arcade;
+
     DcMotor verticalLeft, verticalRight, horizontal;
     String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
 
@@ -63,6 +65,9 @@ public abstract class TeleLib extends OpMode {
 
     public Thread global;
     private boolean magout = false;
+
+    double half;
+    boolean halfToggle;
 
     public Thread gamer_1;
     public Thread gamer_2;
@@ -151,6 +156,10 @@ public abstract class TeleLib extends OpMode {
         th_whook = new ThreadHandler();
         th_wobble = new ThreadHandler();
         th_lift = new ThreadHandler();
+        th_arcade = new ThreadHandler();
+
+        halfToggle = false;
+        half = 1;
     }
 
 
@@ -199,19 +208,45 @@ public abstract class TeleLib extends OpMode {
     }
 
 
-    public void arcadedrive() {
-        double half = 1;
-        boolean halfToggle = false;
-        if (gamepad1.a && halfToggle == false)
-        {
+    Thread half_speed = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while(time.milliseconds() < 300){
+
+            }
             half = .5;
             halfToggle = true;
         }
-        else if (gamepad1.a && halfToggle == true)
-        {
+    });
+
+    Thread full_speed = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while(time.milliseconds() < 300){
+
+            }
             half = 1;
             halfToggle = false;
         }
+    });
+
+    public void arcadedrive() {
+
+        if (gamepad1.a && halfToggle == false)
+        {
+            th_arcade.queue(half_speed);
+        }
+        else if (gamepad1.a && halfToggle == true)
+        {
+            th_arcade.queue(full_speed);
+        }
+
+
+
         left_stick_y = gamepad1.left_stick_y * half;
         left_stick_x = gamepad1.left_stick_x * half;
         right_stick_x = gamepad1.right_stick_x * half;
