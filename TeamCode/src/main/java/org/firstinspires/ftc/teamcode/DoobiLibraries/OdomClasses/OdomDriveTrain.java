@@ -558,6 +558,63 @@ public class OdomDriveTrain {
         choop();
     }
 
+
+    public void holoStrafe(double power, double distance, boolean left, double timeout) {
+
+        distance = distance * COUNTS_PER_INCH;
+        ElapsedTime time = new ElapsedTime();
+        resetEncoders();
+        double pos = -1;
+        if(left)
+        {
+            pos = 1;
+        }
+
+
+        double pfr = -power * pos;
+        double pfl = -power * pos;
+        double pbl = power * pos;
+        double pbr = power * pos;
+
+        double[] motor_power = new double[4];
+
+
+        double initial_angle = sensors.getGyroYaw();
+        double average = 0;
+        double angle_heading = 0;
+        double angle_face = 0;
+        resetEncoders();
+
+        if(left){
+            angle_heading = 90;
+        }else{
+            angle_heading = -90;
+        }
+
+
+
+        while(opMode.opModeIsActive() && ((distance) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeout)
+        {
+
+            average = getStrafeEncoderAverage(pos);
+            angle_face = sensors.getGyroYaw() - initial_angle;
+
+            motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
+            left_front.setPower(motor_power[0]);
+            right_front.setPower(motor_power[1]);
+            left_back.setPower(motor_power[2]);
+            right_back.setPower(motor_power[3]);
+
+
+            opMode.telemetry.update();
+        }
+        choop();
+
+
+    }
+
+
+
     public void choop()
     {
         left_front.setPower(0);
