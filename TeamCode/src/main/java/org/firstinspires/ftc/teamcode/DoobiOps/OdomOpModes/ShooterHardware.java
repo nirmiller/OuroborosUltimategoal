@@ -130,7 +130,7 @@ public class ShooterHardware {
 
         time.reset();
         timeoutTimer.reset();
-        while (Math.abs(pos - pivot.getCurrentPosition()) > 1 && timeoutTimer.seconds() < timeout && opMode.opModeIsActive()) {
+        while (Math.abs(pos - pivot.getCurrentPosition()) > 10 && timeoutTimer.seconds() < timeout && opMode.opModeIsActive()) {
             prevRunTime = time.seconds();
 
             error = pos - pivot.getCurrentPosition();
@@ -164,7 +164,7 @@ public class ShooterHardware {
             lastError = error;
 
             opMode.idle();
-            if (Math.abs(pos - pivot.getCurrentPosition()) < 2)
+            if (Math.abs(pos - pivot.getCurrentPosition()) < 10)
             {
                 break;
             }

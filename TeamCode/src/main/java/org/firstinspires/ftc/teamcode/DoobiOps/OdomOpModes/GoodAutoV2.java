@@ -6,21 +6,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.BackupVision;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.Bezier;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.JankOdomDriveTrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
-import org.firstinspires.ftc.teamcode.DoobiLibraries.jankOdom;
-import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
-import java.util.ArrayList;
-
-@Autonomous(group = "Auto", name = "Good Auto")
-public class GoodAuto extends LinearOpMode {
+@Autonomous(group = "Auto", name = "Good Auto 2")
+public class GoodAutoV2 extends LinearOpMode {
 
     OdomDriveTrain odt;
     Wobble wobble;
@@ -114,19 +105,19 @@ public class GoodAuto extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = backupVision.senseBlue(this);
+        int pos = 0;
         while (opModeIsActive()) {
 
             if (pos == 0) {
                 odt.encoderMove(.5, 62, 5);
                 //odt.encoderMove(.5, 55, 4);
-                odt.turnPID(35, false, .6 / 35, .03, .02 / 35, 1);
+                odt.turnPID(45, false, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(.4, 17, 4);
-                odt.turnPID(35, true, .6 / 35, .03, .02 / 35, 1);
+                odt.turnPID(45, true, .7 / 45, .03, .02 / 45, 1);
                 odt.encoderMove(-.4, 8, 4);
                 odt.gyroTurnStraight(500);
                 odt.turnPID(90, false, .5 / 90, .02, .02 / 90, 2);
-                odt.encoderMove(-.4, 11, 4);
+                odt.encoderMove(-.4, 13, 4);
                 odt.gyroTurnNinety(500);
                 odt.turnPID(88, false, .5 / 90, .01, .02 / 90, 2);
                 odt.gyroTurn180(1000);

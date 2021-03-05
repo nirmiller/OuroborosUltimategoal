@@ -169,9 +169,9 @@ public class BackupVision {
             opMode.telemetry.update();
             opMode.sleep(1000);
 //calculates based on pixel size
-            if (stonexAvg < 900 && stonexAvg > 250) {
+            if (stonexAvg < 2000 && stonexAvg > 500) {
                 pos = 1;
-            } else if (stonexAvg > 900) {
+            } else if (stonexAvg > 2000) {
                 pos = 4;
             } else {
                 pos = 0;
