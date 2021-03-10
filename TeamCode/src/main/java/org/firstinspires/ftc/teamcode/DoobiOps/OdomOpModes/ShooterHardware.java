@@ -65,6 +65,7 @@ public class ShooterHardware {
         }
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivot.setPower(0);
+
         lift.setPower(-.2);
         lift.setPower(0);
 
