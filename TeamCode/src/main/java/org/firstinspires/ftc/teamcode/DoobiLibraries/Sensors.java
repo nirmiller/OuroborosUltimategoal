@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.DoobiLibraries;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -15,6 +16,7 @@ public class Sensors {
 
     // initalizing gyro
     public BNO055IMU gyro;
+    public TouchSensor button;
     private Orientation angles;
     Acceleration gravity;
     private BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -33,6 +35,7 @@ public class Sensors {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         gyro = this.opMode.hardwareMap.get(BNO055IMU.class, "imu");
+        button = this.opMode.hardwareMap.touchSensor.get("button");
 
         gyro.initialize(parameters);
         angles = gyro.getAngularOrientation();

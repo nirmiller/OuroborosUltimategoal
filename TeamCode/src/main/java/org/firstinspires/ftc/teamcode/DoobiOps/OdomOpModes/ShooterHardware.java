@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
 
 import static android.os.SystemClock.sleep;
@@ -32,6 +33,7 @@ public class ShooterHardware {
     DcMotor pivot;
     DcMotor lift;
     Servo mag;
+    Sensors sensors;
 
     private double currentAngle;
 
@@ -40,6 +42,7 @@ public class ShooterHardware {
     public ShooterHardware(LinearOpMode opMode)
     {
         this.opMode = opMode;
+        sensors = new Sensors(opMode);
 
         shooter = opMode.hardwareMap.dcMotor.get("shooter");
         pivot = opMode.hardwareMap.dcMotor.get("pivot");
@@ -54,6 +57,12 @@ public class ShooterHardware {
 
         shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        setPivotAngle();
+        while (!sensors.button.isPressed() && opMode.opModeIsActive())
+        {
+            pivot.setPower(-.2);
+        }
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
