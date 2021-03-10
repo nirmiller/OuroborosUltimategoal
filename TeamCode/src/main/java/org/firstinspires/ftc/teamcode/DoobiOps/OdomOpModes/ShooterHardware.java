@@ -59,9 +59,10 @@ public class ShooterHardware {
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         setPivotAngle();
-
-        initPivot();
-
+        while (!sensors.button.isPressed() && opMode.opModeIsActive())
+        {
+            pivot.setPower(-.2);
+        }
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
