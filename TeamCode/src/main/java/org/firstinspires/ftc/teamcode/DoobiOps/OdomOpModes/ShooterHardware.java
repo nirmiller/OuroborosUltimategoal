@@ -57,40 +57,22 @@ public class ShooterHardware {
 
         shooter.setDirection(DcMotor.Direction.REVERSE);
         shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
+        setLift();
         setPivotAngle();
         while (!sensors.button.isPressed() && opMode.opModeIsActive())
         {
             pivot.setPower(-.2);
         }
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pivot.setPower(0);
 
+        lift.setPower(-.2);
+        lift.setPower(0);
+
+        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftReady = false;
     }
 
-
-    public void initPivot(){
-        ElapsedTime time = new ElapsedTime();
-        time.reset();
-
-        lift.setPower(.4);
-        pivot.setPower(.2);
-        while(time.milliseconds() < 200){}
-
-        while (opMode.opModeIsActive() && !sensors.button.isPressed())
-        {
-
-            pivot.setPower(-.2);
-        }
-        lift.setPower(-.3);
-        pivot.setPower(0);
-        time.reset();
-        while(time.milliseconds() < 300){
-
-        }
-        lift.setPower(0);
-    }
 
     public void setPivotAngle()
     {
