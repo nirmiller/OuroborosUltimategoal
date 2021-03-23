@@ -151,7 +151,7 @@ public class BackupVision {
                     opMode.telemetry.update();*/
 
                     // only add y-coordinates of yellow pixels to list
-                    if (redPixel > 150 && greenPixel > 100 && bluePixel < 90) {
+                    if (redPixel > 100 && greenPixel > 60 && bluePixel < 50) {
                         stonexAvg++;
                     }
 

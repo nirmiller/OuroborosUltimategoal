@@ -114,7 +114,7 @@ public class GoodAuto extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = backupVision.senseBlue(this);
+        int pos = 0;
         while (opModeIsActive()) {
 
             if (pos == 0) {

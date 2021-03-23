@@ -10,27 +10,58 @@ public class Wobble {
     int wobbleDownPos = 0;
     int hookDownPos = 0;
     int hookUpPos = 1;
+    LinearOpMode opMode;
 
-    public Wobble(LinearOpMode opMode){
+    public Wobble(LinearOpMode opMode) {
         wobble = opMode.hardwareMap.servo.get("wobble");
         hook = opMode.hardwareMap.servo.get("whook");
-
+        this.opMode = opMode;
         wobble.setDirection(Servo.Direction.FORWARD);
 
+        wobbleUp();
+        hookOpen();
+
+
     }
 
 
+    public void wobbleUp() {
+        hook.setPosition(1);
+    }
 
-    public void wobbleUp(){
+    public void wobbleDown() {
+        hook.setPosition(0);
+    }
+
+    public void hookClose() {
         wobble.setPosition(0);
     }
-    public void wobbleDown(){
+
+    public void hookOpen() {
         wobble.setPosition(1);
     }
-    public void hookDown(){
-        wobble.setPosition(hookDownPos);
+
+    public void getWobble() {
+        while (opMode.opModeIsActive()) {
+            /*wobbleDown();
+            opMode.sleep(800);
+            hookOpen();
+            opMode.sleep(300);*/
+            hookClose();
+            opMode.sleep(300);
+            wobbleUp();
+            break;
+        }
     }
-    public void hookUp(){
-        wobble.setPosition(wobbleUpPos);
+    public void releaseWobble() {
+        while (opMode.opModeIsActive()) {
+            wobbleDown();
+            opMode.sleep(800);
+            hookOpen();
+            break;
+        }
     }
 }
+
+
+

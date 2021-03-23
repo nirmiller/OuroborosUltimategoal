@@ -377,6 +377,10 @@ public class OdomDriveTrain {
 
         while (Math.abs(getEncoderAverage() - initEncoder) < distance && time.seconds() < runtimeS && opMode.opModeIsActive()) {
             setMotorsPower(power);
+            if (!opMode.opModeIsActive())
+            {
+                choop();
+            }
 
             opMode.telemetry.addData("Encoder distance left", (distance - getEncoderAverage()));
             opMode.telemetry.update();
@@ -385,7 +389,7 @@ public class OdomDriveTrain {
         choop();
     }
 
-    public void gyroStrafe(double power, double distance, boolean left, double timeout)
+    public void gyroStrafe(double power, double distance, boolean left, double timeoutMS)
     {
         distance = distance * COUNTS_PER_INCH;
         ElapsedTime time = new ElapsedTime();
@@ -409,7 +413,7 @@ public class OdomDriveTrain {
         resetEncoders();
         opMode.telemetry.addData("Math.abs(average)", Math.abs(getStrafeEncoderAverage(pos)));
         opMode.telemetry.update();
-        while(opMode.opModeIsActive() && ((distance) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeout)
+        while(opMode.opModeIsActive() && ((distance) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeoutMS)
         {
             opMode.telemetry.addLine("entered");
 
@@ -496,6 +500,28 @@ public class OdomDriveTrain {
 
         choop();
     }
+    public void gyroTurnNinetyFast(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 90;
+
+        do  {
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
+                turn(.7, false);
+            }
+            else {
+                turn(.7, true);
+            }
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
     public void gyroTurn180(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
@@ -514,10 +540,10 @@ public class OdomDriveTrain {
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
-                turn(.21, false);
+                turn(.2, false);
             }
             else {
-                turn(.21, true);
+                turn(.2, true);
             }
 
 

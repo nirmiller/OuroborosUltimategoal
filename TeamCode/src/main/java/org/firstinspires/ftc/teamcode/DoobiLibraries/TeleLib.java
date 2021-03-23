@@ -3,7 +3,9 @@ package org.firstinspires.ftc.teamcode.DoobiLibraries;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdometryGlobalCoordinatePosition;
@@ -79,6 +81,8 @@ public abstract class TeleLib extends OpMode {
     boolean pivot_top;
     boolean pivot_bottom;
     Sensors sensors;
+    public TouchSensor button;
+    DigitalChannel digitalTouch;
 
     @Override
     public void init() {
@@ -101,6 +105,11 @@ public abstract class TeleLib extends OpMode {
         whook = hardwareMap.servo.get("whook");
         wobble = hardwareMap.servo.get("wobble");
         mag = hardwareMap.servo.get("mag");
+        digitalTouch = hardwareMap.get(DigitalChannel.class, "button");
+
+        // set the digital channel to input.
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+
 
         wobble.setDirection(Servo.Direction.FORWARD);
 
@@ -160,6 +169,7 @@ public abstract class TeleLib extends OpMode {
 
         halfToggle = false;
         half = 1;
+
     }
 
 
@@ -401,23 +411,23 @@ public abstract class TeleLib extends OpMode {
 
     public void wobbleGoal() {
 
-        if (gamepad2.b && whook.getPosition() == 0) {
+        if (gamepad2.a && whook.getPosition() == 0) {
 
 
             th_whook.queue(whook_open);
 
 
-        } else if (gamepad2.b && whook.getPosition() != 0) {
+        } else if (gamepad2.a && whook.getPosition() != 0) {
 
             th_whook.queue(whook_close);
 
         }
 
-        if (gamepad2.a && wobble.getPosition() == 0) {
+        if (gamepad2.b && wobble.getPosition() == 0) {
 
             th_wobble.queue(wobble_up);
 
-        } else if (gamepad2.a && wobble.getPosition() != 0) {
+        } else if (gamepad2.b && wobble.getPosition() != 0) {
 
             th_wobble.queue(wobble_down);
         }
@@ -443,9 +453,9 @@ public abstract class TeleLib extends OpMode {
         } else if (gamepad2.dpad_down && lift_top && pivotPos > -10) {
             pivot.setPower(-.5);
         } else {
-            pivot.setPower(0);
+            pivot.setPower(.05);
         }
-
+        telemetry.addData("shooter button thing", digitalTouch.getState());
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
 

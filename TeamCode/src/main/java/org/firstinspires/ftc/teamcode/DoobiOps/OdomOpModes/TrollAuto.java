@@ -7,25 +7,34 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Bezier;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
+import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 
 import java.util.ArrayList;
+//@Disabled
 @Autonomous(group = "Auto", name = "Troll Auto")
 public class TrollAuto extends LinearOpMode {
     OdomDriveTrain odt;
     Wobble wobble;
+    ShooterHardware sh;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        odt = new OdomDriveTrain(this);
-        wobble = new Wobble(this);
+        //odt = new OdomDriveTrain(this);
+        //wobble = new Wobble(this);
+        sh = new ShooterHardware(this);
         waitForStart();
 
+        while (opModeIsActive())
+        {
+            telemetry.addData("pivot pos", sh.pivot.getCurrentPosition());
+            telemetry.update();
+        }
         //odt.encoderMove(.7, 24,  4);
         //odt.turnPID(179, false, .5 / 180, .02, .02 / 180, 2);
 
-        odt.holoStrafe(1, 24, true, 5000);
+        //odt.gyroStrafe(.7, 24, false, 3000);
         //odt.timestrafeMove(3000, .5, 1);
 
 

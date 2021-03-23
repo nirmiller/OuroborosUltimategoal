@@ -16,7 +16,7 @@ public class Sensors {
 
     // initalizing gyro
     public BNO055IMU gyro;
-    public TouchSensor button;
+   // public TouchSensor button;
     private Orientation angles;
     Acceleration gravity;
     private BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -35,7 +35,7 @@ public class Sensors {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         gyro = this.opMode.hardwareMap.get(BNO055IMU.class, "imu");
-        button = this.opMode.hardwareMap.touchSensor.get("button");
+       // button = this.opMode.hardwareMap.get(TouchSensor.class, "button");
 
         gyro.initialize(parameters);
         angles = gyro.getAngularOrientation();
