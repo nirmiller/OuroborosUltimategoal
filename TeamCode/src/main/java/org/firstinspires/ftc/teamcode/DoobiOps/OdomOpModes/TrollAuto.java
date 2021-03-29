@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Bezier;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
+import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Shooter;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 
@@ -17,18 +18,22 @@ public class TrollAuto extends LinearOpMode {
     OdomDriveTrain odt;
     Wobble wobble;
     ShooterHardware sh;
+    Sensors sensors;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         //odt = new OdomDriveTrain(this);
         //wobble = new Wobble(this);
+
         sh = new ShooterHardware(this);
+        sensors = new Sensors(this);
         waitForStart();
 
         while (opModeIsActive())
         {
             telemetry.addData("pivot pos", sh.pivot.getCurrentPosition());
+            telemetry.addData("Angle :", sensors.getGyroYaw());
             telemetry.update();
         }
         //odt.encoderMove(.7, 24,  4);

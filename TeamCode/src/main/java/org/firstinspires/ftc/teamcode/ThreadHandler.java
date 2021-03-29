@@ -4,18 +4,17 @@ public class ThreadHandler {
     Thread thread;
 
 
-    public ThreadHandler(){
+    public ThreadHandler() {
 
         thread = null;
     }
 
-    public void queue(Thread new_thread){
+    public void queue(Thread new_thread) {
 
-        if(thread == null){
+        if (thread == null) {
             thread = new_thread;
-        }else{
-            if(live())
-            {
+        } else {
+            if (live()) {
                 return;
             }
             thread = new_thread;
@@ -24,21 +23,20 @@ public class ThreadHandler {
         thread.start();
     }
 
-    public void th_kill(){
 
-        if(thread != null){
-            if(live()){
-                thread.interrupt();
-            }
-        }
 
-    }
-
-    public boolean live(){
-        if(thread != null){
+    public boolean live() {
+        if (thread != null) {
             return thread.isAlive();
         }
         return false;
     }
 
+    public void th_kill() {
+        if (thread != null) {
+            if (live()) {
+                thread.interrupt();
+            }
+        }
+    }
 }

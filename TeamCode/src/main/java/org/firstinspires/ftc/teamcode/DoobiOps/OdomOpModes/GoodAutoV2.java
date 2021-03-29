@@ -96,8 +96,8 @@ public class GoodAutoV2 extends LinearOpMode {
                 while (!sh.liftReady && time.milliseconds() < 1500) {
                 }
                 //
-                sh.pivotPID(650, true, .07/600, .01, .01/600, 2);
-                sh.pivotPID(640, false, .07/600, .01, .01/600, 2);
+                sh.pivotPID(650, true, .07/650, .01, .01/650, 2);
+                sh.pivotPID(640, false, .07/640, .01, .01/640, 2);
 
 
 

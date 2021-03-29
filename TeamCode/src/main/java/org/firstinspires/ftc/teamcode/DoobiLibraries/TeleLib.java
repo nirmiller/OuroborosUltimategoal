@@ -87,9 +87,8 @@ public abstract class TeleLib extends OpMode {
     @Override
     public void init() {
         //Drive base
-
+        sensors = new Sensors(this);
         //Init complete
-
         br = hardwareMap.dcMotor.get("br");
         bl = hardwareMap.dcMotor.get("bl");
         fr = hardwareMap.dcMotor.get("fr");
@@ -281,6 +280,7 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("bl encoder", bl.getCurrentPosition());
         telemetry.addData("br encoder", br.getCurrentPosition());
         telemetry.addData("halfspeed Thread", th_arcade.live());
+        telemetry.addData("Angle", sensors.getGyroYaw());
 
 
     }

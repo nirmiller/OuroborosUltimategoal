@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.DoobiLibraries;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -12,7 +13,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Sensors {
 
-    private LinearOpMode opMode;
+    private LinearOpMode LopMode;
+    private  OpMode opMode;
 
     // initalizing gyro
     public BNO055IMU gyro;
@@ -24,7 +26,28 @@ public class Sensors {
     double startGyro;
     // constructor for initializing Sensors class
 
-    public Sensors(LinearOpMode opMode) {
+    public Sensors(LinearOpMode LopMode) {
+        this.LopMode = LopMode;
+
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        gyro = this.LopMode.hardwareMap.get(BNO055IMU.class, "imu");
+       // button = this.opMode.hardwareMap.get(TouchSensor.class, "button");
+
+        gyro.initialize(parameters);
+        angles = gyro.getAngularOrientation();
+        LopMode.telemetry.addLine("gyro calibrated");
+        LopMode.telemetry.update();
+
+        //uSonic = opMode.hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "Ultrasonic");
+    }
+
+    public Sensors(OpMode opMode) {
         this.opMode = opMode;
 
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -35,7 +58,7 @@ public class Sensors {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         gyro = this.opMode.hardwareMap.get(BNO055IMU.class, "imu");
-       // button = this.opMode.hardwareMap.get(TouchSensor.class, "button");
+        // button = this.opMode.hardwareMap.get(TouchSensor.class, "button");
 
         gyro.initialize(parameters);
         angles = gyro.getAngularOrientation();
@@ -44,7 +67,6 @@ public class Sensors {
 
         //uSonic = opMode.hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "Ultrasonic");
     }
-
     // Note: Due to positioning of REV Hub, yaw is the 1st Angle, roll 3rd Angle, and pitch 2nd Angle.
 
     public void updateGyroValues() {

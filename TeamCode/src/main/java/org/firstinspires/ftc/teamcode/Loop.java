@@ -6,47 +6,43 @@ public class Loop {
 
     ArrayList<Thread> threads;
 
-    public Loop(){
+    public Loop() {
 
         threads = new ArrayList<>();
 
     }
-
-    public void add(Thread thread){
+    public void add(Thread thread) {
         threads.add(thread);
     }
 
-    public void add(ArrayList<Thread> threads2){
-        for(Thread t : threads2){
+    public void add(ArrayList<Thread> threads2) {
+        for (Thread t : threads2) {
             threads.add(t);
         }
     }
-
     public void run() throws InterruptedException {
 
-        if(threads.size() < 1){
+        if (threads.size() < 1) {
             return;
         }
 
-        for(Thread t : threads){
+        for (Thread t : threads) {
             t.start();
         }
-        for(Thread t : threads){
+        for (Thread t : threads) {
             t.join();
         }
         //end();
-
     }
-    public void clear(){
+    public void clear() {
         threads.clear();
     }
-    public void end(){
-        if(threads.size() < 1){
+    public void end() {
+        if (threads.size() < 1) {
             return;
         }
-        for(Thread t : threads){
+        for (Thread t : threads) {
             t.interrupt();
         }
     }
-
 }
