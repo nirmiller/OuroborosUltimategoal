@@ -48,7 +48,7 @@ public class GoodAutoV2 extends LinearOpMode {
                 }
                 //sh.ignite();
                 //sleep(500);
-                sh.pivotPID(770, true, .9/600, .007, .01/600, 1.5);
+                sh.pivotPID(700, true, .9/600, .007, .01/600, 1.5);
                 sh.pivot.setPower(.05);
                 //sh.setPivotAngle();
                 //odt.turnPID(80, false, .5 / 80, .02, .02 / 80, 2);
@@ -57,14 +57,14 @@ public class GoodAutoV2 extends LinearOpMode {
                 //sleep(300);
                 sh.hitRing();
                 sleep(300);
-                odt.turnPID(5, true, .28 / 7, 0, 0, .4);
+                odt.turnPID(6, true, .28 / 7, 0, 0, .4);
                 //odt.gyroStrafe(.4, 3, false, 2);
                 sh.setPivotAngle2();
                 sh.pivot.setPower(.05);
                 //sleep(300);
                 sh.hitRing();
                 sleep(300);
-                odt.turnPID(5, true, .28 / 7, 0, 0, .3);
+                odt.turnPID(6, true, .28 / 7, 0, 0, .3);
                 //odt.gyroStrafe(.4, 3, false, 2);
                 sh.setPivotAngle3();
                 //sleep(300);
@@ -111,7 +111,7 @@ public class GoodAutoV2 extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = 1;
+        int pos = backupVision.senseBlue(this);
         while (opModeIsActive()) {
 
             if (pos == 0) {
@@ -131,17 +131,18 @@ public class GoodAutoV2 extends LinearOpMode {
                 loop.run();
                 loop.end();
                 odt.gyroTurn180(1000);
-                odt.encoderMove(.7, 19, 3);
+                odt.encoderMove(.7, 13, 3);
 
 
                 //odt.encoderMove(.7, 30, 3);
-                odt.gyroStrafe(.5, 6, false, 3000);
+                odt.gyroStrafe(.5, 7, false, 3000);
                 odt.gyroTurn180(1000);
-                odt.encoderMove(.4, 12, 3);
+                odt.encoderMove(.4, 5, 3);
                 wobble.releaseWobble();
 
                 odt.turnPID(7, false, .28 / 7, 0, 0, .4);
                 wobble.getWobble();
+
                 odt.turnPID(7, true, .28 / 7, 0, 0, .4);
 
                 //sleep(5000);
@@ -149,7 +150,7 @@ public class GoodAutoV2 extends LinearOpMode {
                 //odt.turnPID(90, true, .5 / 90, .02, .02/90, 1.2);
                 odt.gyroTurnNinetyFast(500);
                 odt.gyroTurnNinety(1000);
-                odt.encoderMove(.4, 13, 3);
+                odt.encoderMove(.4, 10, 3);
                 wobble.releaseWobble();
                 odt.encoderMove(-.4, 5, 3);
 
@@ -189,7 +190,7 @@ public class GoodAutoV2 extends LinearOpMode {
 
 
                 //odt.encoderMove(.7, 30, 3);
-                odt.encoderMove(.7, 27, 3);
+                odt.encoderMove(.7, 25.5, 3);
                 odt.encoderMove(.4, 5, 3);
 
                 wobble.releaseWobble();
@@ -197,7 +198,7 @@ public class GoodAutoV2 extends LinearOpMode {
                 wobble.getWobble();
                 odt.turnPID(10, true, .28 / 7, 0, 0, .4);
                 odt.encoderMove(-.6, 15, 3);
-                odt.turnPID(110, true, .7 / 90, .02, .02/90, 1.2);
+                odt.turnPID(105, true, .7 / 90, .02, .02/90, 1.2);
                 //odt.turnPID(43, true, .5 / 50, .02, .02/50, 1.2);
                 odt.encoderMove(.7, 51, 4);
                 wobble.releaseWobble();
@@ -234,8 +235,10 @@ public class GoodAutoV2 extends LinearOpMode {
 
                 loop.run();
                 loop.end();
+                odt.encoderMove(-.5, 12, 3);
 
-                odt.gyroTurn180(1000);
+
+              /*  odt.gyroTurn180(1000);
                 //odt.encoderMove(.7, 10, 3);
                 //odt.gyroTurnNinetyFast(500);
                 odt.gyroTurnStraight(100);
@@ -263,7 +266,7 @@ public class GoodAutoV2 extends LinearOpMode {
                 odt.encoderMove(.8, 70, 5);
                 wobble.releaseWobble();
                 odt.encoderMove(-.4, 20, 3);
-                //loop.run();
+                //loop.run();*/
 
                 break;
             }

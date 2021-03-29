@@ -74,7 +74,7 @@ public class ShooterHardware {
 
     public void setPivotAngle()
     {
-        double encoder = 650;
+        double encoder = 600;
         while (pivot.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             pivot.setPower(1);
@@ -85,10 +85,10 @@ public class ShooterHardware {
 
     }public void setPivotAngle2()
     {
-        double encoder = pivot.getCurrentPosition() - 10;
+        double encoder = pivot.getCurrentPosition() - 30;
         while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
         {
-            pivot.setPower(-.05);
+            pivot.setPower(-.1);
         }
         pivot.setPower(0);
         //opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
@@ -97,10 +97,10 @@ public class ShooterHardware {
     }
     public void setPivotAngle3()
     {
-        double encoder = pivot.getCurrentPosition() - 10;
+        double encoder = pivot.getCurrentPosition() - 20;
         while (pivot.getCurrentPosition() > encoder && opMode.opModeIsActive())
         {
-            pivot.setPower(-.05);
+            pivot.setPower(-.1);
         }
         pivot.setPower(0);
         //opMode.telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
@@ -190,15 +190,15 @@ public class ShooterHardware {
     public void setLift()
     {
         //TODO: encoder pos now 300 so make sure to start the auto at the highest pos the lift can be without falling
-        double encoder = 250;
+        double encoder = 300;
         while (lift.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
-            if (lift.getCurrentPosition() < (encoder * .75)) {
-                lift.setPower(.6);
+            if (lift.getCurrentPosition() < (encoder)) {
+                lift.setPower(.7);
             }
             else
             {
-                lift.setPower(.4);
+                lift.setPower(.5);
             }
             //opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
             opMode.telemetry.update();

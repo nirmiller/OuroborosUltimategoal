@@ -167,11 +167,11 @@ public class BackupVision {
             // get average x-coordinate value of all yellow pixels
             opMode.telemetry.addData("AVG X = ", stonexAvg);
             opMode.telemetry.update();
-            opMode.sleep(1000);
+            //opMode.sleep(1000);
 //calculates based on pixel size
             if (stonexAvg < 2000 && stonexAvg > 500) {
                 pos = 1;
-            } else if (stonexAvg > 2000) {
+            } else if (stonexAvg > 3000) {
                 pos = 4;
             } else {
                 pos = 0;

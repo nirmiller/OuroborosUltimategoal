@@ -351,9 +351,9 @@ public abstract class TeleLib extends OpMode {
         double right_trigger = gamepad2.right_trigger;
         double left_trigger = gamepad2.left_trigger;
         if (right_trigger > .5) {
-            intake.setPower(-right_trigger);
+            intake.setPower(-right_trigger * .75);
         } else if (left_trigger > .5) {
-            intake.setPower(left_trigger);
+            intake.setPower(left_trigger * .75);
         } else {
             intake.setPower(0);
         }
@@ -452,6 +452,10 @@ public abstract class TeleLib extends OpMode {
 
         } else if (gamepad2.dpad_down && lift_top && pivotPos > -10) {
             pivot.setPower(-.5);
+        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1700) {
+            pivot.setPower(.25);
+        } else if (gamepad2.dpad_left && lift_top && pivotPos > -10) {
+            pivot.setPower(-.25);
         } else {
             pivot.setPower(.05);
         }
@@ -466,15 +470,15 @@ public abstract class TeleLib extends OpMode {
     Thread lift_up = new Thread(new Runnable() {
         @Override
         public void run() {
-            lift.setPower(.5);
+            lift.setPower(.6);
             ElapsedTime time = new ElapsedTime();
 
             time.reset();
-            while(lift.getCurrentPosition() < 200 && time.milliseconds() < 500){
+            while(lift.getCurrentPosition() < 300 && time.milliseconds() < 500){
 
             }
             //sleep(700);
-            lift.setPower(.25);
+            lift.setPower(.4);
             lift_top = true;
             lift_bottom = false;
             sleep(300);
