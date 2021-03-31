@@ -79,8 +79,8 @@ public class Holonomic {
         double[] motorPower = new double[4];
 
         motorPower[0] = Math.cos(difAng) + Math.sin(difAng) - .5*Math.sin(rot);
-        motorPower[1] = Math.cos(difAng) - Math.sin(difAng) + .5*Math.sin(rot);;
-        motorPower[2] = Math.cos(difAng) - Math.sin(difAng) - .5*Math.sin(rot);;
+        motorPower[1] = Math.cos(difAng) - Math.sin(difAng) + .5*Math.sin(rot);
+        motorPower[2] = Math.cos(difAng) - Math.sin(difAng) - .5*Math.sin(rot);
         motorPower[3] = Math.cos(difAng) + Math.sin(difAng) + .5*Math.sin(rot);
 
         normalize(motorPower);
@@ -93,13 +93,13 @@ public class Holonomic {
         double[] motorPower = new double[4];
         face = Math.toRadians(face);
 
-        double x_comp = Y*Math.cos(face) + X*Math.sin(face);
-        double y_comp = Y*Math.sin(face) - X*Math.cos(face);
+        double x_comp = Y*Math.sin(face) + X*Math.cos(face);
+        double y_comp = Y*Math.cos(face) - X*Math.sin(face);
         double rot_comp = rotationPower;
-        motorPower[0] = x_comp + y_comp - rot_comp;
-        motorPower[1] = x_comp - y_comp + rot_comp;
-        motorPower[2] = x_comp - y_comp - rot_comp;
-        motorPower[3] = x_comp + y_comp + rot_comp;
+        motorPower[0] = y_comp + x_comp + rot_comp;
+        motorPower[1] = y_comp - x_comp - rot_comp;
+        motorPower[2] = y_comp - x_comp + rot_comp;
+        motorPower[3] = y_comp + x_comp - rot_comp;
 
         return motorPower;
     }

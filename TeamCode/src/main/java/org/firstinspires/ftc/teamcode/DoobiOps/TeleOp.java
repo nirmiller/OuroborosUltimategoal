@@ -15,7 +15,8 @@ public class TeleOp extends TeleLib {
 
     @Override
     public void loop() {
-        arcadedrive();
+        //arcadedrive();
+        holonomicdrive();
         shooter();
         intake();
         magazine();

@@ -265,9 +265,9 @@ public abstract class TeleLib extends OpMode {
                 Math.abs(right_stick_x) > 0.05) {
 
             fl.setPower(left_stick_y + left_stick_x + right_stick_x);
-            fr.setPower(left_stick_y + left_stick_x - right_stick_x);
+            fr.setPower(left_stick_y - left_stick_x - right_stick_x);
             bl.setPower(left_stick_y - left_stick_x + right_stick_x);
-            br.setPower(left_stick_y - left_stick_x - right_stick_x);
+            br.setPower(left_stick_y + left_stick_x - right_stick_x);
 
         } else {
             fl.setPower(0);
@@ -286,9 +286,10 @@ public abstract class TeleLib extends OpMode {
     }
 
     public void holonomicdrive() {
-        left_stick_y = -gamepad1.left_stick_y;
+        left_stick_y = gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
+        theta = sensors.getGyroYawwww();
         //theta = -ogcp.returnOrientation();
 
 
@@ -313,18 +314,10 @@ public abstract class TeleLib extends OpMode {
             br.setPower(0);
         }
 
-        //   telemetry.addData("Angle : ", theta);
+        telemetry.addData("Angle : ", theta);
         //  telemetry.addData("X Position : ", ogcp.returnXCoordinate());
         //   telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
-
-        if (gamepad2.left_bumper) {
-
-            intakemain.setPosition(position - .1);
-            position = intakemain.getPosition();
-
-
-        }
 
 
     }
@@ -351,9 +344,9 @@ public abstract class TeleLib extends OpMode {
         double right_trigger = gamepad2.right_trigger;
         double left_trigger = gamepad2.left_trigger;
         if (right_trigger > .5) {
-            intake.setPower(-right_trigger * .75);
+            intake.setPower(-right_trigger);
         } else if (left_trigger > .5) {
-            intake.setPower(left_trigger * .75);
+            intake.setPower(left_trigger);
         } else {
             intake.setPower(0);
         }

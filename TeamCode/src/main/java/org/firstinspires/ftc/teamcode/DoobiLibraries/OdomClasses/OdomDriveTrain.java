@@ -208,18 +208,19 @@ public class OdomDriveTrain {
 
         double prevRunTime;
 
-        double initAngle = sensors.getGyroYaw();
-        if (initAngle <= -180 && initAngle >= -175)
+        double initAngle = sensors.getGyroYaw2();
+        if (angleChange == 180)
         {
-            initAngle = 180;
+            initAngle = sensors.getGyroYaw();
         }
         double lastError = angleChange - Math.abs(sensors.getGyroYaw() - initAngle);
 
         time.reset();
         timeoutTimer.reset();
 
-        while (Math.abs(sensors.getGyroYaw() - (angleChange + initAngle)) > 1 && timeoutTimer.seconds() < timeout && opMode.opModeIsActive()) {
+        while (Math.abs(sensors.getGyroYaw() - (angleChange + initAngle)) > .1 && timeoutTimer.seconds() < timeout && opMode.opModeIsActive()) {
             prevRunTime = time.seconds();
+
 
             error = angleChange - Math.abs(sensors.getGyroYaw() - initAngle);
 
@@ -249,12 +250,13 @@ public class OdomDriveTrain {
             opMode.telemetry.update();
 
             lastError = error;
+           /* if (sensors.getGyroYaw2() < 360 && sensors.getGyroYaw() > 180)
+            {
+                initAngle = 360;
+            }*/
 
             opMode.idle();
-            if (Math.abs(sensors.getGyroYaw() - (angleChange + initAngle)) < 1)
-            {
-                break;
-            }
+
 
         }
         opMode.telemetry.addLine("exited");
@@ -356,7 +358,7 @@ public class OdomDriveTrain {
     public void setStrafePower(double power)
     {
         right_front.setPower(-power);
-        right_back.setPower(power);
+        right_back.setPower(-power);
         left_front.setPower(-power);
         left_back.setPower(power);
     }
@@ -374,8 +376,17 @@ public class OdomDriveTrain {
         time.reset();
 
         distance = distance * COUNTS_PER_INCH;
-
-        while (Math.abs(getEncoderAverage() - initEncoder) < distance && time.seconds() < runtimeS && opMode.opModeIsActive()) {
+        double finalPower = power;
+        power = .2;
+        double d = 0;
+        while (d < distance && time.seconds() < runtimeS && opMode.opModeIsActive()) {
+            d = Math.abs(getEncoderAverage() - initEncoder);
+            if (d <= distance/1.25)
+            {
+                power+= .05;
+            }else if(d > distance/1.25){
+                power += -.025;
+            }
             setMotorsPower(power);
             if (!opMode.opModeIsActive())
             {
@@ -584,8 +595,53 @@ public class OdomDriveTrain {
         choop();
     }
 
+    public void holoForward(double power, double distance, double timeoutMS){
+        distance = distance * COUNTS_PER_INCH;
+        ElapsedTime time = new ElapsedTime();
+        resetEncoders();
 
-    public void holoStrafe(double power, double distance, boolean left, double timeout) {
+        double[] motor_power = new double[4];
+
+
+        double initial_angle = sensors.getGyroYawwwwwwwwwwwwwwwwwww();
+        double average = 0;
+        double angle_heading = 0;
+        double angle_face = 0;
+        resetEncoders();
+        double d = 0;
+        power = .25;
+        while(opMode.opModeIsActive() &&  (distance) - Math.abs(getEncoderAverage()) > 0 && time.milliseconds() < timeoutMS)
+        {
+            average = getEncoderAverage();
+            angle_face = initial_angle - sensors.getGyroYawwwwwwwwwwwwwwwwwww();
+
+
+            d = Math.abs(getEncoderAverage());
+            if (d <= distance/1.25)
+            {
+                power+= .25;
+            }else if(d > distance/1.25){
+                power += -.025;
+            }
+
+            motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
+            left_front.setPower(motor_power[0] * power);
+            right_front.setPower(motor_power[3] * power);
+            left_back.setPower(motor_power[2] * power);
+            right_back.setPower(motor_power[1] * power);
+            opMode.telemetry.addData("fl :", motor_power[0]);
+            opMode.telemetry.addData("fr :", motor_power[3]);
+            opMode.telemetry.addData("bl :", motor_power[2]);
+            opMode.telemetry.addData("br :", motor_power[1]);
+
+            opMode.telemetry.addData("Angle :", sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+
+            opMode.telemetry.update();
+        }
+        choop();
+    }
+
+    public void holoStrafe(double power, double distance, boolean left, double timeoutMS) {
 
         distance = distance * COUNTS_PER_INCH;
         ElapsedTime time = new ElapsedTime();
@@ -597,15 +653,11 @@ public class OdomDriveTrain {
         }
 
 
-        double pfr = -power * pos;
-        double pfl = -power * pos;
-        double pbl = power * pos;
-        double pbr = power * pos;
 
         double[] motor_power = new double[4];
 
 
-        double initial_angle = sensors.getGyroYaw();
+        double initial_angle = sensors.getGyroYawwww();
         double average = 0;
         double angle_heading = 0;
         double angle_face = 0;
@@ -614,23 +666,28 @@ public class OdomDriveTrain {
         if(left){
             angle_heading = 90;
         }else{
-            angle_heading = -90;
+            angle_heading = 270;
         }
-
-
-
-        while(opMode.opModeIsActive() && ((distance) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeout)
+        while(opMode.opModeIsActive() && ((distance) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeoutMS)
         {
 
+
+
             average = getStrafeEncoderAverage(pos);
-            angle_face = sensors.getGyroYaw() - initial_angle;
+            angle_face = initial_angle - sensors.getGyroYawwww();
+
 
             motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
-            left_front.setPower(motor_power[0]);
-            right_front.setPower(motor_power[1]);
-            left_back.setPower(motor_power[2]);
-            right_back.setPower(motor_power[3]);
+            left_front.setPower(motor_power[0] * power);
+            right_front.setPower(motor_power[3] * power);
+            left_back.setPower(motor_power[2] * power);
+            right_back.setPower(motor_power[1] * power);
+            opMode.telemetry.addData("fl :", motor_power[0]);
+            opMode.telemetry.addData("fr :", motor_power[1]);
+            opMode.telemetry.addData("bl :", motor_power[2]);
+            opMode.telemetry.addData("br :", motor_power[3]);
 
+            opMode.telemetry.addData("Angle :", sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
             opMode.telemetry.update();
         }
