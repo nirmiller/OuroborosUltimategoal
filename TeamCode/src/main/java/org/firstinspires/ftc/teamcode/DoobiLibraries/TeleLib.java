@@ -448,7 +448,7 @@ public abstract class TeleLib extends OpMode {
         } else if (gamepad2.dpad_right && lift_top && pivotPos < 1700) {
             pivot.setPower(.25);
         } else if (gamepad2.dpad_left && lift_top && pivotPos > -10) {
-            pivot.setPower(-.25);
+            pivot.setPower(-.1);
         } else {
             pivot.setPower(.05);
         }
