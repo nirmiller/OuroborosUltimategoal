@@ -29,6 +29,7 @@ public abstract class TeleLib extends OpMode {
     double theta;
 
     boolean arcade = false;
+    boolean shooting = false;
 
 
     private DcMotor br;
@@ -54,6 +55,7 @@ public abstract class TeleLib extends OpMode {
     ThreadHandler th_wobble;
     ThreadHandler th_lift;
     ThreadHandler th_arcade;
+    ThreadHandler th_shooter;
 
     DcMotor verticalLeft, verticalRight, horizontal;
     String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
@@ -165,6 +167,7 @@ public abstract class TeleLib extends OpMode {
         th_wobble = new ThreadHandler();
         th_lift = new ThreadHandler();
         th_arcade = new ThreadHandler();
+        th_shooter = new ThreadHandler();
 
         halfToggle = false;
         half = 1;
@@ -431,12 +434,35 @@ public abstract class TeleLib extends OpMode {
 
     }
 
+    Thread t_shooter_on = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            while(time.milliseconds() < 300){
+
+            }
+            shooter.setPower(1);
+            shooting = true;
+        }
+    });
+    Thread t_shooter_off = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            while(time.milliseconds() < 300){
+
+            }
+            shooter.setPower(0);
+            shooting = false;
+        }
+    });
+
 
     public void shooter() {
-        if (gamepad2.right_bumper) {
-            shooter.setPower(1);
-        } else {
-            shooter.setPower(0);
+        if (gamepad2.right_bumper && !shooting) {
+            th_shooter.queue(t_shooter_on);
+        } else if(gamepad2.right_bumper && shooting){
+            th_shooter.queue(t_shooter_off);
         }
 
         double pivotPos = pivot.getCurrentPosition();

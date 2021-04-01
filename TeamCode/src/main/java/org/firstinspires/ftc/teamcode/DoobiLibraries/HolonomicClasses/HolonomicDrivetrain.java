@@ -416,25 +416,40 @@ public class HolonomicDrivetrain {
         double[] motor_power = new double[4];
 
 
-        double initial_angle = sensors.getGyroYawwwwwwwwwwwwwwwwwww();
+        //double initial_angle = initial_angle_2;
         double average = 0;
         double angle_heading = 0;
         double angle_face = 0;
         resetEncoders();
         double d = 0;
         power = .25;
-        while (opMode.opModeIsActive() && (distance) - Math.abs(getEncoderAverage()) > 0 && time.milliseconds() < timeoutMS) {
+        while (opMode.opModeIsActive() && (distance) - Math.abs(getEncoderAverage()) > 0) {
             average = getEncoderAverage();
-            angle_face = initial_angle - sensors.getGyroYawwwwwwwwwwwwwwwwwww();
+            angle_face = sensors.getGyroYawwww();
 
 
             d = Math.abs(getEncoderAverage());
-            if (d <= distance / 1.25) {
+            if (d <= distance / 2) {
                 power += .25;
-            } else if (d > distance / 1.25) {
-                power += -.025;
+
+
+
+
+            } else if (d > distance / 2) {
+
+                power += -.05;
             }
 
+            if(time.milliseconds() >= 400 && time.milliseconds() < 1500){
+                ElapsedTime t = new ElapsedTime();
+                while(t.milliseconds() < 4000){
+                    choop();
+                    opMode.telemetry.addData("ANGLE", sensors.getGyroYawwww());
+                    opMode.telemetry.update();
+                }
+            }
+
+            //power = .4;
             motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
             fl.setPower(motor_power[0] * power);
             fr.setPower(motor_power[1] * power);
@@ -445,7 +460,7 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("bl :", motor_power[2]);
             opMode.telemetry.addData("br :", motor_power[3]);
 
-            opMode.telemetry.addData("Angle :", sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+            opMode.telemetry.addData("Angle :", sensors.getGyroYawwww());
 
             opMode.telemetry.update();
         }
@@ -481,7 +496,7 @@ public class HolonomicDrivetrain {
         power = .3;
         double d = 0;
         while (opMode.opModeIsActive() && ((distance) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeoutMS) {
-            angle_face = initial_angle - sensors.getGyroYawwww();
+            angle_face = sensors.getGyroYawwww();
             motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
             d = getStrafeEncoderAverage(pos);
             if(d / 3 <= distance && power < .5){
@@ -506,9 +521,9 @@ public class HolonomicDrivetrain {
             opMode.telemetry.update();
             average = getStrafeEncoderAverage(pos);
 
-            angle_face = initial_angle - sensors.getGyroYawwww();
+            angle_face = sensors.getGyroYawwww();
             motor_power_2 = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
-
+            power = .7;
             fl.setPower((motor_power[0] + motor_power_2[0]) * power);
             fr.setPower((motor_power[1] + motor_power_2[1]) * power);
             bl.setPower((motor_power[2] + motor_power_2[2]) * power);

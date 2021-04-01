@@ -20,14 +20,17 @@ import java.util.ArrayList;
 public class TrollAuto2 extends LinearOpMode {
 
     HolonomicDrivetrain hdt;
+    Sensors sensors;
     @Override
     public void runOpMode() throws InterruptedException {
 
         hdt = new HolonomicDrivetrain(this);
+        sensors = new Sensors(this);
+
         waitForStart();
 
         //odt.holoForward(1, 24, 3000);
-        hdt.holoStrafe(1, 24, true, 5000);
+        hdt.holoStrafe(.4, 20, false, 2000);
         //odt.goToPoint(24, 0, 0, 1, 5, 2);
         //hdt.end();
         hdt.end();
