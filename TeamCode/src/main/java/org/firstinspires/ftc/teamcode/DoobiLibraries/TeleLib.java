@@ -292,7 +292,7 @@ public abstract class TeleLib extends OpMode {
         left_stick_y = gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
         right_stick_x = gamepad1.right_stick_x;
-        theta = sensors.getGyroYawwww();
+        theta = -sensors.getGyroYaw();
         //theta = -ogcp.returnOrientation();
 
 
@@ -474,7 +474,7 @@ public abstract class TeleLib extends OpMode {
         } else if (gamepad2.dpad_right && lift_top && pivotPos < 1700) {
             pivot.setPower(.25);
         } else if (gamepad2.dpad_left && lift_top && pivotPos > -10) {
-            pivot.setPower(-.1);
+            pivot.setPower(-.05);
         } else {
             pivot.setPower(.05);
         }

@@ -33,7 +33,7 @@ public class TrollAuto extends LinearOpMode {
         while (opModeIsActive())
         {
             telemetry.addData("pivot pos", sh.pivot.getCurrentPosition());
-            telemetry.addData("Angle :", sensors.getGyroYaw());
+            telemetry.addData("Angle :", sensors.getGyroYawwwwwwwwwwwwwwwwwww());
             telemetry.update();
         }
         //odt.encoderMove(.7, 24,  4);

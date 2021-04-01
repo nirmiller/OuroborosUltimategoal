@@ -133,7 +133,7 @@ public class Sensors {
     }
     public double getGyroYawwwwwwwwwwwwwwwwwww() {
         updateGyroValues();
-        double angle = angles.firstAngle;
+        double angle = -angles.firstAngle;
         return angle;
     }
     public double getGyroYaw2() {

@@ -68,14 +68,6 @@ public class Holonomic {
         double difAng = Math.toRadians(face - heading);
 
 
-        if(Math.abs(rot) >= 4)
-        {
-            rot = Math.toRadians(rot);
-        }else
-        {
-            rot = 0;
-        }
-
         double[] motorPower = new double[4];
 
         motorPower[0] = Math.cos(difAng) + Math.sin(difAng) - .5*Math.sin(rot);
@@ -83,7 +75,7 @@ public class Holonomic {
         motorPower[2] = Math.cos(difAng) - Math.sin(difAng) - .5*Math.sin(rot);
         motorPower[3] = Math.cos(difAng) + Math.sin(difAng) + .5*Math.sin(rot);
 
-        normalize(motorPower);
+        //normalize(motorPower);
 
         return motorPower;
 
