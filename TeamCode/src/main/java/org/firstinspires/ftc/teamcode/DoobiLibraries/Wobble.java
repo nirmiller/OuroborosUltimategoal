@@ -18,8 +18,12 @@ public class Wobble {
         this.opMode = opMode;
         wobble.setDirection(Servo.Direction.FORWARD);
 
-        wobbleUp();
+        wobbleDown();
         hookOpen();
+        opMode.sleep(1000);
+        hookClose();
+        opMode.sleep(1000);
+        wobbleUp();
 
 
     }

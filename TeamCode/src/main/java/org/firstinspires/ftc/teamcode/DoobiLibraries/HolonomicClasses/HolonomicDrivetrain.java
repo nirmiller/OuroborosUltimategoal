@@ -422,7 +422,7 @@ public class HolonomicDrivetrain {
         double rot_power = 0;
         resetEncoders();
 
-        power = power * .7;
+        power = power * .5;
 
         double pos = 1;
         if (left) {
@@ -451,9 +451,9 @@ public class HolonomicDrivetrain {
             br.setPower(motor_power[3] * power);
             opMode.telemetry.addData("ANGLE", angle_face );
             opMode.telemetry.update();
-            if (angle_face >= 3.5) {
+            if (angle_face >= 1) {
                 rot_power =  Math.abs(angle_face) / 10;
-            } else if (angle_face <= -3.5) {
+            } else if (angle_face <= -1) {
                 rot_power = -Math.abs(angle_face) / 10;
             } else {
                 rot_power = 0;
@@ -486,9 +486,13 @@ public class HolonomicDrivetrain {
             angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - initial;
 
 
-            if (Math.abs(power) <= .2) {
-                power += .1 * pos;
+            if (Math.abs(power) >= .2 && distance - Math.abs(getEncoderAverage()) > 1000) {
+                power += .05 * pos;
+            }else{
+                power -= .1 * pos;
             }
+
+
 
             motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, rot_power);
             fl.setPower(motor_power[0] * power);
@@ -497,9 +501,9 @@ public class HolonomicDrivetrain {
             br.setPower(motor_power[3] * power);
             opMode.telemetry.addData("ANGLE", angle_face);
             opMode.telemetry.update();
-            if (angle_face >= 3.5) {
+            if (angle_face >= 1) {
                 rot_power = pos * Math.abs(angle_face) / 10;
-            } else if (angle_face <= -3.5) {
+            } else if (angle_face <= -1) {
                 rot_power = pos * -Math.abs(angle_face) / 10;
             } else {
                 rot_power = 0;

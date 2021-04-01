@@ -33,6 +33,7 @@ public class ShooterHardware {
     DcMotor pivot;
     DcMotor lift;
     Servo mag;
+    Servo pivotStop;
     Sensors sensors;
 
     private double currentAngle;
@@ -48,6 +49,8 @@ public class ShooterHardware {
         pivot = opMode.hardwareMap.dcMotor.get("pivot");
         lift = opMode.hardwareMap.dcMotor.get("lift");
         mag = opMode.hardwareMap.servo.get("mag");
+        pivotStop = opMode.hardwareMap.servo.get("ps");
+
 
         pivot.setDirection(DcMotor.Direction.REVERSE);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -69,12 +72,42 @@ public class ShooterHardware {
 
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftReady = false;
+        double encoder = 300;
+        while (lift.getCurrentPosition() < encoder)
+        {
+            if (lift.getCurrentPosition() < (encoder)) {
+                lift.setPower(.7);
+            }
+            else
+            {
+                lift.setPower(.5);
+            }
+            //opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
+            opMode.telemetry.update();
+
+        }
+        liftReady = true;
+
+
+        lift.setPower(.19);
+        opMode.sleep(500);
+        //while (!liftReady) {
+        //}
+        //setPivotAngle();
+       // pivotStop.setPosition(1);
+       // opMode.sleep(1000);
+       // pivot.setPower(0);
+       // opMode.sleep(1000);
+       // pivot.setPower(.05);
+        //lift.setPower(0);
+        opMode.telemetry.addLine("shooterRedy");
+
     }
 
 
     public void setPivotAngle()
     {
-        double encoder = 600;
+        double encoder = 800;
         while (pivot.getCurrentPosition() < encoder && opMode.opModeIsActive())
         {
             pivot.setPower(1);

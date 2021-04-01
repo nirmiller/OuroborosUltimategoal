@@ -45,6 +45,7 @@ public abstract class TeleLib extends OpMode {
     private Servo whook;
     private Servo wobble;
     private Servo mag;
+    private Servo pivotStop;
     static double OPEN = 0.0;
     static double CLOSED = 1;
     double liftPower;
@@ -106,6 +107,7 @@ public abstract class TeleLib extends OpMode {
         whook = hardwareMap.servo.get("whook");
         wobble = hardwareMap.servo.get("wobble");
         mag = hardwareMap.servo.get("mag");
+        pivotStop = hardwareMap.servo.get("ps");
         digitalTouch = hardwareMap.get(DigitalChannel.class, "button");
 
         // set the digital channel to input.
@@ -404,6 +406,28 @@ public abstract class TeleLib extends OpMode {
             sleep(700);
         }
     });
+    Thread hardStop_open = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while (gamepad2.x && time.milliseconds() < 300) {
+            }
+            pivotStop.setPosition(0);
+            sleep(700);
+        }
+    });
+    Thread hardStop_close = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while (gamepad2.x && time.milliseconds() < 300) {
+            }
+            pivotStop.setPosition(1);
+            sleep(700);
+        }
+    });
 
     public void wobbleGoal() {
 
@@ -427,10 +451,20 @@ public abstract class TeleLib extends OpMode {
 
             th_wobble.queue(wobble_down);
         }
+
+        if (gamepad2.x && pivotStop.getPosition() == 0)
+        {
+            th_wobble.queue(hardStop_close);
+        }
+        else if (gamepad2.x && pivotStop.getPosition() != 0)
+        {
+            th_wobble.queue(hardStop_open);
+        }
         telemetry.addData("hook position", whook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
         telemetry.addData("Wobble Thread", th_wobble.live());
         telemetry.addData("Whook Thread", th_whook.live());
+        telemetry.addData("pivotStop", pivotStop.getPosition());
 
     }
 
