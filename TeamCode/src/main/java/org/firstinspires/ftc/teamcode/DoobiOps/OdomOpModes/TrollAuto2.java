@@ -36,7 +36,7 @@ public class TrollAuto2 extends LinearOpMode {
             hdt.gyroHoloForward(-1, 24, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
         }
 */
-        hdt.gyroHoloForward(1, 48, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+       hdt.turnPID(90, true, .5/90, .03, .02/90, .75);
 
         // hdt.gyroHoloStrafe(1, 48, false, 2000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
         //hdt.gyroHoloStrafe(1, 24, true, 2000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());

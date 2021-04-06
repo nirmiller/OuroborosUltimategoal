@@ -60,8 +60,10 @@ public class Wobble {
     public void releaseWobble() {
         while (opMode.opModeIsActive()) {
             wobbleDown();
-            opMode.sleep(800);
+            opMode.sleep(500);
             hookOpen();
+            wobbleUp();
+            opMode.sleep(500);
             break;
         }
     }

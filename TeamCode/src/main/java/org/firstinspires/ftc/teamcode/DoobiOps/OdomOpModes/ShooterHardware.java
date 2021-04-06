@@ -72,7 +72,8 @@ public class ShooterHardware {
 
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftReady = false;
-        double encoder = 185;
+        double encoder = 115;
+
         while (lift.getCurrentPosition() < encoder)
         {
             lift.setPower(.7);
@@ -94,7 +95,7 @@ public class ShooterHardware {
         }
         pivot.setPower(0);
         pivotStop.setPosition(1);
-        opMode.sleep(500);
+        opMode.sleep(700);
         pivot.setPower(-0.05);
         opMode.sleep(1000);
         pivot.setPower(0);
