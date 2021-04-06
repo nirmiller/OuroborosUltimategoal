@@ -376,17 +376,8 @@ public class OdomDriveTrain {
         time.reset();
 
         distance = distance * COUNTS_PER_INCH;
-        double finalPower = power;
-        power = .2;
-        double d = 0;
-        while (d < distance && time.seconds() < runtimeS && opMode.opModeIsActive()) {
-            d = Math.abs(getEncoderAverage() - initEncoder);
-            if (d <= distance/1.25)
-            {
-                power+= .05;
-            }else if(d > distance/1.25){
-                power += -.025;
-            }
+
+        while (Math.abs(getEncoderAverage() - initEncoder) < distance && time.seconds() < runtimeS && opMode.opModeIsActive()) {
             setMotorsPower(power);
             if (!opMode.opModeIsActive())
             {
@@ -399,6 +390,7 @@ public class OdomDriveTrain {
         }
         choop();
     }
+
 
     public void gyroStrafe(double power, double distance, boolean left, double timeoutMS)
     {
@@ -550,11 +542,41 @@ public class OdomDriveTrain {
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
-            if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
-                turn(.2, false);
+            if (sensors.getGyroYaw() < goal) {
+                turn(.21, false);
             }
             else {
-                turn(.2, true);
+                turn(.21, true);
+            }
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 1 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
+
+    public void gyroTurn180Fast(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 180;
+        if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
+            goal = 180;
+        }
+        else {
+            goal = 180;
+        }
+
+
+        do  {
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
+                turn(.7, false);
+            }
+            else {
+                turn(.7, true);
             }
 
 
@@ -562,6 +584,7 @@ public class OdomDriveTrain {
 
         choop();
     }
+
 
 
 

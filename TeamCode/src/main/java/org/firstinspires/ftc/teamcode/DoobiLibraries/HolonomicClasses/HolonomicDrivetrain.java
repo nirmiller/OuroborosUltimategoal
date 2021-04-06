@@ -502,9 +502,9 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("ANGLE", angle_face);
             opMode.telemetry.update();
             if (angle_face >= 1) {
-                rot_power = pos * Math.abs(angle_face) / 10;
+                rot_power = pos * Math.abs(angle_face) / 30;
             } else if (angle_face <= -1) {
-                rot_power = pos * -Math.abs(angle_face) / 10;
+                rot_power = pos * -Math.abs(angle_face) / 30;
             } else {
                 rot_power = 0;
             }

@@ -527,7 +527,7 @@ public abstract class TeleLib extends OpMode {
             ElapsedTime time = new ElapsedTime();
 
             time.reset();
-            while(lift.getCurrentPosition() < 300 && time.milliseconds() < 500){
+            while(lift.getCurrentPosition() < 190 && time.milliseconds() < 500){
 
             }
             //sleep(700);
@@ -556,7 +556,7 @@ public abstract class TeleLib extends OpMode {
         @Override
         public void run() {
             mag.setPosition(0);
-            sleep(200);
+            sleep(150);
             mag.setPosition(1);
         }
     });
@@ -574,7 +574,6 @@ public abstract class TeleLib extends OpMode {
 
 
         if (gamepad2.left_bumper && !magout) {
-
 
             mag_thread.start();
         }

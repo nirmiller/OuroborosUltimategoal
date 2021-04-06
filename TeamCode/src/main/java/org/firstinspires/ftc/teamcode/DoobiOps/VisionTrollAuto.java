@@ -14,11 +14,11 @@ public class VisionTrollAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //TODO: test and see if this works. If not, try running backup vision (you may have to adjust some values)
-        //vision = new RegressBerryPie(this);
-        backupVision = new BackupVision(this);
+        vision = new RegressBerryPie(this);
+        //backupVision = new BackupVision(this);
         waitForStart();
-        //.telemetry.addData("position", vision.pie());
-        telemetry.addData("position", backupVision.senseBlue(this));
+        telemetry.addData("position", vision.pie());
+       // telemetry.addData("position", backupVision.senseBlue(this));
         telemetry.update();
 
     }

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.BackupVision;
+import org.firstinspires.ftc.teamcode.DoobiLibraries.HolonomicClasses.HolonomicDrivetrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
@@ -19,6 +20,7 @@ public class BlueAuto extends LinearOpMode {
     ShooterHardware sh;
     Loop loop;
     BackupVision backupVision;
+    HolonomicDrivetrain hdt;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -27,15 +29,17 @@ public class BlueAuto extends LinearOpMode {
         //wobble = new Wobble(this);
         sh = new ShooterHardware(this);
         loop = new Loop();
-        backupVision = new BackupVision(this);
+        hdt = new HolonomicDrivetrain(this);
+        //backupVision = new BackupVision(this);
         wobble = new Wobble(this);
 
 
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                //1. strafe
-                sh.setLift();
+                odt.encoderMove(-.5, 10, 1);
+                odt.gyroTurn180Fast(1500);
+                odt.gyroTurn180(1000);
             }
         });
         Thread thread2 = new Thread(new Runnable() {
@@ -45,19 +49,17 @@ public class BlueAuto extends LinearOpMode {
                 //odt.gyroTurn180(500);
                 ElapsedTime time = new ElapsedTime();
                 time.reset();
-                while (!sh.liftReady && time.milliseconds() < 1000) {
-                }
-
+                sleep(3000);
                 sh.hitRing();
                 //sleep(300);
                 sh.hitRing();
-                sleep(300);
+                sleep(500);
 
                 sh.hitRing();
-                sleep(300);
+                sleep(500);
 
                 sh.hitRing();
-                sleep(300);
+                sleep(500);
                 //sh.pivotDown();
                 sh.withdraw();
                 sh.lift.setPower(0);
@@ -99,38 +101,18 @@ public class BlueAuto extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = backupVision.senseBlue(this);
+        int pos = 0; //backupVision.senseBlue(this);
         while (opModeIsActive()) {
 
             if (pos == 0) {
-
+                hdt.gyroHoloForward(1, 67, 2000, 0);
+                wobble.releaseWobble();
+                //odt.gyroTurn180Fast(1400);
+                //odt.gyroTurn180(1000);
                 loop.run();
                 loop.end();
-                odt.gyroTurn180(1000);
-                odt.encoderMove(.7, 13, 3);
-
-
-                //odt.encoderMove(.7, 30, 3);
-                odt.gyroStrafe(.5, 7, false, 3000);
-                odt.gyroTurn180(1000);
-                odt.encoderMove(.4, 5, 3);
-                wobble.releaseWobble();
-
-                odt.turnPID(7, false, .28 / 7, 0, 0, .4);
-                wobble.getWobble();
-
-                odt.turnPID(7, true, .28 / 7, 0, 0, .4);
-
-                //sleep(5000);
-                odt.encoderMove(-.5, 55, 4);
-                //odt.turnPID(90, true, .5 / 90, .02, .02/90, 1.2);
-                odt.gyroTurnNinetyFast(500);
-                odt.gyroTurnNinety(1000);
-                odt.encoderMove(.4, 10, 3);
-                wobble.releaseWobble();
-                odt.encoderMove(-.4, 5, 3);
-
                 break;
+
             } else if (pos == 1) {
                 odt.encoderMove(.5, 38, 7);
                 odt.encoderMove(.7, 50, 7);
@@ -184,9 +166,7 @@ public class BlueAuto extends LinearOpMode {
 
                 break;
             } else if (pos == 2) {
-                //odt.gyroStrafe(.5, 20, false, 3000);
-                loop.run();
-                loop.end();
+                odt.turnPID(180, false, .9/180, .007, .052/180, 1.5);
                 break;
             } else if (pos == 4) {
 

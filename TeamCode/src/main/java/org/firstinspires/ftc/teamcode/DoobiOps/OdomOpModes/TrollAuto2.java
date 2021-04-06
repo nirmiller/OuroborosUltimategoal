@@ -21,11 +21,13 @@ public class TrollAuto2 extends LinearOpMode {
 
     HolonomicDrivetrain hdt;
     Sensors sensors;
+    Wobble wobble;
     @Override
     public void runOpMode() throws InterruptedException {
 
         hdt = new HolonomicDrivetrain(this);
         sensors = new Sensors(this);
+        wobble = new Wobble(this);
 
         waitForStart();
 /*
@@ -34,9 +36,9 @@ public class TrollAuto2 extends LinearOpMode {
             hdt.gyroHoloForward(-1, 24, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
         }
 */
-        //hdt.gyroHoloForward(1, 96, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+        hdt.gyroHoloForward(1, 48, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
-         hdt.gyroHoloStrafe(1, 48, false, 2000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+        // hdt.gyroHoloStrafe(1, 48, false, 2000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
         //hdt.gyroHoloStrafe(1, 24, true, 2000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
         //hdt.gyroHoloForward(1, 24, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
         //hdt.holoStrafe(.4, 20, false, 2000);

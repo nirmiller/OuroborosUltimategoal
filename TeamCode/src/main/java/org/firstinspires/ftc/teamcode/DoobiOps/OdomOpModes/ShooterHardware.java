@@ -72,33 +72,34 @@ public class ShooterHardware {
 
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftReady = false;
-        double encoder = 300;
+        double encoder = 185;
         while (lift.getCurrentPosition() < encoder)
         {
-            if (lift.getCurrentPosition() < (encoder)) {
-                lift.setPower(.7);
-            }
-            else
-            {
-                lift.setPower(.5);
-            }
-            //opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
+            lift.setPower(.7);
+            opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
             opMode.telemetry.update();
 
         }
         liftReady = true;
 
 
-        lift.setPower(.19);
+        lift.setPower(.4);
         opMode.sleep(500);
-        //while (!liftReady) {
-        //}
-        //setPivotAngle();
-       // pivotStop.setPosition(1);
-       // opMode.sleep(1000);
-       // pivot.setPower(0);
-       // opMode.sleep(1000);
-       // pivot.setPower(.05);
+        while (!liftReady) {
+        }
+        encoder = 1000;
+        while (pivot.getCurrentPosition() < encoder)
+        {
+            pivot.setPower(1);
+        }
+        pivot.setPower(0);
+        pivotStop.setPosition(1);
+        opMode.sleep(500);
+        pivot.setPower(-0.05);
+        opMode.sleep(1000);
+        pivot.setPower(0);
+        opMode.sleep(1000);
+        pivot.setPower(.05);
         //lift.setPower(0);
         opMode.telemetry.addLine("shooterRedy");
 
