@@ -143,6 +143,8 @@ public class ShooterHardware {
 
     }
 
+
+
     public void pivotDown()
     {
         double encoder = 0;

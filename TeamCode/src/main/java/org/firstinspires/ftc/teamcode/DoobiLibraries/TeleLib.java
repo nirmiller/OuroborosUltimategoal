@@ -151,6 +151,7 @@ public abstract class TeleLib extends OpMode {
         motorPowers = new double[4];
 
         resetEncoders();
+        resetFlyWheel();
 
         arcade = false;
 
@@ -177,6 +178,11 @@ public abstract class TeleLib extends OpMode {
     }
 
 
+    public void resetFlyWheel(){
+        shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     public void resetEncoders() {
 
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -490,14 +496,40 @@ public abstract class TeleLib extends OpMode {
             shooting = false;
         }
     });
+    Thread track = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            resetFlyWheel();
+            ElapsedTime time = new ElapsedTime();
+            double velocity = 0;
+            double initial = shooter.getCurrentPosition();
 
+            while(time.milliseconds() < 300){
+
+            }
+            time.reset();
+            while(shooter.getPower() > 0){
+
+                if(time.milliseconds() % 50 == 0){
+                    velocity = (shooter.getCurrentPosition())/time.milliseconds();
+                }
+                telemetry.addData("SHOOTER SPEED", velocity);
+                telemetry.update();
+            }
+
+        }
+    });
 
     public void shooter() {
         if (gamepad2.right_bumper && !shooting) {
             th_shooter.queue(t_shooter_on);
+            track.start();
         } else if(gamepad2.right_bumper && shooting){
             th_shooter.queue(t_shooter_off);
+            track.interrupt();
         }
+
+
 
         double pivotPos = pivot.getCurrentPosition();
         if (gamepad2.dpad_up && lift_top && pivotPos < 1700) {
