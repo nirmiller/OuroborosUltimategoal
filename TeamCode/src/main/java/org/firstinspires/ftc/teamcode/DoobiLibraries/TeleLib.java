@@ -370,22 +370,36 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.a && time.milliseconds() < 350) {
+            while (gamepad2.b && time.milliseconds() < 350) {
             }
             wobble.setPosition(1);
             sleep(700);
         }
     });
+    double wtoggle = 0;
 
     Thread wobble_down = new Thread(new Runnable() {
         @Override
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.a && time.milliseconds() < 350) {
+            while (gamepad2.b && time.milliseconds() < 350) {
             }
             wobble.setPosition(0);
             sleep(700);
+        }
+    });
+
+    Thread whook_mid = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            time.reset();
+            while (gamepad2.a && time.milliseconds() < 350) {
+            }
+            whook.setPosition(.5);
+            wtoggle = .5;
+            //sleep(700);
         }
     });
 
@@ -394,10 +408,10 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.b && time.milliseconds() < 300) {
+            while (gamepad2.a && time.milliseconds() < 300) {
             }
             whook.setPosition(1);
-            sleep(700);
+            //sleep(700);
         }
     });
 
@@ -406,10 +420,11 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.b && time.milliseconds() < 300) {
+            while (gamepad2.a && time.milliseconds() < 300) {
             }
             whook.setPosition(0);
-            sleep(700);
+            //sleep(700);
+            wtoggle = 0;
         }
     });
     Thread hardStop_open = new Thread(new Runnable() {
@@ -421,6 +436,7 @@ public abstract class TeleLib extends OpMode {
             }
             pivotStop.setPosition(0);
             sleep(700);
+
         }
     });
     Thread hardStop_close = new Thread(new Runnable() {
@@ -434,27 +450,27 @@ public abstract class TeleLib extends OpMode {
             sleep(700);
         }
     });
-
     public void wobbleGoal() {
 
-        if (gamepad2.a && whook.getPosition() == 0) {
+        if (gamepad2.a && wtoggle == 1) {
+
+            th_whook.queue(whook_mid);
 
 
-            th_whook.queue(whook_open);
-
-
-        } else if (gamepad2.a && whook.getPosition() != 0) {
+        }else if (gamepad2.a && wtoggle == .5) {
 
             th_whook.queue(whook_close);
 
+
+        }else if (gamepad2.a && wtoggle == 0) {
+
+            th_whook.queue(whook_open);
         }
 
         if (gamepad2.b && wobble.getPosition() == 0) {
-
             th_wobble.queue(wobble_up);
-
-        } else if (gamepad2.b && wobble.getPosition() != 0) {
-
+        }else if (gamepad2.b && wobble.getPosition() != 0)
+        {
             th_wobble.queue(wobble_down);
         }
 
@@ -532,7 +548,7 @@ public abstract class TeleLib extends OpMode {
 
 
         double pivotPos = pivot.getCurrentPosition();
-        if (gamepad2.dpad_up && lift_top && pivotPos < 1700) {
+        if (gamepad2.dpad_up && lift_top && pivotPos < 1500) {
             pivot.setPower(.5);
 
         } else if (gamepad2.dpad_down && lift_top && pivotPos > -10) {
@@ -588,7 +604,7 @@ public abstract class TeleLib extends OpMode {
         @Override
         public void run() {
             mag.setPosition(0);
-            sleep(150);
+            sleep(125);
             mag.setPosition(1);
         }
     });

@@ -52,7 +52,7 @@ public class Wobble {
             hookOpen();
             opMode.sleep(300);*/
             hookClose();
-            opMode.sleep(300);
+            opMode.sleep(1000);
             wobbleUp();
             break;
         }
@@ -60,7 +60,7 @@ public class Wobble {
     public void releaseWobble() {
         while (opMode.opModeIsActive()) {
             wobbleDown();
-            opMode.sleep(500);
+            opMode.sleep(1000);
             hookOpen();
             wobbleUp();
             opMode.sleep(500);

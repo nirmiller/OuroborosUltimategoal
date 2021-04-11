@@ -351,6 +351,50 @@ public class HolonomicDrivetrain {
         choop();
     }
 
+    public void gyroTurn270(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 270;
+
+        do {
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal) {
+                turn(.21, false);
+            } else {
+                turn(.21, true);
+            }
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
+
+    public void gyroTurn270Fast(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 270;
+
+        do {
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
+                turn(.7, false);
+            } else {
+                turn(.7, true);
+            }
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
+
     public void gyroTurn180(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
@@ -428,6 +472,33 @@ public class HolonomicDrivetrain {
                 turn(.21, false);
             } else {
                 turn(.21, true);
+            }
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
+    public void gyroTurnStraightfast(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal;
+
+        do {
+
+            if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
+                goal = 0;
+            } else {
+                goal = 360;
+            }
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal) {
+                turn(.5, false);
+            } else {
+                turn(.5, true);
             }
 
 

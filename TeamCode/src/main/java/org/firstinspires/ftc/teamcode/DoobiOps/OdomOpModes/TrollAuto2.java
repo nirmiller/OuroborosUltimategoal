@@ -20,12 +20,14 @@ import java.util.ArrayList;
 public class TrollAuto2 extends LinearOpMode {
 
     HolonomicDrivetrain hdt;
+    OdomDriveTrain odt;
     Sensors sensors;
     Wobble wobble;
     @Override
     public void runOpMode() throws InterruptedException {
 
         hdt = new HolonomicDrivetrain(this);
+        odt = new OdomDriveTrain(this);
         sensors = new Sensors(this);
         wobble = new Wobble(this);
 
@@ -36,15 +38,8 @@ public class TrollAuto2 extends LinearOpMode {
             hdt.gyroHoloForward(-1, 24, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
         }
 */
-       hdt.turnPID(90, true, .5/90, .03, .02/90, .75);
-
-        // hdt.gyroHoloStrafe(1, 48, false, 2000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-        //hdt.gyroHoloStrafe(1, 24, true, 2000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-        //hdt.gyroHoloForward(1, 24, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-        //hdt.holoStrafe(.4, 20, false, 2000);
-        //odt.goToPoint(24, 0, 0, 1, 5, 2);
-        //hdt.end();
-        hdt.end();
+        odt.turnPID(90, false, .9/90, .02, .02/90, 2);
+        odt.turnPID(90, true, .9/90, .02, .02/90, 2);
 
 
     }

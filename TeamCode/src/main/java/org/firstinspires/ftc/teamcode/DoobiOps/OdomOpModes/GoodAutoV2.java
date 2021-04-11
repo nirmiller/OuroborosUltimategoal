@@ -209,8 +209,7 @@ public class GoodAutoV2 extends LinearOpMode {
                 break;
             } else if (pos == 2) {
                 //odt.gyroStrafe(.5, 20, false, 3000);
-                loop.run();
-                loop.end();
+
                 break;
             } else if (pos == 4) {
 
