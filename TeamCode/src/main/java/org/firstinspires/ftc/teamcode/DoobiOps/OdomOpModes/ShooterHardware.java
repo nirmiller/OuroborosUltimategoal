@@ -68,11 +68,11 @@ public class ShooterHardware {
             pivot.setPower(-.2);
         }*/
         pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // pivot.setPower(0);
+        // pivot.setPower(0);
 
         pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftReady = false;
-        double encoder = 115;
+        double encoder = 40;
 
         while (lift.getCurrentPosition() < encoder)
         {
@@ -94,13 +94,13 @@ public class ShooterHardware {
             pivot.setPower(1);
         }
         pivot.setPower(0);
-        pivotStop.setPosition(1);
+        pivotStop.setPosition(.52);
         opMode.sleep(700);
         pivot.setPower(-0.05);
         opMode.sleep(1000);
         pivot.setPower(0);
         opMode.sleep(1000);
-        pivot.setPower(.05);
+        //pivot.setPower(.05);
         //lift.setPower(0);
         opMode.telemetry.addLine("shooterRedy");
 
@@ -255,7 +255,7 @@ public class ShooterHardware {
 
     public void ignite()
     {
-        shooter.setPower(1);
+        shooter.setPower(.9);
     }
 
     public void withdraw()

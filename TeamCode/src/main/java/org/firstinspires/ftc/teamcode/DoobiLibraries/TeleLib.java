@@ -394,7 +394,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.b && time.milliseconds() < 300) {
+            while (time.milliseconds() < 300) {
             }
             whook.setPosition(1);
             sleep(700);
@@ -406,7 +406,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.b && time.milliseconds() < 300) {
+            while (time.milliseconds() < 300) {
             }
             whook.setPosition(0);
             sleep(700);
@@ -418,7 +418,7 @@ public abstract class TeleLib extends OpMode {
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
-            while (gamepad2.b && time.milliseconds() < 300) {
+            while (time.milliseconds() < 300) {
             }
             whook.setPosition(.5);
             sleep(700);
@@ -452,22 +452,19 @@ public abstract class TeleLib extends OpMode {
 
     public void wobbleGoal() {
 
-        if (gamepad2.a && whook.getPosition() == 0) {
+        if(gamepad2.y && whook.getPosition() != .5){
+            th_whook.queue(whook_mid);
+        }else if(gamepad2.y && whook.getPosition() == .5){
+            th_whook.queue(whook_open);
+        }
 
+        if (gamepad2.a && whook.getPosition() != 0) {
+            th_whook.queue(whook_close);
+        } else if (gamepad2.a && whook.getPosition() == 0) {
 
             th_whook.queue(whook_open);
 
-
-        } else if (gamepad2.a && whook.getPosition() ==.5) {
-
-            th_whook.queue(whook_close);
-
-        }else if (gamepad2.a && whook.getPosition() ==1) {
-
-            th_whook.queue(whook_mid);
-
         }
-
 
         if (gamepad2.b && wobble.getPosition() == 0) {
 
@@ -501,7 +498,7 @@ public abstract class TeleLib extends OpMode {
             while(time.milliseconds() < 300){
 
             }
-            shooter.setPower(1);
+            shooter.setPower(.8);
             shooting = true;
         }
     });

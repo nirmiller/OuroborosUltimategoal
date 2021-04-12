@@ -103,7 +103,7 @@ public class BlueAuto extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = 4; //backupVision.senseBlue(this);
+        int pos = 1; //backupVision.senseBlue(this);
         while (opModeIsActive()) {
 
             if (pos == 0) {
