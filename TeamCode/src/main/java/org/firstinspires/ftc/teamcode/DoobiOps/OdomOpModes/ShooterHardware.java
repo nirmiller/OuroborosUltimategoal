@@ -94,7 +94,7 @@ public class ShooterHardware {
             pivot.setPower(1);
         }
         pivot.setPower(0);
-        pivotStop.setPosition(.52);
+        pivotStop.setPosition(.55);
         opMode.sleep(700);
         pivot.setPower(-0.05);
         opMode.sleep(1000);

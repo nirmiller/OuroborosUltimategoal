@@ -459,7 +459,7 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
-            if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
+            if (sensors.getGyroYaw() < goal) {
                 turn(.7, false);
             } else {
                 turn(.7, true);
@@ -475,11 +475,6 @@ public class HolonomicDrivetrain {
 
         ElapsedTime runtime = new ElapsedTime();
         double goal = 180;
-        if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
-            goal = 180;
-        } else {
-            goal = 180;
-        }
 
 
         do {
@@ -487,7 +482,7 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
-            if (sensors.getGyroYaw() < goal && Math.abs(sensors.getGyroYaw()) > 0) {
+            if (sensors.getGyroYaw() < goal) {
                 turn(.2, false);
             } else {
                 turn(.2, true);

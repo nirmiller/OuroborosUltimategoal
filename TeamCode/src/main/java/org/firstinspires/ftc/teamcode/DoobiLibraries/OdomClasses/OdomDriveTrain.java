@@ -375,9 +375,17 @@ public class OdomDriveTrain {
 
         time.reset();
 
-        distance = distance * COUNTS_PER_INCH;
-
-        while (Math.abs(getEncoderAverage() - initEncoder) < distance && time.seconds() < runtimeS && opMode.opModeIsActive()) {
+        double finalPower = power;
+        power = .2;
+        double d = 0;
+        while (d < distance && time.seconds() < runtimeS && opMode.opModeIsActive()) {
+            d = Math.abs(getEncoderAverage() - initEncoder);
+            if (d <= distance/1.25)
+            {
+                power+= .05;
+            }else if(d > distance/1.25){
+                power += -.025;
+            }
             setMotorsPower(power);
             if (!opMode.opModeIsActive())
             {
