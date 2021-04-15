@@ -498,7 +498,7 @@ public abstract class TeleLib extends OpMode {
             while(time.milliseconds() < 300){
 
             }
-            shooter.setPower(.8);
+            shooter.setPower(1);
             shooting = true;
         }
     });

@@ -16,8 +16,6 @@ import java.util.ArrayList;
 @Autonomous(group = "Auto", name = "Troll Auto")
 public class TrollAuto extends LinearOpMode {
     OdomDriveTrain odt;
-    Wobble wobble;
-    ShooterHardware sh;
     Sensors sensors;
 
     @Override
@@ -25,15 +23,12 @@ public class TrollAuto extends LinearOpMode {
 
         //odt = new OdomDriveTrain(this);
         //wobble = new Wobble(this);
-
-        sh = new ShooterHardware(this);
         sensors = new Sensors(this);
         waitForStart();
 
         while (opModeIsActive())
         {
-            telemetry.addData("pivot pos", sh.pivot.getCurrentPosition());
-            telemetry.addData("Angle :", sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+            telemetry.addData("Angle :", sensors.getGyroYaw());
             telemetry.update();
         }
         //odt.encoderMove(.7, 24,  4);

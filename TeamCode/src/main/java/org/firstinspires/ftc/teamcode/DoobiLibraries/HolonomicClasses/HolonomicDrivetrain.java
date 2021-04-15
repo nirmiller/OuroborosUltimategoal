@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class HolonomicDrivetrain {
 
@@ -91,6 +92,80 @@ public class HolonomicDrivetrain {
 
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+    }
+
+
+
+
+    public void goToPoint(double targetX, double targetY, double face, double power,  double allowedDistanceError, double timeout) {
+
+        ElapsedTime time = new ElapsedTime();
+        time.reset();
+
+        //distance to x and y for trig calculations
+        double distanceToX = targetX;
+        double distanceToY = targetY;
+
+        //gets total distance needed to travel
+        double distance = Math.hypot(distanceToX, distanceToY);
+        double[] motor = new double[4];
+        double angle_heading = Math.toDegrees(Math.atan2(distanceToX, distanceToY));
+        double position_x = 0;
+        double position_y = 0;
+        double[] positions = new double[4];
+        //0:fl, 1:fr, 2:bl, 3:br
+        double angle_correction = face;
+        double rot_power = 0;
+        while (opMode.opModeIsActive() && distance > allowedDistanceError && time.seconds() < timeout) {
+
+            position_x += position_i(angle_heading, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), fl.getCurrentPosition() - positions[0],
+                    fr.getCurrentPosition() - positions[1],bl.getCurrentPosition() - positions[2],
+                    br.getCurrentPosition() - positions[3])[0];
+            position_y += position_i(angle_heading, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), fl.getCurrentPosition() - positions[0],
+                    fr.getCurrentPosition() - positions[1],bl.getCurrentPosition() - positions[2],
+                    br.getCurrentPosition() - positions[3])[1];
+
+
+
+            distanceToX = targetX - position_x;
+            distanceToY = targetY - position_y;
+            distance = Math.hypot(distanceToX, distanceToY);
+            angle_correction = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - face;
+
+            motor = Holonomic.calcPowerAuto(angle_heading, angle_correction, rot_power);
+
+
+            fl.setPower(motor[0] * power);
+            fr.setPower(motor[1] * power);
+            bl.setPower(motor[2] * power);
+            br.setPower(motor[3] * power);
+
+
+            opMode.telemetry.addData("ANGLE", angle_correction);
+            opMode.telemetry.update();
+            if (angle_correction >= 1) {
+                rot_power = Math.cos(angle_heading) * Math.abs(angle_correction) / 15;
+            } else if (angle_correction <= -1) {
+                rot_power = Math.cos(angle_heading) * -Math.abs(angle_correction) / 15;
+            } else {
+                rot_power = 0;
+            }
+
+            //figures out what power to set the motors to so we can move at this angle
+            opMode.telemetry.addData("Angle : ", sensors.getGyroYaw());
+            opMode.telemetry.addData("X Position : ",position_x);
+            opMode.telemetry.addData("Y Position : ", position_y);
+            opMode.telemetry.update();
+
+            positions[0] = fl.getCurrentPosition();
+            positions[1] = fr.getCurrentPosition();
+            positions[2] = bl.getCurrentPosition();
+            positions[3] = br.getCurrentPosition();
+
+
+        }
+
+        //choop();
     }
 /*
     public void splineMove(ArrayList<Point> spline, double power, double timeout, double allowed_error) {
@@ -329,6 +404,7 @@ public class HolonomicDrivetrain {
         choop();
     }
 
+
     public void gyroTurnNinetyFast(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
@@ -368,7 +444,7 @@ public class HolonomicDrivetrain {
             }
 
 
-        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 1 && runtime.milliseconds() < timeOutMS);
 
         choop();
     }
@@ -418,7 +494,7 @@ public class HolonomicDrivetrain {
             }
 
 
-        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 1 && runtime.milliseconds() < timeOutMS);
 
         choop();
     }
@@ -475,7 +551,7 @@ public class HolonomicDrivetrain {
             }
 
 
-        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .75 && runtime.milliseconds() < timeOutMS);
 
         choop();
     }
@@ -551,14 +627,16 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("ANGLE", angle_face );
             opMode.telemetry.update();
             if (angle_face >= 1) {
-                rot_power =  Math.abs(angle_face) / 7;
+                rot_power =  Math.abs(angle_face) / 15;
             } else if (angle_face <= -1) {
-                rot_power = -Math.abs(angle_face) / 7;
+                rot_power = -Math.abs(angle_face) / 15;
             } else {
                 rot_power = 0;
             }
 
         }
+        gyroTurnStraight(700);
+
         choop();
     }
 //k
@@ -578,7 +656,7 @@ public class HolonomicDrivetrain {
 
         power = power * .5;
         double pos = power / Math.abs(power);
-        while (opMode.opModeIsActive() && (distance) - Math.abs(getEncoderAverage()) > 0 && time.milliseconds() < timeoutMS) {
+        while (opMode.opModeIsActive() && (distance) - Math.abs(getEncoderAverage()) > .5 && time.milliseconds() < timeoutMS) {
             average = getEncoderAverage();
 
             angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - initial;
@@ -599,10 +677,10 @@ public class HolonomicDrivetrain {
             br.setPower(motor_power[3] * power);
             opMode.telemetry.addData("ANGLE", angle_face);
             opMode.telemetry.update();
-            if (angle_face >= 1) {
-                rot_power = pos * Math.abs(angle_face) / 20;
-            } else if (angle_face <= -1) {
-                rot_power = pos * -Math.abs(angle_face) / 20;
+            if (angle_face >= .5) {
+                rot_power = pos * Math.abs(angle_face) / 30;
+            } else if (angle_face <= -.5) {
+                rot_power = pos * -Math.abs(angle_face) / 30;
             } else {
                 rot_power = 0;
             }
@@ -777,6 +855,20 @@ public class HolonomicDrivetrain {
      */
     private double calculateY(double desiredAngle, double speed) {
         return Math.cos(Math.toRadians(desiredAngle)) * speed;
+    }
+
+    //pos[1] = y
+    //pos[0] = x
+
+    public double[] position_i(double angle_heading, double angle_face, double fl_pos, double fr_pos, double bl_pos, double br_pos){
+        double[] pos = new double[2];
+
+        angle_heading = Math.toRadians(angle_heading);
+        angle_face = Math.toRadians(angle_face);
+
+        pos[1] = ((Math.cos(angle_face - angle_heading)) * (fl_pos + fr_pos + bl_pos + br_pos)) / (COUNTS_PER_INCH);
+        pos[0] = ((Math.sin(angle_face - angle_heading)) * (fl_pos - fr_pos - bl_pos + br_pos)) / (COUNTS_PER_INCH);
+        return pos;
     }
 
 

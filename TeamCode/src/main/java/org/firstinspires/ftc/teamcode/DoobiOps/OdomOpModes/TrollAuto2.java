@@ -29,17 +29,12 @@ public class TrollAuto2 extends LinearOpMode {
         hdt = new HolonomicDrivetrain(this);
         odt = new OdomDriveTrain(this);
         sensors = new Sensors(this);
-        wobble = new Wobble(this);
 
         waitForStart();
-/*
-        for(int i = 0; i < 2; i++){
 
-            hdt.gyroHoloForward(-1, 24, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-        }
-*/
-        odt.turnPID(90, false, .9/90, .02, .02/90, 2);
-        odt.turnPID(90, true, .9/90, .02, .02/90, 2);
+
+        hdt.gyroTurn270Fast(3000);
+        hdt.gyroTurn270(600);
 
 
     }
