@@ -88,13 +88,13 @@ public class ShooterHardware {
         opMode.sleep(500);
         while (!liftReady) {
         }
-        encoder = 1000;
+        encoder = 900;
         while (pivot.getCurrentPosition() < encoder)
         {
-            pivot.setPower(1);
+            pivot.setPower(.7);
         }
         pivot.setPower(0);
-        pivotStop.setPosition(.55);
+        pivotStop.setPosition(.54);
         opMode.sleep(700);
         pivot.setPower(-0.05);
         opMode.sleep(1000);

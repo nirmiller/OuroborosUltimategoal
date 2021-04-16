@@ -523,16 +523,15 @@ public abstract class TeleLib extends OpMode {
         }
 
 
-
         double pivotPos = pivot.getCurrentPosition();
-        if (gamepad2.dpad_up && lift_top && pivotPos < 1700) {
+        if (gamepad2.dpad_up && lift_top && pivotPos < 1100) {
             pivot.setPower(.5);
 
-        } else if (gamepad2.dpad_down && lift_top && pivotPos > -10) {
+        } else if (gamepad2.dpad_down && lift_top && pivotPos > -700) {
             pivot.setPower(-.5);
-        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1700) {
+        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1100) {
             pivot.setPower(.25);
-        } else if (gamepad2.dpad_left && lift_top && pivotPos > -10) {
+        } else if (gamepad2.dpad_left && lift_top && pivotPos > -700) {
             pivot.setPower(-.05);
         } else {
             pivot.setPower(.05);

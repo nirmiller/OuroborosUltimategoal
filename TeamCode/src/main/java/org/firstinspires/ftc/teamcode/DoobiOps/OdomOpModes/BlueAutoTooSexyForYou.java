@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
-@Autonomous(group = "Auto", name = "SexyBlueAuto")
-public class SuperSexyBlueAuto extends LinearOpMode {
+@Autonomous(group = "Auto", name = "BlueAutoTooSexyForYou")
+public class BlueAutoTooSexyForYou extends LinearOpMode {
 
     Wobble wobble;
     ShooterHardware sh;
@@ -25,12 +25,11 @@ public class SuperSexyBlueAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-//t
         //wobble = new Wobble(this);
         sh = new ShooterHardware(this);
         loop = new Loop();
         hdt = new HolonomicDrivetrain(this);
-        //backupVision = new BackupVision(this);
+        backupVision = new BackupVision(this);
         wobble = new Wobble(this);
         sensors = new Sensors(this);
 
@@ -39,7 +38,7 @@ public class SuperSexyBlueAuto extends LinearOpMode {
             @Override
             public void run() {
                 hdt.gyroTurn180Fast(1500);
-                hdt.gyroTurn180(750);
+                hdt.gyroTurn180(1000);
             }
         });
         Thread thread2 = new Thread(new Runnable() {
@@ -51,7 +50,7 @@ public class SuperSexyBlueAuto extends LinearOpMode {
                 time.reset();
                 sleep(3000);
                 sh.hitRing();
-                //sleep(300);
+                sleep(600);
                 sh.hitRing();
                 sleep(1000);
                 sh.hitRing();
@@ -102,7 +101,7 @@ public class SuperSexyBlueAuto extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        int pos = 0; //backupVision.senseBlue(this);
+        int pos = backupVision.senseBlue(this);
         while (opModeIsActive()) {
 
             if (pos == 0) {
@@ -111,10 +110,9 @@ public class SuperSexyBlueAuto extends LinearOpMode {
                 hdt.gyroHoloForward(-.7, 17, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
                 //NEW STUFF
-                hdt.gyroTurnStraight(1000);
+                //hdt.gyroTurnStraight(1000);
 
-                hdt.gyroTurn180Fast(1500);
-                hdt.gyroTurn180(1000);
+
 
                 loop.run();
                 loop.end();
@@ -126,7 +124,7 @@ public class SuperSexyBlueAuto extends LinearOpMode {
                 hdt.gyroHoloForward(-.7, 31, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
                 hdt.gyroTurn270Fast(1500);
-                hdt.gyroTurn270(1000);
+                hdt.gyroTurn270(700);
 
 
                 wobble.hookOpen();
@@ -134,13 +132,13 @@ public class SuperSexyBlueAuto extends LinearOpMode {
                 wobble.wobbleDown();
                 sleep(1000);
                 wobble.hookOpen();
-                hdt.gyroHoloForward(.7, 8, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(.4, 8, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.getWobble();
                 sleep(1000);
-                hdt.gyroHoloForward(-.7, 13, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.7, 14, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 //hdt.gyroTurnNinetyFast(300);
                 hdt.gyroTurnStraightfast(1500);
-                hdt.gyroTurnStraight(1500);
+                hdt.gyroTurnStraight(700);
                 hdt.gyroHoloForward(1, 55, 3000, 0);
                 wobble.releaseWobble();
 
@@ -153,21 +151,18 @@ public class SuperSexyBlueAuto extends LinearOpMode {
 
             } else if (pos == 1) {
 
-                hdt.gyroHoloForward(1, 85, 3000, 0);
+                hdt.gyroHoloForward(1, 88, 3000, 0);
                 sleep(300);
-                hdt.gyroHoloStrafe(.7, 16, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloStrafe(.8, 16, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 sleep(300);
                 wobble.releaseWobble();
-                hdt.gyroHoloStrafe(.7, 15, true, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloStrafe(.8, 18, true, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 sleep(300);
-                hdt.gyroHoloForward(-.7, 35, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.7, 44, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
 
                 //NEW STUFF
                 hdt.gyroTurnStraight(1000);
-
-                hdt.gyroTurn180Fast(1500);
-                hdt.gyroTurn180(1000);
 
                 loop.run();
                 loop.end();
@@ -176,8 +171,8 @@ public class SuperSexyBlueAuto extends LinearOpMode {
                 hdt.gyroTurnStraight(1000);
                 //PROB DOESNT WORK
 
-
-                hdt.gyroHoloForward(-.7, 31, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.6, 29, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                sleep(300);
 
                 hdt.gyroTurn270Fast(1500);
                 hdt.gyroTurn270(1000);
@@ -185,21 +180,20 @@ public class SuperSexyBlueAuto extends LinearOpMode {
                 wobble.hookOpen();
                 //hdt.turnPID(90, true, .7/90, .003, .052/90, .75);
                 wobble.wobbleDown();
-                sleep(1000);
+                sleep(300);
                 wobble.hookOpen();
-                hdt.gyroHoloForward(.4, 8, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(.4, 10, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.getWobble();
-                sleep(1000);
-                hdt.gyroHoloForward(-.7, 13, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                //hdt.gyroTurnNinetyFast(300);
+                sleep(600);
+                hdt.gyroHoloForward(-1, 14, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 hdt.gyroTurnStraightfast(1500);
                 hdt.gyroTurnStraight(1000);
-                hdt.gyroHoloForward(1, 78, 3000, 0);
-                sleep(300);
-                hdt.gyroHoloStrafe(.7, 10, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(1, 74, 3000, 0);
+                hdt.gyroHoloStrafe(1, 18, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.releaseWobble();
+                wobble.wobbleUp();
                 //hdt.gyroHoloStrafe(1, 15, true, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroHoloForward(-.7, 7, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.7, 4, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
 
 
@@ -217,8 +211,6 @@ public class SuperSexyBlueAuto extends LinearOpMode {
                 //NEW STUFF
                 hdt.gyroTurnStraight(1000);
 
-                hdt.gyroTurn180Fast(1500);
-                hdt.gyroTurn180(1000);
 
                 loop.run();
                 loop.end();
@@ -227,7 +219,7 @@ public class SuperSexyBlueAuto extends LinearOpMode {
                 hdt.gyroTurnStraight(1000);
                 //PROB DOESNT WORK
 
-                hdt.gyroHoloForward(-.7, 31, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.7, 29, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 hdt.gyroTurn270Fast(1500);
                 hdt.gyroTurn270(1000);
 

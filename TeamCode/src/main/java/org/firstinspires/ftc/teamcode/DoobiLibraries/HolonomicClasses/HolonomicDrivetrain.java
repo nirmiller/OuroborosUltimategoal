@@ -438,13 +438,13 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal) {
-                turn(.21, false);
+                turn(.3, false);
             } else {
-                turn(.21, true);
+                turn(.3, true);
             }
 
 
-        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 1 && runtime.milliseconds() < timeOutMS);
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .5 && runtime.milliseconds() < timeOutMS);
 
         choop();
     }
@@ -459,11 +459,8 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
-            if (sensors.getGyroYaw() < goal) {
-                turn(.7, false);
-            } else {
-                turn(.7, true);
-            }
+
+            turn(.7, true);
 
 
         } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
@@ -477,19 +474,19 @@ public class HolonomicDrivetrain {
         double goal = 180;
 
 
-        do {
+        while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) != 0  && runtime.milliseconds() < timeOutMS){
 
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
-            if (sensors.getGyroYaw() < goal) {
-                turn(.2, false);
+            if(sensors.getGyroYaw() < goal) {
+                turn(.3, false);
             } else {
-                turn(.2, true);
+                turn(.3, true);
             }
 
 
-        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 1 && runtime.milliseconds() < timeOutMS);
+        }
 
         choop();
     }
@@ -540,13 +537,13 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal) {
-                turn(.21, false);
+                turn(.3, false);
             } else {
-                turn(.21, true);
+                turn(.3, true);
             }
 
 
-        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .75 && runtime.milliseconds() < timeOutMS);
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) != 0 && runtime.milliseconds() < timeOutMS);
 
         choop();
     }
@@ -567,9 +564,9 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal) {
-                turn(.5, false);
+                turn(.7, false);
             } else {
-                turn(.5, true);
+                turn(.7, true);
             }
 
 
@@ -630,7 +627,7 @@ public class HolonomicDrivetrain {
             }
 
         }
-        gyroTurnStraight(700);
+        gyroTurnStraight(500);
 
         choop();
     }
@@ -673,9 +670,9 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("ANGLE", angle_face);
             opMode.telemetry.update();
             if (angle_face >= .5) {
-                rot_power = pos * Math.abs(angle_face) / 30;
+                rot_power = pos * Math.abs(angle_face) / 25;
             } else if (angle_face <= -.5) {
-                rot_power = pos * -Math.abs(angle_face) / 30;
+                rot_power = pos * -Math.abs(angle_face) / 25;
             } else {
                 rot_power = 0;
             }
