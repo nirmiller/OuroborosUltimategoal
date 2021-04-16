@@ -112,7 +112,7 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
                 //NEW STUFF
                 //hdt.gyroTurnStraight(1000);
 
-
+//t
 
                 loop.run();
                 loop.end();
