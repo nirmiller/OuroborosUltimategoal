@@ -475,14 +475,11 @@ public abstract class TeleLib extends OpMode {
             th_wobble.queue(wobble_down);
         }
 
-        if (gamepad2.x && pivotStop.getPosition() == 0)
+        if (gamepad2.x && pivotStop.getPosition() != 1)
         {
             th_wobble.queue(hardStop_close);
         }
-        else if (gamepad2.x && pivotStop.getPosition() != 0)
-        {
-            th_wobble.queue(hardStop_open);
-        }
+
         telemetry.addData("hook position", whook.getPosition());
         telemetry.addData("wobble position", wobble.getPosition());
         telemetry.addData("Wobble Thread", th_wobble.live());

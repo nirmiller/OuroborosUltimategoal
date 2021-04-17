@@ -523,7 +523,7 @@ public class HolonomicDrivetrain {
     public void gyroTurnStraight(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal;
+        double goal = 0;
 
         do {
 
@@ -550,9 +550,9 @@ public class HolonomicDrivetrain {
     public void gyroTurnStraightfast(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal;
+        double goal = 0;
 
-        do {
+        while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .1 && runtime.milliseconds() < timeOutMS) {
 
             if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
                 goal = 0;
@@ -607,7 +607,7 @@ public class HolonomicDrivetrain {
             angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - initial;
 
 
-            if (Math.abs(power) <= .2) {
+            if (Math.abs(power) <= .5) {
                 power += .1;
             }
 
