@@ -11,6 +11,7 @@ public class ThreadHandler {
 
     public void queue(Thread new_thread) {
 
+
         if (thread == null) {
             thread = new_thread;
         } else {

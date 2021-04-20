@@ -438,9 +438,9 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal) {
-                turn(.3, false);
+                turn(.27, false);
             } else {
-                turn(.3, true);
+                turn(.27, true);
             }
 
 
@@ -654,7 +654,7 @@ public class HolonomicDrivetrain {
             angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - initial;
 
 
-            if (Math.abs(power) >= .2 && distance - Math.abs(getEncoderAverage()) > distance/10) {
+            if (Math.abs(power) >= .2 && distance - Math.abs(getEncoderAverage()) > distance/7) {
                 power += .05 * pos;
             }else{
                 power -= .05 * pos;
@@ -679,144 +679,6 @@ public class HolonomicDrivetrain {
 
         }
         choop();
-    }
-
-
-    public void holoForward(double power, double distance, double timeoutMS, double initial) {
-        distance = distance * COUNTS_PER_INCH;
-        ElapsedTime time = new ElapsedTime();
-        resetEncoders();
-        double count = 0;
-
-        double[] motor_power = new double[4];
-
-
-        double initial_angle = initial;
-        double average = 0;
-        double angle_heading = 0;
-        double angle_face = 0;
-        double angle_face_2 = 0;
-        resetEncoders();
-        double d = 0;
-        power = .5 * power;
-        ArrayList<Double> poop = new ArrayList<>();
-        while (opMode.opModeIsActive() && (distance) - Math.abs(getEncoderAverage()) > 0 && time.milliseconds() < timeoutMS) {
-            average = getEncoderAverage();
-            angle_face = sensors.getGyroYawwww() - initial_angle;
-
-
-            d = Math.abs(getEncoderAverage());
-            /*
-            if (d <= distance / 2) {
-                power += .005;
-
-            } else if (d > distance / 2) {
-
-                power += -.05;
-            }
-            */
-
-
-            angle_face_2 = sensors.getGyroYawwww() - initial_angle;
-            motor_power = Holonomic.calcPowerAuto(angle_heading, (angle_face + angle_face_2) / 2, 0);
-
-
-            fl.setPower(motor_power[0] * power);
-            fr.setPower(motor_power[1] * power);
-            bl.setPower(motor_power[2] * power);
-            br.setPower(motor_power[3] * power);
-            opMode.telemetry.addData("fl :", motor_power[0]);
-            opMode.telemetry.addData("fr :", motor_power[1]);
-            opMode.telemetry.addData("bl :", motor_power[2]);
-            opMode.telemetry.addData("br :", motor_power[3]);
-
-            opMode.telemetry.addData("Angle :", angle_face_2 - angle_face);
-
-            if (angle_face_2 - angle_face > 0) {
-                count++;
-                poop.add(angle_face_2 - angle_face);
-            }
-
-            opMode.telemetry.update();
-        }
-
-        choop();
-        opMode.telemetry.addData("COUNT", count);
-        String hello = "";
-        for (double i : poop) {
-            hello += " " + i;
-        }
-        opMode.telemetry.addData("POOP", hello);
-        opMode.telemetry.update();
-        ElapsedTime t2 = new ElapsedTime();
-        while (t2.milliseconds() < 8000) {
-
-        }
-        return;
-    }
-
-    public void holoStrafe(double power, double distance, boolean left, double timeoutMS) {
-
-        distance = distance * COUNTS_PER_INCH;
-        ElapsedTime time = new ElapsedTime();
-        resetEncoders();
-        double pos = -1;
-        if (left) {
-            pos = 1;
-        }
-
-
-        double[] motor_power = new double[4];
-        double[] motor_power_2 = new double[4];
-
-
-        double initial_angle = sensors.getGyroYawwww();
-        double average = 0;
-        double angle_heading = 0;
-        double angle_face = 0;
-        resetEncoders();
-
-        if (left) {
-            angle_heading = 270;
-        } else {
-            angle_heading = 90;
-        }
-        power = .3;
-        double d = 0;
-        while (opMode.opModeIsActive() && ((distance) - Math.abs(getStrafeEncoderAverage(pos))) > 0 && time.milliseconds() < timeoutMS) {
-            angle_face = sensors.getGyroYawwww();
-            motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
-            d = getStrafeEncoderAverage(pos);
-            if (d / 3 <= distance && power < .5) {
-                power += .025;
-            } else if (power > 0.2) {
-                power += -.05;
-            }
-
-
-            opMode.telemetry.addData("fl :", fl.getPower());
-            opMode.telemetry.addData("fr :", fr.getPower());
-            opMode.telemetry.addData("bl :", bl.getPower());
-            opMode.telemetry.addData("br :", br.getPower());
-
-            opMode.telemetry.addData("Angle :", initial_angle);
-            opMode.telemetry.addData("Angle :", angle_face);
-
-            opMode.telemetry.update();
-            average = getStrafeEncoderAverage(pos);
-
-            angle_face = sensors.getGyroYawwww();
-            motor_power_2 = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
-
-            fl.setPower((motor_power[0] + motor_power_2[0]) * power);
-            fr.setPower((motor_power[1] + motor_power_2[1]) * power);
-            bl.setPower((motor_power[2] + motor_power_2[2]) * power);
-            br.setPower((motor_power[3] + motor_power_2[3]) * power);
-
-        }
-        choop();
-
-
     }
 
 

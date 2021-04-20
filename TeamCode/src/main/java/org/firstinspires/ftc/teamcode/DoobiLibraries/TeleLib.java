@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.DoobiLibraries;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -21,6 +22,7 @@ public abstract class TeleLib extends OpMode {
 
 
     final double COUNTS_PER_INCH = 308.876;
+    final double COUNT_PER_DEGREE = 21;
 
     double right_stick_x;
     double left_stick_x;
@@ -52,14 +54,19 @@ public abstract class TeleLib extends OpMode {
     double lift_pos;
 
 
+
     ThreadHandler th_whook;
     ThreadHandler th_wobble;
     ThreadHandler th_lift;
     ThreadHandler th_arcade;
     ThreadHandler th_shooter;
+    ThreadHandler th_track;
+    ThreadHandler th_holo;
 
     DcMotor verticalLeft, verticalRight, horizontal;
     String verticalLeftEncoderName = "fr", verticalRightEncoderName = "fl", horizontalEncoderName = "bl";
+
+    OdometryGlobalCoordinatePosition ogcp;
 
     double wobblePos = .5;
     double hookPos = .5;
@@ -81,17 +88,22 @@ public abstract class TeleLib extends OpMode {
     boolean lift_bottom;
     boolean lift_top;
 
+    boolean track;
+
     boolean pivot_top;
     boolean pivot_bottom;
     Sensors sensors;
     public TouchSensor button;
     DigitalChannel digitalTouch;
 
+
+
     @Override
     public void init() {
         //Drive base
         sensors = new Sensors(this);
-        //Init complete
+        //Init complet
+
         br = hardwareMap.dcMotor.get("br");
         bl = hardwareMap.dcMotor.get("bl");
         fr = hardwareMap.dcMotor.get("fr");
@@ -119,7 +131,7 @@ public abstract class TeleLib extends OpMode {
         //intake.setDirection(DcMotor.Direction.FORWARD);
         //intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        pivot.setDirection(DcMotor.Direction.REVERSE);
+        pivot.setDirection(DcMotor.Direction.FORWARD);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift.setDirection(DcMotor.Direction.FORWARD);
@@ -153,7 +165,8 @@ public abstract class TeleLib extends OpMode {
         resetEncoders();
         resetFlyWheel();
 
-        arcade = false;
+        arcade = true;
+        track = false;
 
 
         kill_count = 0;
@@ -171,9 +184,15 @@ public abstract class TeleLib extends OpMode {
         th_lift = new ThreadHandler();
         th_arcade = new ThreadHandler();
         th_shooter = new ThreadHandler();
+        th_track = new ThreadHandler();
+        th_holo = new ThreadHandler();
 
         halfToggle = false;
         half = 1;
+
+        ogcp = new OdometryGlobalCoordinatePosition(fr, fl, bl, COUNTS_PER_INCH, 35);
+        Thread global = new Thread(ogcp);
+        global.start();
 
     }
 
@@ -213,14 +232,9 @@ public abstract class TeleLib extends OpMode {
     }
 
     public void drive() {
-        if (arcade && gamepad1.b) {
-            arcade = false;
-        } else if (!arcade && gamepad1.b) {
-            arcade = true;
-        }
         if (arcade) {
             arcadedrive();
-        } else {
+        } else if(!arcade){
             holonomicdrive();
         }
 
@@ -265,6 +279,11 @@ public abstract class TeleLib extends OpMode {
             th_arcade.queue(full_speed);
         }
 
+        /*
+        if(gamepad1.x){
+            th_holo.queue(auto_turn_aim);
+        }
+        */
 
 
         left_stick_y = gamepad1.left_stick_y * half;
@@ -292,16 +311,53 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("br encoder", br.getCurrentPosition());
         telemetry.addData("halfspeed Thread", th_arcade.live());
         telemetry.addData("Angle", sensors.getGyroYaw());
-
+        telemetry.addData("TURNING AUTO", auto_turn_aim.isAlive());
+        telemetry.addData("Arcade", arcade);
 
     }
+
+
+    Thread auto_turn_aim = new Thread(new Runnable() {
+        @Override
+        public void run() {
+
+            ElapsedTime time = new ElapsedTime();
+            while(time.milliseconds() < 300){
+
+            }
+
+
+            arcade = false;
+            right_stick_x = 0;
+            double theta = Math.atan2(ogcp.returnXCoordinate(), ogcp.returnYCoordinate());
+            double dif_angle = theta - ogcp.returnOrientation();
+            while(!arcade){
+
+                right_stick_x = .5 * (dif_angle / 25);
+            }
+
+        }
+    });
+
 
     public void holonomicdrive() {
         left_stick_y = gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
-        right_stick_x = gamepad1.right_stick_x;
+
+        if(!auto_turn_aim.isAlive()){
+            right_stick_x = gamepad1.right_stick_x;
+        }
         theta = -sensors.getGyroYaw();
         //theta = -ogcp.returnOrientation();
+
+        if(gamepad1.x){
+            ElapsedTime time = new ElapsedTime();
+            while(time.milliseconds() < 300){
+
+            }
+
+            arcade = true;
+        }
 
 
         double[] motors = new double[4];
@@ -326,8 +382,8 @@ public abstract class TeleLib extends OpMode {
         }
 
         telemetry.addData("Angle : ", theta);
-        //  telemetry.addData("X Position : ", ogcp.returnXCoordinate());
-        //   telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
+        //telemetry.addData("X Position : ", ogcp.returnXCoordinate());
+        //telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
 
 
 
@@ -512,10 +568,151 @@ public abstract class TeleLib extends OpMode {
     });
 
 
-    public void shooter() {
+    Thread track_th = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            ElapsedTime time = new ElapsedTime();
+            double initial = shooter.getCurrentPosition();
+            double velocity = 0;
+            time.reset();
+            while(track){
+                velocity = (shooter.getCurrentPosition() - initial)/(time.seconds());
+                telemetry.addData("VELOCITY : ", velocity);
+                telemetry.update();
+            }
+        }
+    });
+
+    Thread auto_pivot_up = new Thread(new Runnable() {
+        @Override
+        public void run() {
+
+            ElapsedTime time_s = new ElapsedTime();
+            while(time_s.milliseconds() < 300){
+
+            }
+
+            double x = ogcp.returnXCoordinate();
+            double y = ogcp.returnYCoordinate();
+            double distance = Math.sqrt(x*x + y*y);
+            double theta = Shooter.calcThetaPivot(distance, 1, 100);
+            theta = 45;
+            double pos = theta * COUNT_PER_DEGREE;
+
+            if(theta > 50){
+                return;
+            }
+            double timeout = 2;
+
+            boolean moveUp = true;
+            double kP = .07/pos;
+            double kI = .01;
+            double kD = .01/pos;
+
+            ElapsedTime time = new ElapsedTime();
+            ElapsedTime timeoutTimer = new ElapsedTime();
+
+            double error;
+            double power;
+
+            double proportional;
+            double integral = 0;
+            double derivative;
+
+            double prevRunTime;
+
+            double initPos = pivot.getCurrentPosition();
+
+            double lastError = pos - initPos;
+
+            time.reset();
+            timeoutTimer.reset();
+            while (Math.abs(pos - pivot.getCurrentPosition()) > 10 && timeoutTimer.seconds() < timeout && pos < 1100) {
+                prevRunTime = time.seconds();
+
+                error = pos - pivot.getCurrentPosition();
+
+                proportional = error * kP;
+
+                integral += (error * (time.seconds() - prevRunTime)) * kI;
+
+
+                derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
+
+
+                power = proportional + integral + derivative;
+
+                if (moveUp)
+                {
+                    pivot.setPower(power);
+                }
+                else
+                {
+                    pivot.setPower(-power);
+                }
+
+                /*
+                telemetry.addData("error ", error);
+                telemetry.addData("P", proportional);
+                telemetry.addData("I", integral);
+                telemetry.addData("D", derivative);
+                telemetry.addData("power", power);
+                telemetry.update();
+                */
+                lastError = error;
+
+                if (Math.abs(pos - pivot.getCurrentPosition()) < 10)
+                {
+                    break;
+                }
+
+            }
+            telemetry.addLine("exited");
+            telemetry.update();
+
+            pivot.setPower(0);
+        }
+    });
+
+
+    public void odom_shooter(){
         if (gamepad2.right_bumper && !shooting) {
+            track = true;
+            th_track.queue(track_th);
             th_shooter.queue(t_shooter_on);
         } else if(gamepad2.right_bumper && shooting){
+            track = false;
+            th_track.th_kill();
+            th_shooter.queue(t_shooter_off);
+        }
+
+
+        double pivotPos = pivot.getCurrentPosition();
+        if(gamepad2.dpad_up && lift_top && pivotPos < 1100){
+
+            th_lift.queue(auto_pivot_up);
+        } else if (gamepad2.dpad_down && lift_top && pivotPos > -700) {
+            pivot.setPower(-.5);
+        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1100) {
+            pivot.setPower(.25);
+        } else if (gamepad2.dpad_left && lift_top && pivotPos > -700) {
+            pivot.setPower(-.05);
+        } else {
+            pivot.setPower(.05);
+        }
+        telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
+        telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
+
+    }
+
+    public void shooter() {
+        if (gamepad2.right_bumper && !shooting) {
+            track = true;
+            th_track.queue(track_th);
+            th_shooter.queue(t_shooter_on);
+        } else if(gamepad2.right_bumper && shooting){
+            track = false;
+            th_track.th_kill();
             th_shooter.queue(t_shooter_off);
         }
 
@@ -533,7 +730,7 @@ public abstract class TeleLib extends OpMode {
         } else {
             pivot.setPower(.05);
         }
-        telemetry.addData("shooter button thing", digitalTouch.getState());
+
         telemetry.addData("pivot encoder pos: ", pivot.getCurrentPosition());
         telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
 
@@ -605,4 +802,10 @@ public abstract class TeleLib extends OpMode {
     }
 
 
+    @Override
+    public void stop() {
+        super.stop();
+        track = false;
+        arcade = true;
+    }
 }

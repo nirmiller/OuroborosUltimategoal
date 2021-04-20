@@ -38,7 +38,7 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
             @Override
             public void run() {
                 hdt.gyroTurn180Fast(1500);
-                hdt.gyroTurn180(1000);
+                hdt.gyroTurn180(1500);
             }
         });
         Thread thread2 = new Thread(new Runnable() {
@@ -132,10 +132,10 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
                 wobble.wobbleDown();
                 sleep(300);
                 wobble.hookOpen();
-                hdt.gyroHoloForward(-.35, 15, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.35, 16, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.getWobble();
                 sleep(600);
-                hdt.gyroHoloForward(-.7, 14, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.7, 15, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 //hdt.gyroTurnNinetyFast(300);
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(500);
@@ -153,11 +153,11 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
             } else if (pos == 1) {
 
                 hdt.gyroHoloForward(1, 88, 3000, 0);
-                sleep(100);
-                hdt.gyroHoloStrafe(.8, 16, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                sleep(100);
+                sleep(300);
+                hdt.gyroHoloStrafe(1, 16, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                sleep(300);
                 wobble.releaseWobble();
-                hdt.gyroHoloStrafe(.8, 14, true, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloStrafe(1, 16, true, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                // sleep(300);
                 hdt.gyroHoloForward(-1, 35, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
@@ -168,11 +168,11 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
                 hdt.gyroTurnStraight(500);
                 //PROB DOESNT WORK
 
-                hdt.gyroHoloForward(-.8, 29, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-1, 28, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 //sleep(300);
 
                 hdt.gyroTurn270Fast(1000);
-                hdt.gyroTurn270(300);
+                hdt.gyroTurn270(1300);
 
                 wobble.hookOpen();
                 //hdt.turnPID(90, true, .7/90, .003, .052/90, .75);
@@ -182,17 +182,17 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
                 hdt.gyroHoloForward(-.35, 15, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.getWobble();
                 sleep(600);
-                hdt.gyroHoloForward(-1, 16, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-1, 14, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 hdt.gyroTurnStraightfast(700);
                 hdt.gyroTurnStraight(300);
                 hdt.gyroHoloForward(1, 68, 3000, 0);
-                hdt.gyroHoloStrafe(1, 18, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloStrafe(1, 16, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.releaseWobble();
-
+                hdt.gyroHoloForward(-.4, 2, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.wobbleUp();
                 //sh.setLift();
                 //hdt.gyroHoloStrafe(1, 15, true, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroHoloForward(-.4, 2, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+
 
 
 
@@ -218,19 +218,19 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
                 hdt.gyroTurnStraight(500);
                 //PROB DOESNT WORK
 
-                hdt.gyroHoloForward(-.8, 32, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.8, 29, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 hdt.gyroTurn270Fast(1000);
-                hdt.gyroTurn270(500);
+                hdt.gyroTurn270(1500);
 
                 wobble.hookOpen();
                 //hdt.turnPID(90, true, .7/90, .003, .052/90, .75);
                 wobble.wobbleDown();
                 sleep(300);
                 wobble.hookOpen();
-                hdt.gyroHoloForward(-.35, 11, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.35, 15, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.getWobble();
                 sleep(600);
-                hdt.gyroHoloForward(-.7, 13, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.7, 14, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 //hdt.gyroTurnNinetyFast(300);
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(500);
