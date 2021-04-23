@@ -32,6 +32,7 @@ public abstract class TeleLib extends OpMode {
 
     boolean arcade = false;
     boolean shooting = false;
+    boolean auto_aim = false;
 
 
     private DcMotor br;
@@ -45,7 +46,8 @@ public abstract class TeleLib extends OpMode {
     private DcMotor lift;
     private DcMotor intake;
     private Servo whook;
-    private Servo wobble;
+    private Servo wobble2;
+    private Servo wobble1;
     private Servo mag;
     private Servo pivotStop;
     static double OPEN = 0.0;
@@ -117,7 +119,8 @@ public abstract class TeleLib extends OpMode {
         //intakeclaw = hardwareMap.servo.get("intakeclaw");
 
         whook = hardwareMap.servo.get("whook");
-        wobble = hardwareMap.servo.get("wobble");
+        wobble1 = hardwareMap.servo.get("wobble1");
+        wobble2 = hardwareMap.servo.get("wobble2");
         mag = hardwareMap.servo.get("mag");
         pivotStop = hardwareMap.servo.get("ps");
         digitalTouch = hardwareMap.get(DigitalChannel.class, "button");
@@ -126,12 +129,13 @@ public abstract class TeleLib extends OpMode {
         digitalTouch.setMode(DigitalChannel.Mode.INPUT);
 
 
-        wobble.setDirection(Servo.Direction.FORWARD);
+        wobble1.setDirection(Servo.Direction.FORWARD);
+        wobble2.setDirection(Servo.Direction.REVERSE);
 
         //intake.setDirection(DcMotor.Direction.FORWARD);
         //intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        pivot.setDirection(DcMotor.Direction.FORWARD);
+        pivot.setDirection(DcMotor.Direction.REVERSE);
         pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift.setDirection(DcMotor.Direction.FORWARD);
@@ -279,11 +283,6 @@ public abstract class TeleLib extends OpMode {
             th_arcade.queue(full_speed);
         }
 
-        /*
-        if(gamepad1.x){
-            th_holo.queue(auto_turn_aim);
-        }
-        */
 
 
         left_stick_y = gamepad1.left_stick_y * half;
@@ -311,7 +310,7 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("br encoder", br.getCurrentPosition());
         telemetry.addData("halfspeed Thread", th_arcade.live());
         telemetry.addData("Angle", sensors.getGyroYaw());
-        telemetry.addData("TURNING AUTO", auto_turn_aim.isAlive());
+        //telemetry.addData("TURNING AUTO", auto_turn_aim.isAlive());
         telemetry.addData("Arcade", arcade);
 
     }
@@ -343,22 +342,9 @@ public abstract class TeleLib extends OpMode {
     public void holonomicdrive() {
         left_stick_y = gamepad1.left_stick_y;
         left_stick_x = gamepad1.left_stick_x;
+        right_stick_x = gamepad1.right_stick_x;
 
-        if(!auto_turn_aim.isAlive()){
-            right_stick_x = gamepad1.right_stick_x;
-        }
         theta = -sensors.getGyroYaw();
-        //theta = -ogcp.returnOrientation();
-
-        if(gamepad1.x){
-            ElapsedTime time = new ElapsedTime();
-            while(time.milliseconds() < 300){
-
-            }
-
-            arcade = true;
-        }
-
 
         double[] motors = new double[4];
         motors = Holonomic.calcPowerTele(theta, right_stick_x, left_stick_x, left_stick_y);
@@ -381,9 +367,7 @@ public abstract class TeleLib extends OpMode {
             br.setPower(0);
         }
 
-        telemetry.addData("Angle : ", theta);
-        //telemetry.addData("X Position : ", ogcp.returnXCoordinate());
-        //telemetry.addData("Y Position : ", ogcp.returnYCoordinate());
+        telemetry.addData("Angle Gyro: ", theta);
 
 
 
@@ -428,7 +412,8 @@ public abstract class TeleLib extends OpMode {
             time.reset();
             while (gamepad2.a && time.milliseconds() < 350) {
             }
-            wobble.setPosition(1);
+            wobble1.setPosition(0);
+            wobble2.setPosition(0);
             sleep(700);
         }
     });
@@ -440,7 +425,8 @@ public abstract class TeleLib extends OpMode {
             time.reset();
             while (gamepad2.a && time.milliseconds() < 350) {
             }
-            wobble.setPosition(0);
+            wobble1.setPosition(1);
+            wobble2.setPosition(1);
             sleep(700);
         }
     });
@@ -469,14 +455,15 @@ public abstract class TeleLib extends OpMode {
         }
     });
 
-    Thread whook_mid = new Thread(new Runnable() {
+    Thread wobble_mid = new Thread(new Runnable() {
         @Override
         public void run() {
             ElapsedTime time = new ElapsedTime();
             time.reset();
             while (time.milliseconds() < 300) {
             }
-            whook.setPosition(.5);
+            wobble1.setPosition(.5);
+            wobble2.setPosition(.5);
             sleep(700);
         }
     });
@@ -508,36 +495,28 @@ public abstract class TeleLib extends OpMode {
 
     public void wobbleGoal() {
 
-        if(gamepad2.y && whook.getPosition() != .5){
-            th_whook.queue(whook_mid);
-        }else if(gamepad2.y && whook.getPosition() == .5){
-            th_whook.queue(whook_open);
-        }
 
-        if (gamepad2.a && whook.getPosition() != 0) {
+        if (gamepad2.b && whook.getPosition() != 0) {
             th_whook.queue(whook_close);
-        } else if (gamepad2.a && whook.getPosition() == 0) {
+        } else if (gamepad2.b && whook.getPosition() == 0) {
 
             th_whook.queue(whook_open);
 
-        }
-
-        if (gamepad2.b && wobble.getPosition() == 0) {
-
-            th_wobble.queue(wobble_up);
-
-        } else if (gamepad2.b && wobble.getPosition() != 0) {
+        }else if (gamepad2.a && wobble1.getPosition() == 0) {
 
             th_wobble.queue(wobble_down);
-        }
 
-        if (gamepad2.x && pivotStop.getPosition() != 1)
+        }else if (gamepad2.a && wobble1.getPosition() !=  0) {
+
+            th_wobble.queue(wobble_up);
+        }
+        else if (gamepad2.x && pivotStop.getPosition() != 1)
         {
             th_wobble.queue(hardStop_close);
         }
 
         telemetry.addData("hook position", whook.getPosition());
-        telemetry.addData("wobble position", wobble.getPosition());
+        telemetry.addData("wobble position", wobble1.getPosition());
         telemetry.addData("Wobble Thread", th_wobble.live());
         telemetry.addData("Whook Thread", th_whook.live());
         telemetry.addData("pivotStop", pivotStop.getPosition());
@@ -591,65 +570,67 @@ public abstract class TeleLib extends OpMode {
             while(time_s.milliseconds() < 300){
 
             }
+            auto_aim = true;
 
-            double x = ogcp.returnXCoordinate();
-            double y = ogcp.returnYCoordinate();
-            double distance = Math.sqrt(x*x + y*y);
-            double theta = Shooter.calcThetaPivot(distance, 1, 100);
-            theta = 45;
-            double pos = theta * COUNT_PER_DEGREE;
+            while(auto_aim){
+                double x = ogcp.returnXCoordinate();
+                double y = ogcp.returnYCoordinate();
+                double distance = Math.sqrt(x*x + y*y);
+                double theta = Shooter.calcThetaPivot(distance, 1, 100);
+                theta = 45;
+                double pos = theta * COUNT_PER_DEGREE;
 
-            if(theta > 50){
-                return;
-            }
-            double timeout = 2;
-
-            boolean moveUp = true;
-            double kP = .07/pos;
-            double kI = .01;
-            double kD = .01/pos;
-
-            ElapsedTime time = new ElapsedTime();
-            ElapsedTime timeoutTimer = new ElapsedTime();
-
-            double error;
-            double power;
-
-            double proportional;
-            double integral = 0;
-            double derivative;
-
-            double prevRunTime;
-
-            double initPos = pivot.getCurrentPosition();
-
-            double lastError = pos - initPos;
-
-            time.reset();
-            timeoutTimer.reset();
-            while (Math.abs(pos - pivot.getCurrentPosition()) > 10 && timeoutTimer.seconds() < timeout && pos < 1100) {
-                prevRunTime = time.seconds();
-
-                error = pos - pivot.getCurrentPosition();
-
-                proportional = error * kP;
-
-                integral += (error * (time.seconds() - prevRunTime)) * kI;
-
-
-                derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
-
-
-                power = proportional + integral + derivative;
-
-                if (moveUp)
-                {
-                    pivot.setPower(power);
+                if(theta > 50){
+                    return;
                 }
-                else
-                {
-                    pivot.setPower(-power);
-                }
+                double timeout = 2;
+
+                boolean moveUp = true;
+                double kP = .07/pos;
+                double kI = .01;
+                double kD = .01/pos;
+
+                ElapsedTime time = new ElapsedTime();
+                ElapsedTime timeoutTimer = new ElapsedTime();
+
+                double error;
+                double power;
+
+                double proportional;
+                double integral = 0;
+                double derivative;
+
+                double prevRunTime;
+
+                double initPos = pivot.getCurrentPosition();
+
+                double lastError = pos - initPos;
+
+                time.reset();
+                timeoutTimer.reset();
+                while (Math.abs(pos - pivot.getCurrentPosition()) > 10 && timeoutTimer.seconds() < timeout && pos < 1100) {
+                    prevRunTime = time.seconds();
+
+                    error = pos - pivot.getCurrentPosition();
+
+                    proportional = error * kP;
+
+                    integral += (error * (time.seconds() - prevRunTime)) * kI;
+
+
+                    derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
+
+
+                    power = proportional + integral + derivative;
+
+                    if (moveUp)
+                    {
+                        pivot.setPower(power);
+                    }
+                    else
+                    {
+                        pivot.setPower(-power);
+                    }
 
                 /*
                 telemetry.addData("error ", error);
@@ -659,18 +640,20 @@ public abstract class TeleLib extends OpMode {
                 telemetry.addData("power", power);
                 telemetry.update();
                 */
-                lastError = error;
+                    lastError = error;
 
-                if (Math.abs(pos - pivot.getCurrentPosition()) < 10)
-                {
-                    break;
+                    if (Math.abs(pos - pivot.getCurrentPosition()) < 10)
+                    {
+                        break;
+                    }
+
                 }
+                telemetry.addLine("exited");
+                telemetry.update();
 
+                pivot.setPower(0);
             }
-            telemetry.addLine("exited");
-            telemetry.update();
 
-            pivot.setPower(0);
         }
     });
 
@@ -692,10 +675,13 @@ public abstract class TeleLib extends OpMode {
 
             th_lift.queue(auto_pivot_up);
         } else if (gamepad2.dpad_down && lift_top && pivotPos > -700) {
+            auto_aim = false;
             pivot.setPower(-.5);
         } else if (gamepad2.dpad_right && lift_top && pivotPos < 1100) {
+            auto_aim = false;
             pivot.setPower(.25);
         } else if (gamepad2.dpad_left && lift_top && pivotPos > -700) {
+            auto_aim = false;
             pivot.setPower(-.05);
         } else {
             pivot.setPower(.05);
@@ -718,14 +704,14 @@ public abstract class TeleLib extends OpMode {
 
 
         double pivotPos = pivot.getCurrentPosition();
-        if (gamepad2.dpad_up && lift_top && pivotPos < 1100) {
+        if (gamepad2.dpad_up && lift_top && pivotPos < 1600) {
             pivot.setPower(.5);
 
-        } else if (gamepad2.dpad_down && lift_top && pivotPos > -700) {
+        } else if (gamepad2.dpad_down && lift_top && pivotPos > 0) {
             pivot.setPower(-.5);
-        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1100) {
+        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1600) {
             pivot.setPower(.25);
-        } else if (gamepad2.dpad_left && lift_top && pivotPos > -700) {
+        } else if (gamepad2.dpad_left && lift_top && pivotPos > 0) {
             pivot.setPower(-.05);
         } else {
             pivot.setPower(.05);

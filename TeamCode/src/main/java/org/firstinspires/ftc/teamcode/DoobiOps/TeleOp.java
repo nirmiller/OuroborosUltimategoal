@@ -15,9 +15,8 @@ public class TeleOp extends TeleLib {
 
     @Override
     public void loop() {
-        drive();
-        //arcadedrive();
-        //odom_shooter();
+       // arcadedrive();
+        holonomicdrive();
         shooter();
         intake();
         magazine();
@@ -28,7 +27,7 @@ public class TeleOp extends TeleLib {
 
     @Override
     public void stop() {
-        kill_count = 10;
+        kill_count = 4;
         killAll();
 
         super.stop();

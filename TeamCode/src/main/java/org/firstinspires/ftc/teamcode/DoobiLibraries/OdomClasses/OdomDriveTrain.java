@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses;
 
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Holonomic;
+import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdometryGlobalCoordinatePosition;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Point;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 
 public class OdomDriveTrain {
     //Drive motors
-    DcMotor right_front, right_back, left_front, left_back;
+    DcMotor fr, br, fl, bl;
     //Odometry Wheels
     DcMotor verticalLeft, verticalRight, horizontal;
     Servo hook;
@@ -41,10 +43,10 @@ public class OdomDriveTrain {
         this.opMode = opMode;
         sensors = new Sensors(opMode);
 
-        left_front = opMode.hardwareMap.dcMotor.get("fl");
-        right_front = opMode.hardwareMap.dcMotor.get("fr");
-        left_back = opMode.hardwareMap.dcMotor.get("bl");
-        right_back = opMode.hardwareMap.dcMotor.get("br");
+        fl = opMode.hardwareMap.dcMotor.get("fl");
+        fr = opMode.hardwareMap.dcMotor.get("fr");
+        bl = opMode.hardwareMap.dcMotor.get("bl");
+        br= opMode.hardwareMap.dcMotor.get("br");
 
 
         //intake = hardwareMap.dcMotor.get("intake");
@@ -59,21 +61,21 @@ public class OdomDriveTrain {
 
         mag = opMode.hardwareMap.servo.get("mag");
 
-        right_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        right_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        left_front.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        left_back.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        left_front.setDirection(DcMotor.Direction.REVERSE);
-        right_front.setDirection(DcMotor.Direction.FORWARD);
-        left_back.setDirection(DcMotor.Direction.REVERSE);
-        right_back.setDirection(DcMotor.Direction.FORWARD);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.FORWARD);
 
         resetEncoders();
 
-        verticalLeft = right_front;
-        verticalRight = left_front;
-        horizontal = left_back;
+        verticalLeft = fr;
+        verticalRight = fl;
+        horizontal = bl;
 
         globalPositionUpdate = new OdometryGlobalCoordinatePosition(verticalLeft, verticalRight, horizontal, COUNTS_PER_INCH, 12);
 
@@ -93,21 +95,21 @@ public class OdomDriveTrain {
     }
     public void resetEncoders() {
 
-        left_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        right_front.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        left_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        right_back.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        left_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        right_front.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        left_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        right_back.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -176,10 +178,10 @@ public class OdomDriveTrain {
             motor = Holonomic.calcPowerAuto(moveAngle, sensors.getGyroYaw(), 0);
 
 
-            left_front.setPower(motor[0] * power);
-            right_front.setPower(motor[1] * power);
-            left_back.setPower(motor[2] * power);
-            right_back.setPower(motor[3] * power);
+            fl.setPower(motor[0] * power);
+            fr.setPower(motor[1] * power);
+            bl.setPower(motor[2] * power);
+            br.setPower(motor[3] * power);
 
 
 
@@ -269,35 +271,35 @@ public class OdomDriveTrain {
     {
         if(isRight)
         {
-            right_front.setPower(-power);
-            right_back.setPower(-power);
-            left_front.setPower(power);
-            left_back.setPower(power);
+            fr.setPower(-power);
+            br.setPower(-power);
+            fl.setPower(power);
+            bl.setPower(power);
         }
         else
         {
-            right_front.setPower(power);
-            right_back.setPower(power);
-            left_front.setPower(-power);
-            left_back.setPower(-power);
+            fr.setPower(power);
+            br.setPower(power);
+            fl.setPower(-power);
+            bl.setPower(-power);
         }
     }
 
     public double getEncoderAverage() {
         double count = 4.0;
-        if(right_front.getCurrentPosition() == 0)
+        if(fr.getCurrentPosition() == 0)
         {
             count--;
         }
-        if(left_front.getCurrentPosition() == 0)
+        if(fl.getCurrentPosition() == 0)
         {
             count--;
         }
-        if(right_back.getCurrentPosition() == 0)
+        if(br.getCurrentPosition() == 0)
         {
             count--;
         }
-        if(left_back.getCurrentPosition() == 0)
+        if(bl.getCurrentPosition() == 0)
         {
             count--;
         }
@@ -305,27 +307,27 @@ public class OdomDriveTrain {
         {
             return 0;
         }
-        return (left_front.getCurrentPosition() + right_front.getCurrentPosition()
-                + right_back.getCurrentPosition() + left_back.getCurrentPosition()) / count;
+        return (fl.getCurrentPosition() + fr.getCurrentPosition()
+                + br.getCurrentPosition() + bl.getCurrentPosition()) / count;
     }
     private double getStrafeEncoderAverage(double direction) {
 
         double count = 4.0;
         double average = 0;
 
-        if(right_front.getCurrentPosition() == 0)
+        if(fr.getCurrentPosition() == 0)
         {
             count--;
         }
-        if(left_front.getCurrentPosition() == 0)
+        if(fl.getCurrentPosition() == 0)
         {
             count--;
         }
-        if(right_back.getCurrentPosition() == 0)
+        if(br.getCurrentPosition() == 0)
         {
             count--;
         }
-        if(left_back.getCurrentPosition() == 0)
+        if(bl.getCurrentPosition() == 0)
         {
             count--;
         }
@@ -335,13 +337,13 @@ public class OdomDriveTrain {
         }
         if(direction < 0)
         {
-            average = (((-left_front.getCurrentPosition() + -1*right_front.getCurrentPosition()
-                    + -right_back.getCurrentPosition() + left_back.getCurrentPosition())) ) / count;
+            average = (((-fl.getCurrentPosition() + -1*fr.getCurrentPosition()
+                    + -br.getCurrentPosition() + bl.getCurrentPosition())) ) / count;
         }
         else if(direction > 0)
         {
-            average = (((left_front.getCurrentPosition() + -right_front.getCurrentPosition()
-                    + right_back.getCurrentPosition() + -1*-left_back.getCurrentPosition())))  / count;
+            average = (((fl.getCurrentPosition() + -fr.getCurrentPosition()
+                    + br.getCurrentPosition() + -1*-bl.getCurrentPosition())))  / count;
         }
         return average;
     }
@@ -349,18 +351,18 @@ public class OdomDriveTrain {
     public void setMotorsPower(double power)
     {
 
-        left_front.setPower(power);
-        right_front.setPower(power);
-        right_back.setPower(power);
-        left_back.setPower(power);
+        fl.setPower(power);
+        fr.setPower(power);
+        br.setPower(power);
+        bl.setPower(power);
     }
 
     public void setStrafePower(double power)
     {
-        right_front.setPower(-power);
-        right_back.setPower(-power);
-        left_front.setPower(-power);
-        left_back.setPower(power);
+        fr.setPower(-power);
+        br.setPower(-power);
+        fl.setPower(-power);
+        bl.setPower(power);
     }
 
         public double getTargetPercentile(double reading) {
@@ -473,10 +475,10 @@ public class OdomDriveTrain {
             }
 
 
-            right_front.setPower(pfr);
-            left_front.setPower(pfl);
-            left_back.setPower(pbl);
-            right_back.setPower(pbr);
+            fr.setPower(pfr);
+            fl.setPower(pfl);
+            bl.setPower(pbl);
+            br.setPower(pbr);
             angle = sensors.getGyroYaw();
             opMode.telemetry.addData("Angle", angle);
             opMode.telemetry.addData("Encoder distance left", ((distance * 4) - Math.abs(getStrafeEncoderAverage(pos))));
@@ -494,15 +496,14 @@ public class OdomDriveTrain {
         ElapsedTime runtime = new ElapsedTime();
         double goal = 90;
 
-        do  {
+        do {
 
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal) {
                 turn(.21, false);
-            }
-            else {
+            } else {
                 turn(.21, true);
             }
 
@@ -511,20 +512,21 @@ public class OdomDriveTrain {
 
         choop();
     }
+
+
     public void gyroTurnNinetyFast(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
         double goal = 90;
 
-        do  {
+        do {
 
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
                 turn(.7, false);
-            }
-            else {
+            } else {
                 turn(.7, true);
             }
 
@@ -533,36 +535,70 @@ public class OdomDriveTrain {
 
         choop();
     }
-    public void gyroTurn180(double timeOutMS) {
+
+    public void gyroTurn270(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal = 180;
-        if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
-            goal = 180;
-        }
-        else {
-            goal = 180;
-        }
+        double goal = 270;
 
-
-        do  {
+        do {
 
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal) {
-                turn(.21, false);
-            }
-            else {
-                turn(.21, true);
+                turn(.27, false);
+            } else {
+                turn(.27, true);
             }
 
 
-        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 1 && runtime.milliseconds() < timeOutMS);
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .5 && runtime.milliseconds() < timeOutMS);
 
         choop();
     }
 
+    public void gyroTurn270Fast(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 270;
+
+        do {
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+
+            turn(.7, true);
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
+
+    public void gyroTurn180(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 180;
+
+
+        while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) != 0  && runtime.milliseconds() < timeOutMS){
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if(sensors.getGyroYaw() < goal) {
+                turn(.3, false);
+            } else {
+                turn(.3, true);
+            }
+
+
+        }
+
+        choop();
+    }
     public void gyroTurn180Fast(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
@@ -593,20 +629,16 @@ public class OdomDriveTrain {
         choop();
     }
 
-
-
-
     public void gyroTurnStraight(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal;
+        double goal = 0;
 
-        do  {
+        do {
 
             if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
                 goal = 0;
-            }
-            else {
+            } else {
                 goal = 360;
             }
 
@@ -614,18 +646,43 @@ public class OdomDriveTrain {
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if (sensors.getGyroYaw() < goal) {
-                turn(.21, false);
+                turn(.3, false);
+            } else {
+                turn(.3, true);
             }
-            else {
-                turn(.21, true);
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) != 0 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
+    public void gyroTurnStraightfast(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 0;
+
+        while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .1 && runtime.milliseconds() < timeOutMS) {
+
+            if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
+                goal = 0;
+            } else {
+                goal = 360;
+            }
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal) {
+                turn(.7, false);
+            } else {
+                turn(.7, true);
             }
 
 
         } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
 
         choop();
-    }
-
+    } 
     public void holoForward(double power, double distance, double timeoutMS){
         distance = distance * COUNTS_PER_INCH;
         ElapsedTime time = new ElapsedTime();
@@ -656,10 +713,10 @@ public class OdomDriveTrain {
             }
 
             motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
-            left_front.setPower(motor_power[0] * power);
-            right_front.setPower(motor_power[3] * power);
-            left_back.setPower(motor_power[2] * power);
-            right_back.setPower(motor_power[1] * power);
+            fl.setPower(motor_power[0] * power);
+            fr.setPower(motor_power[3] * power);
+            bl.setPower(motor_power[2] * power);
+            br.setPower(motor_power[1] * power);
             opMode.telemetry.addData("fl :", motor_power[0]);
             opMode.telemetry.addData("fr :", motor_power[3]);
             opMode.telemetry.addData("bl :", motor_power[2]);
@@ -709,10 +766,10 @@ public class OdomDriveTrain {
 
 
             motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, 0);
-            left_front.setPower(motor_power[0] * power);
-            right_front.setPower(motor_power[3] * power);
-            left_back.setPower(motor_power[2] * power);
-            right_back.setPower(motor_power[1] * power);
+            fl.setPower(motor_power[0] * power);
+            fr.setPower(motor_power[3] * power);
+            bl.setPower(motor_power[2] * power);
+            br.setPower(motor_power[1] * power);
             opMode.telemetry.addData("fl :", motor_power[0]);
             opMode.telemetry.addData("fr :", motor_power[1]);
             opMode.telemetry.addData("bl :", motor_power[2]);
@@ -731,10 +788,10 @@ public class OdomDriveTrain {
 
     public void choop()
     {
-        left_front.setPower(0);
-        right_front.setPower(0);
-        left_back.setPower(0);
-        right_back.setPower(0);
+        fl.setPower(0);
+        fr.setPower(0);
+        bl.setPower(0);
+        br.setPower(0);
     }
 
     /**
@@ -756,6 +813,8 @@ public class OdomDriveTrain {
     private double calculateY(double desiredAngle, double speed) {
         return Math.cos(Math.toRadians(desiredAngle)) * speed;
     }
+    
+    
 
 
 }
