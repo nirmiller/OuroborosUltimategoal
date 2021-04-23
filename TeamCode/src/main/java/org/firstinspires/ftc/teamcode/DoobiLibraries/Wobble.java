@@ -4,7 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Wobble {
-    public Servo wobble;
+    public Servo wobble1;
+    public Servo wobble2;
     public Servo hook;
     int wobbleUpPos = 1;
     int wobbleDownPos = 0;
@@ -13,10 +14,13 @@ public class Wobble {
     LinearOpMode opMode;
 
     public Wobble(LinearOpMode opMode) {
-        wobble = opMode.hardwareMap.servo.get("wobble");
+        wobble1 = opMode.hardwareMap.servo.get("wobble1");
+        wobble2 = opMode.hardwareMap.servo.get("wobble2");
+
         hook = opMode.hardwareMap.servo.get("whook");
         this.opMode = opMode;
-        wobble.setDirection(Servo.Direction.FORWARD);
+        wobble1.setDirection(Servo.Direction.FORWARD);
+        wobble2.setDirection(Servo.Direction.REVERSE);
 
         wobbleDown();
         hookOpen();
@@ -38,11 +42,13 @@ public class Wobble {
     }
 
     public void hookClose() {
-        wobble.setPosition(0);
+        wobble1.setPosition(0);
+        wobble2.setPosition(0);
     }
 
     public void hookOpen() {
-        wobble.setPosition(1);
+        wobble1.setPosition(1);
+        wobble2.setPosition(1);
     }
 
     public void getWobble() {
