@@ -34,21 +34,23 @@ public class Wobble {
 
 
     public void wobbleUp() {
-        hook.setPosition(1);
+
+        wobble1.setPosition(0);
+        wobble2.setPosition(0);;
     }
 
     public void wobbleDown() {
-        hook.setPosition(0);
+
+        wobble1.setPosition(1);
+        wobble2.setPosition(1);
     }
 
     public void hookClose() {
-        wobble1.setPosition(0);
-        wobble2.setPosition(0);
+        hook.setPosition(0);
     }
 
     public void hookOpen() {
-        wobble1.setPosition(1);
-        wobble2.setPosition(1);
+        hook.setPosition(1);
     }
 
     public void getWobble() {

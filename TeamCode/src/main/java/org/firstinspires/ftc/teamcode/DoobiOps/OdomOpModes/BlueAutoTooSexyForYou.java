@@ -121,7 +121,7 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
 
-                hdt.gyroHoloForward(-.8, 29, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.8, 33, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
                 hdt.gyroTurn270Fast(1000);
                 hdt.gyroTurn270(500);
@@ -132,7 +132,7 @@ public class BlueAutoTooSexyForYou extends LinearOpMode {
                 wobble.wobbleDown();
                 sleep(300);
                 wobble.hookOpen();
-                hdt.gyroHoloForward(-.35, 16, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.35, 18, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 wobble.getWobble();
                 sleep(600);
                 hdt.gyroHoloForward(-.7, 15, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());

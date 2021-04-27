@@ -43,7 +43,7 @@ public class HolonomicDrivetrain {
         //intake = hardwareMap.dcMotor.get("intake");
 
         hook = opMode.hardwareMap.servo.get("whook");
-        wobble = opMode.hardwareMap.servo.get("wobble");
+        //wobble = opMode.hardwareMap.servo.get("wobble");
         mag = opMode.hardwareMap.servo.get("mag");
 
 
@@ -471,7 +471,7 @@ public class HolonomicDrivetrain {
     public void gyroTurn180(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal = 180;
+        double goal = 182;
 
 
         while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) != 0  && runtime.milliseconds() < timeOutMS){
@@ -655,9 +655,9 @@ public class HolonomicDrivetrain {
 
 
             if (Math.abs(power) >= .2 && distance - Math.abs(getEncoderAverage()) > distance/7) {
-                power += .05 * pos;
+                power += .03 * pos;
             }else{
-                power -= .05 * pos;
+                power -= .03 * pos;
             }
 
 
@@ -670,9 +670,9 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("ANGLE", angle_face);
             opMode.telemetry.update();
             if (angle_face >= .5) {
-                rot_power = pos * Math.abs(angle_face) / 25;
+                rot_power = pos * Math.abs(angle_face) / 15;
             } else if (angle_face <= -.5) {
-                rot_power = pos * -Math.abs(angle_face) / 25;
+                rot_power = pos * -Math.abs(angle_face) / 15;
             } else {
                 rot_power = 0;
             }
