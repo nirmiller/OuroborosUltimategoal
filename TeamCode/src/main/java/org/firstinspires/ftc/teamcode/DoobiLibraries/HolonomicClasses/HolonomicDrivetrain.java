@@ -607,8 +607,10 @@ public class HolonomicDrivetrain {
             angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - initial;
 
 
-            if (Math.abs(power) <= .5) {
-                power += .1;
+            if (Math.abs(power) >= .2 && distance - Math.abs(getEncoderAverage()) > distance/7){
+                power += .05;
+            }else{
+                power -= .01;
             }
 
             motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, rot_power);
