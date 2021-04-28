@@ -27,16 +27,15 @@ public class TrollAuto2 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         hdt = new HolonomicDrivetrain(this);
-        odt = new OdomDriveTrain(this);
+        //odt = new OdomDriveTrain(this);
         sensors = new Sensors(this);
 
         waitForStart();
         //TODO: Test gyroTurn180 for 5 seconds and turn it to a 45 degree angle while
         //looking at the telemetry
-        hdt.gyroTurnStraight(5000);
-        /*
-        //TODO: Do the same thing for 270, but start it at 180 degrees
-        hdt.gyroTurn270(5000);
-*/
+        //while(opModeIsActive())
+        hdt.gyroTurn180(5000);
+        //hdt.gyroTurn270(5000);
+
     }
 }

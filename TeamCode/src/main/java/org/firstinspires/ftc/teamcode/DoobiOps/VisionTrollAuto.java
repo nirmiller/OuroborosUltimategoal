@@ -17,6 +17,7 @@ public class VisionTrollAuto extends LinearOpMode {
         //vision = new RegressBerryPie(this);
         backupVision = new BackupVision(this);
         waitForStart();
+
         //telemetry.addData("position", vision.pie());
         telemetry.addData("position", backupVision.senseBlue(this));
         telemetry.update();

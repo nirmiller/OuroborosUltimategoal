@@ -471,18 +471,18 @@ public class HolonomicDrivetrain {
     public void gyroTurn180(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal = 182;
+        double goal = 184;
 
 
-        while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) != 0  && runtime.milliseconds() < timeOutMS){
+        while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .1  && runtime.milliseconds() < timeOutMS){
 
             opMode.telemetry.addData("Goal", goal);
             opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
             opMode.telemetry.update();
             if(sensors.getGyroYaw() < goal) {
-                turn(.3, false);
+                turn(.25, false);
             } else {
-                turn(.3, true);
+                turn(.25, true);
             }
 
 
@@ -621,9 +621,9 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("ANGLE", angle_face );
             opMode.telemetry.update();
             if (angle_face >= 1) {
-                rot_power =  Math.abs(angle_face) / 15;
+                rot_power =  Math.abs(angle_face) / 10;
             } else if (angle_face <= -1) {
-                rot_power = -Math.abs(angle_face) / 15;
+                rot_power = -Math.abs(angle_face) / 10;
             } else {
                 rot_power = 0;
             }
