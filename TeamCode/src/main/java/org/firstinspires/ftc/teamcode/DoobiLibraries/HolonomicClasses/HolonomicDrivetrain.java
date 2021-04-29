@@ -286,7 +286,8 @@ public class HolonomicDrivetrain {
     }
 
     public double getEncoderAverage() {
-        double count = 4.0;
+
+        double count = 2.0;
         if (fr.getCurrentPosition() == 0) {
             count--;
         }
@@ -302,8 +303,7 @@ public class HolonomicDrivetrain {
         if (count == 0) {
             return 0;
         }
-        return (fl.getCurrentPosition() + fr.getCurrentPosition()
-                + br.getCurrentPosition() + bl.getCurrentPosition()) / count;
+        return (fl.getCurrentPosition() + fr.getCurrentPosition()) / count;
     }
 
     private double getStrafeEncoderAverage(double direction) {
@@ -646,17 +646,18 @@ public class HolonomicDrivetrain {
         double angle_heading = 0;
         double angle_face = 0;
         double rot_power = 0;
-        resetEncoders();
+        //resetEncoders();
+        double init_distance = getEncoderAverage();
 
         power = power * .5;
         double pos = power / Math.abs(power);
-        while (opMode.opModeIsActive() && (distance) - Math.abs(getEncoderAverage()) > .5 && time.milliseconds() < timeoutMS) {
+        while (opMode.opModeIsActive() && (distance) - Math.abs(getEncoderAverage() - init_distance) > .5 && time.milliseconds() < timeoutMS) {
             average = getEncoderAverage();
 
             angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - initial;
 
 
-            if (Math.abs(power) >= .2 && distance - Math.abs(getEncoderAverage()) > distance/7) {
+            if (Math.abs(power) >= .2 && distance - Math.abs(getEncoderAverage() - init_distance) > distance/3) {
                 power += .03 * pos;
             }else{
                 power -= .03 * pos;
@@ -671,10 +672,10 @@ public class HolonomicDrivetrain {
             br.setPower(motor_power[3] * power);
             opMode.telemetry.addData("ANGLE", angle_face);
             opMode.telemetry.update();
-            if (angle_face >= .5) {
-                rot_power = pos * Math.abs(angle_face) / 15;
-            } else if (angle_face <= -.5) {
-                rot_power = pos * -Math.abs(angle_face) / 15;
+            if (angle_face >= .25) {
+                rot_power = pos * Math.abs(angle_face) / 10;
+            } else if (angle_face <= -.25) {
+                rot_power = pos * -Math.abs(angle_face) / 10;
             } else {
                 rot_power = 0;
             }

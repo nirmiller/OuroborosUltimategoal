@@ -24,8 +24,6 @@ public class ThreadHandler {
         thread.start();
     }
 
-
-
     public boolean live() {
         if (thread != null) {
             return thread.isAlive();

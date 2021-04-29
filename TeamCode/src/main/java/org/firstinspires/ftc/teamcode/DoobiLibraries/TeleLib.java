@@ -21,7 +21,7 @@ import static android.os.SystemClock.sleep;
 public abstract class TeleLib extends OpMode {
 
 
-    final double COUNTS_PER_INCH = 308.876;
+    final double COUNTS_PER_INCH = 35;
     final double COUNT_PER_DEGREE = 21;
 
     double right_stick_x;
@@ -376,15 +376,16 @@ public abstract class TeleLib extends OpMode {
 
     public void killAll(){
 
-        if(gamepad2.right_stick_button){
+        if(gamepad1.right_stick_button){
             kill_count++;
         }
 
-        if(kill_count >= 2){
+        if(kill_count >= 3){
             pivot.setPower(0);
             lift.setPower(0);
             intake.setPower(0);
             shooter.setPower(0);
+            resetEncoders();
             kill_count = 0;
         }
     }
