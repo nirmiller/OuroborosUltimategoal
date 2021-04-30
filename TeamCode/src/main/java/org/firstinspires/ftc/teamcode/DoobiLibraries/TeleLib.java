@@ -676,13 +676,10 @@ public abstract class TeleLib extends OpMode {
 
             th_lift.queue(auto_pivot_up);
         } else if (gamepad2.dpad_down && lift_top && pivotPos > -700) {
-            auto_aim = false;
             pivot.setPower(-.5);
         } else if (gamepad2.dpad_right && lift_top && pivotPos < 1100) {
-            auto_aim = false;
             pivot.setPower(.25);
         } else if (gamepad2.dpad_left && lift_top && pivotPos > -700) {
-            auto_aim = false;
             pivot.setPower(-.05);
         } else {
             pivot.setPower(.05);
@@ -705,14 +702,14 @@ public abstract class TeleLib extends OpMode {
 
 
         double pivotPos = pivot.getCurrentPosition();
-        if (gamepad2.dpad_up && lift_top && pivotPos < 1600) {
+        if (gamepad2.dpad_up && lift_top && pivotPos < 1100) {
             pivot.setPower(.5);
 
-        } else if (gamepad2.dpad_down && lift_top && pivotPos > 0) {
+        } else if (gamepad2.dpad_down && lift_top && pivotPos > -700) {
             pivot.setPower(-.5);
-        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1600) {
+        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1100) {
             pivot.setPower(.25);
-        } else if (gamepad2.dpad_left && lift_top && pivotPos > 0) {
+        } else if (gamepad2.dpad_left && lift_top && pivotPos > -700) {
             pivot.setPower(-.05);
         } else {
             pivot.setPower(.05);
