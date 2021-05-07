@@ -176,31 +176,6 @@ public class HolonomicDrivetrain {
     }
 */
 
-    public void timestrafeMove(double timeout, double power, double direction) {
-
-        ElapsedTime time = new ElapsedTime();
-        setStrafePower(power);
-        while (opMode.opModeIsActive() && time.milliseconds() < timeout) {
-            opMode.telemetry.addData("ANGLE", sensors.getGyroYawwww());
-            opMode.telemetry.update();
-        }
-
-        choop();
-    }
-
-    public void timeMoveForward(double timeout, double power) {
-
-
-        ElapsedTime time = new ElapsedTime();
-        setMotorsPower(power);
-        while (opMode.opModeIsActive() && time.milliseconds() < timeout) {
-
-        }
-        choop();
-
-
-    }
-
     public void turnPID(double angleChange, boolean turnRight, double kP, double kI, double kD, double timeout) {
 
         ElapsedTime time = new ElapsedTime();
@@ -727,6 +702,93 @@ public class HolonomicDrivetrain {
         pos[0] = ((Math.sin(angle_face - angle_heading)) * (fl_pos - fr_pos - bl_pos + br_pos)) / (COUNTS_PER_INCH);
         return pos;
     }
+
+
+    public void gyroHoloPIDMovement(double heading, double initial_face, double distance, double timeoutS, double kP, double kI, double kD){
+        ElapsedTime time = new ElapsedTime();
+        ElapsedTime timeoutTimer = new ElapsedTime();
+
+        double power;
+
+        double angle_heading = 0;
+        double angle_face = 0;
+        double rot_power = 0;
+
+        double proportional;
+        double integral = 0;
+        double derivative;
+
+        double[] motor_power = new double[4];
+
+
+        double prevRunTime;
+
+        distance = distance * COUNTS_PER_INCH;
+
+        double error = distance - getEncoderAverage();
+        double lastError = error;
+        double initial = sensors.getGyroYawwwwwwwwwwwwwwwwwww();
+
+        time.reset();
+        timeoutTimer.reset();
+
+        while (Math.abs(error) > COUNTS_PER_INCH && timeoutTimer.seconds() < timeoutS && opMode.opModeIsActive()) {
+            prevRunTime = time.seconds();
+
+
+            error = distance - getEncoderAverage();
+
+
+            proportional = error * kP;
+
+            integral += (error * (time.seconds() - prevRunTime)) * kI;
+
+
+            derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
+
+
+            power = proportional + integral + derivative;
+
+            if (power < .3 && kI == 0 && kD == 0) {
+                power = .19;
+            }
+
+            //gyroHoloMovements
+
+
+            angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - initial;
+
+
+
+            motor_power = Holonomic.calcPowerAuto(angle_heading, angle_face, rot_power);
+            fl.setPower(motor_power[0] * power);
+            fr.setPower(motor_power[1] * power);
+            bl.setPower(motor_power[2] * power);
+            br.setPower(motor_power[3] * power);
+            opMode.telemetry.addData("ANGLE", angle_face);
+            opMode.telemetry.update();
+            if (angle_face >= .5) {
+                rot_power = Math.abs(angle_face) / 12;
+            } else if (angle_face <= -.5) {
+                rot_power = -Math.abs(angle_face) / 12;
+            } else {
+                rot_power = 0;
+            }
+
+
+
+
+
+
+            lastError = error;
+
+
+        }
+
+
+        choop();
+    }
+
 
 
 }
