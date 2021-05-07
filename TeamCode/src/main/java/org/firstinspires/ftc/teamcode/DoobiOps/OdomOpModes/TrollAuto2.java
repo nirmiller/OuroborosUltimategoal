@@ -29,10 +29,8 @@ public class TrollAuto2 extends LinearOpMode {
         hdt = new HolonomicDrivetrain(this);
 
         waitForStart();
-        hdt.gyroHoloForward(.5, 24, 100000, 0);
-        sleep(1000);
-        hdt.gyroHoloForward(-.5, 24, 100000, 0);
-
-
+        hdt.gyroHoloPIDMovement(0, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 24, 5, .4/24, .1/24, .01/24);
+        sleep(500);
+        hdt.gyroHoloPIDMovement(180, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 24, 5, .4/24, .1/24, .01/24);
     }
 }

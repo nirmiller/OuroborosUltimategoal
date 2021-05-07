@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.Loop;
 
+@Disabled
 @Autonomous(group = "Auto", name = "Good Auto 2")
 public class GoodAutoV2 extends LinearOpMode {
 

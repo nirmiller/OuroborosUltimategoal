@@ -26,7 +26,8 @@ public class TrollAuto extends LinearOpMode {
 
         while (opModeIsActive())
         {
-            telemetry.addData("Angle :", sensors.getGyroYaw());
+            telemetry.addData("Angle GyroYaw :", sensors.getGyroYaw());
+            telemetry.addData("Angle  GyroYawwwwwwwwwwwwwww:", sensors.getGyroYawwwwwwwwwwwwwwwwwww());
             telemetry.update();
         }
         //odt.encoderMove(.7, 24,  4);

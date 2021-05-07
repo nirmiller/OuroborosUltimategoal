@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
+@Disabled
 @Autonomous(group = "Auto", name = "BlueAutoTooSexyForYou")
 public class BlueAutoTooSexyForYou extends LinearOpMode {
 
