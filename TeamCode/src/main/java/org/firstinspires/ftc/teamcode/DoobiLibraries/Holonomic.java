@@ -70,10 +70,10 @@ public class Holonomic {
 
         double[] motorPower = new double[4];
 
-        motorPower[0] = Math.cos(difAng) + Math.sin(difAng) - .5*Math.sin(rot);
-        motorPower[1] = Math.cos(difAng) - Math.sin(difAng) + .5*Math.sin(rot);
-        motorPower[2] = Math.cos(difAng) - Math.sin(difAng) - .5*Math.sin(rot);
-        motorPower[3] = Math.cos(difAng) + Math.sin(difAng) + .5*Math.sin(rot);
+        motorPower[0] = Math.cos(difAng) + Math.sin(difAng) - .25*rot;
+        motorPower[1] = Math.cos(difAng) - Math.sin(difAng) + .25*rot;
+        motorPower[2] = Math.cos(difAng) - Math.sin(difAng) - .25*rot;
+        motorPower[3] = Math.cos(difAng) + Math.sin(difAng) + .25*rot;
 
         //normalize(motorPower);
 
