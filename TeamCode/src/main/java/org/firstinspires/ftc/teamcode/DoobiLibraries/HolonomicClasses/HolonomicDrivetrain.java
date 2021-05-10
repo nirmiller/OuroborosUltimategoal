@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.DoobiLibraries.HolonomicClasses;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -703,7 +704,7 @@ public class HolonomicDrivetrain {
     }
 
 
-    public void gyroHoloPIDMovement(double heading, double initial_face, double distance, double timeoutS, double kP, double kI, double kD) {
+    public void gyroHoloPIDMovement(double heading, double face, double distance, double timeoutS, double kP, double kI, double kD) {
         ElapsedTime time = new ElapsedTime();
         ElapsedTime timeoutTimer = new ElapsedTime();
 
@@ -717,7 +718,6 @@ public class HolonomicDrivetrain {
         double derivative;
 
         double[] motor_power = new double[4];
-
 
         double prevRunTime;
 
@@ -759,7 +759,93 @@ public class HolonomicDrivetrain {
             //gyroHoloMovements
 
 
-            angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - initial_face;
+            angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww() - face;
+
+
+            motor_power = Holonomic.calcPowerAuto(heading, angle_face, rot_power);
+            fl.setPower(motor_power[0] * power);
+            fr.setPower(motor_power[1] * power);
+            bl.setPower(motor_power[2] * power);
+            br.setPower(motor_power[3] * power);
+
+            if (angle_face >= .5) {
+                rot_power = Math.abs(angle_face) / 12;
+            } else if (angle_face <= -.5) {
+                rot_power = -Math.abs(angle_face) / 12;
+            } else {
+                rot_power = 0;
+            }
+
+
+            lastError = error;
+
+
+        }
+
+
+        choop();
+    }
+
+    public void gyroHoloPIDMovement(double heading, double face, double distance, double timeoutS) {
+        ElapsedTime time = new ElapsedTime();
+        ElapsedTime timeoutTimer = new ElapsedTime();
+
+        double power;
+
+        double kP = .4/distance;
+        double kI = .1/distance;
+        double kD = .01/distance;
+
+        double angle_face = 0;
+        double rot_power = 0;
+
+        double proportional;
+        double integral = 0;
+        double derivative;
+
+        double[] motor_power = new double[4];
+
+        double prevRunTime;
+
+        double initial = getEncoderAverage();
+
+        double average = Math.abs((getEncoderAverage() - initial)/ COUNTS_PER_INCH);
+
+        double error = distance - average;
+        double lastError = error;
+
+
+        time.reset();
+        timeoutTimer.reset();
+
+        while (Math.abs(error) > 1 && timeoutTimer.seconds() < timeoutS && opMode.opModeIsActive()) {
+
+
+            //PID
+
+            prevRunTime = time.seconds();
+
+            average = Math.abs((getEncoderAverage() - initial)/ COUNTS_PER_INCH);
+            error = distance - average;
+
+            proportional = error * kP;
+
+            integral += (error * (time.seconds() - prevRunTime)) * kI;
+
+
+            derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
+
+
+            power = proportional + integral + derivative;
+
+            if (power < .3 && kI == 0 && kD == 0) {
+                power = .19;
+            }
+
+            //gyroHoloMovements
+
+
+            angle_face = sensors.getGyroYawwwwwwwwwwwwwwwwwww()  - face;
 
 
             motor_power = Holonomic.calcPowerAuto(heading, angle_face, rot_power);

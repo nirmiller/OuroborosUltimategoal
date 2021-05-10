@@ -29,11 +29,11 @@ public class ShooterHardware {
 
     LinearOpMode opMode;
 
-    DcMotor shooter;
-    DcMotor pivot;
-    DcMotor lift;
+    public DcMotor shooter;
+    public DcMotor pivot;
+    public DcMotor lift;
     Servo mag;
-    Servo pivotStop;
+    public Servo pivotStop;
     Sensors sensors;
 
     private double currentAngle;
