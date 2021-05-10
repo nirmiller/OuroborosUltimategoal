@@ -648,9 +648,9 @@ public class HolonomicDrivetrain {
             opMode.telemetry.addData("ANGLE", angle_face);
             opMode.telemetry.update();
             if (angle_face >= .5) {
-                rot_power = pos * Math.abs(angle_face) / 12;
+                rot_power = pos * Math.abs(angle_face) / 30;
             } else if (angle_face <= -.5) {
-                rot_power = pos * -Math.abs(angle_face) / 12;
+                rot_power = pos * -Math.abs(angle_face) / 30;
             } else {
                 rot_power = 0;
             }
@@ -768,10 +768,10 @@ public class HolonomicDrivetrain {
             bl.setPower(motor_power[2] * power);
             br.setPower(motor_power[3] * power);
 
-            if (angle_face >= .5) {
-                rot_power = Math.abs(angle_face) / 12;
-            } else if (angle_face <= -.5) {
-                rot_power = -Math.abs(angle_face) / 12;
+            if (angle_face >= 1) {
+                rot_power = Math.abs(angle_face) / 15;
+            } else if (angle_face <= -1) {
+                rot_power = -Math.abs(angle_face) / 15;
             } else {
                 rot_power = 0;
             }
@@ -792,9 +792,9 @@ public class HolonomicDrivetrain {
 
         double power;
 
-        double kP = .4/distance;
-        double kI = .1/distance;
-        double kD = .01/distance;
+        double kP = .7/24;
+        double kI = .01;
+        double kD = .001;
 
         double angle_face = 0;
         double rot_power = 0;
@@ -855,9 +855,9 @@ public class HolonomicDrivetrain {
             br.setPower(motor_power[3] * power);
 
             if (angle_face >= .5) {
-                rot_power = Math.abs(angle_face) / 12;
+                rot_power = Math.abs(angle_face) / 24;
             } else if (angle_face <= -.5) {
-                rot_power = -Math.abs(angle_face) / 12;
+                rot_power = -Math.abs(angle_face) / 24;
             } else {
                 rot_power = 0;
             }

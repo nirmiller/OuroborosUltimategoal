@@ -25,7 +25,7 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *//*
+ */
 
 
 package org.firstinspires.ftc.teamcode.DoobiOps;
@@ -76,7 +76,7 @@ public class RightRedAuto extends LinearOpMode {
                 //shoot - wait for Nir to finish
                 drive.splineMove(noRings1, .5, 3, 5);
                 wobble.wobbleDown();
-                wobble.hookUp();
+                wobble.hookOpen();
                 wobble.wobbleUp();
                 drive.end();
             case 1:
@@ -85,7 +85,7 @@ public class RightRedAuto extends LinearOpMode {
                 //shoot
                 drive.splineMove(OneRing1, .7, 3, 5);
                 wobble.wobbleDown();
-                wobble.hookUp();
+                wobble.hookOpen();
                 wobble.wobbleUp();
                 drive.splineMove(OneRing2, .7, 3, 5);
                 drive.end();
@@ -95,11 +95,11 @@ public class RightRedAuto extends LinearOpMode {
                 //shoot
                 drive.splineMove(FourRings1, .7, 3, 5);
                 wobble.wobbleDown();
-                wobble.hookUp();
+                wobble.hookOpen();
                 wobble.wobbleUp();
                 drive.splineMove(FourRings2, .7, 3, 5);
                 drive.end();
         }
     }
 }
-*/
+

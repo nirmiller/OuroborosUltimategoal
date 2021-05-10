@@ -27,10 +27,11 @@ public class TrollAuto2 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         hdt = new HolonomicDrivetrain(this);
+        sensors = new Sensors(this);
 
         waitForStart();
-        hdt.gyroHoloPIDMovement(0, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 24, 5, .4/24, .1/24, .01/24);
-        sleep(500);
-        hdt.gyroHoloPIDMovement(180, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 24, 5, .4/24, .1/24, .01/24);
+        hdt.gyroHoloPIDMovement(0, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 40, 5, .7/24, .01, .001);
+        sleep(1000);
+        hdt.gyroHoloPIDMovement(180, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 40, 5, .7/24, .01, .001);
     }
 }

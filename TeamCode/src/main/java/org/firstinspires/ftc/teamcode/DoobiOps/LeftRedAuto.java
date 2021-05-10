@@ -28,6 +28,7 @@
  *//*
 
 
+
 package org.firstinspires.ftc.teamcode.DoobiOps;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -85,7 +86,7 @@ public class LeftRedAuto extends LinearOpMode {
                 //shoot
                 drive.splineMove(OneRing1, .7, 3, 5);
                 wobble.wobbleDown();
-                wobble.hookUp();
+                wobble.hookOpen();
                 wobble.wobbleUp();
                 drive.splineMove(OneRing2, .7, 3, 5);
                 drive.end();
@@ -95,11 +96,12 @@ public class LeftRedAuto extends LinearOpMode {
                 //shoot
                 drive.splineMove(FourRings1, .7, 3, 5);
                 wobble.wobbleDown();
-                wobble.hookUp();
+                wobble.hookOpen();
                 wobble.wobbleUp();
                 drive.splineMove(FourRings2, .7, 3, 5);
                 drive.end();
         }
     }
 }
+
 */

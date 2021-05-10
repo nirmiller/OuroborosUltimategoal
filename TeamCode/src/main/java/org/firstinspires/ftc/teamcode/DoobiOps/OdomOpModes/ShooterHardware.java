@@ -84,7 +84,7 @@ public class ShooterHardware {
         liftReady = true;
 
 
-        lift.setPower(.4);
+        lift.setPower(.45);
         opMode.sleep(500);
         while (!liftReady) {
         }
@@ -95,7 +95,7 @@ public class ShooterHardware {
         }
         pivot.setPower(0);
         opMode.sleep(700);
-        pivotStop.setPosition(.535);
+        pivotStop.setPosition(.49);
         opMode.sleep(700);
         pivot.setPower(-0.1);
         opMode.sleep(1000);
@@ -256,7 +256,7 @@ public class ShooterHardware {
 
     public void ignite()
     {
-        shooter.setPower(1);
+        shooter.setPower(.9);
     }
 
     public void withdraw()
