@@ -133,12 +133,12 @@ public class BlueHighGoal extends LinearOpMode {
                 //hdt.gyroHoloForward(1, 80, 3000, 0);
                 hdt.gyroHoloPIDMovement(0, 0, 90, 5);
                 sleep(300);
-                hdt.gyroHoloPIDMovement(90, 0, 16, 5, .6/24, .01/24, .001);
+                hdt.gyroHoloPIDMovement(90, 0, 16, 5, .7/24, .01, .001);
                 //hdt.gyroHoloStrafe(1, 16, false, 3000, 0);
                 sleep(300);
                 wobble.releaseWobble();
                 //hdt.gyroHoloStrafe(1, 14, true, 3000, 0);
-                hdt.gyroHoloPIDMovement(-90, 0, 14, 3);
+                hdt.gyroHoloPIDMovement(-90, 0, 14, 3, .7/24, .01, .001);
                 sleep(300);
                 //hdt.gyroHoloForward(-1, 35, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
