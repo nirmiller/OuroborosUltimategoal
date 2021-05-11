@@ -868,6 +868,7 @@ public class HolonomicDrivetrain {
 
         double error = distance - average;
         double lastError = error;
+        double powerFirst = 0;
 
 
         time.reset();
@@ -907,6 +908,11 @@ public class HolonomicDrivetrain {
 
             if (power < .3 && kI == 0 && kD == 0) {
                 power = .19;
+            }
+            if (time.milliseconds() < 500)
+            {
+                powerFirst += .05;
+                power = powerFirst;
             }
 
             //gyroHoloMovements
