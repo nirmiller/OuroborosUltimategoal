@@ -106,6 +106,72 @@ public class ShooterHardware {
         opMode.telemetry.addLine("shooterRedy");
 
     }
+    public ShooterHardware(LinearOpMode opMode, boolean powerShots)
+    {
+        this.opMode = opMode;
+        sensors = new Sensors(opMode);
+
+        shooter = opMode.hardwareMap.dcMotor.get("shooter");
+        pivot = opMode.hardwareMap.dcMotor.get("pivot");
+        lift = opMode.hardwareMap.dcMotor.get("lift");
+        mag = opMode.hardwareMap.servo.get("mag");
+        pivotStop = opMode.hardwareMap.servo.get("ps");
+
+
+        pivot.setDirection(DcMotor.Direction.REVERSE);
+        pivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        lift.setDirection(DcMotor.Direction.FORWARD);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        shooter.setDirection(DcMotor.Direction.REVERSE);
+        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        /*setLift();
+        sleep(1000);
+        setPivotAngle();
+        while (!sensors.button.isPressed() && opMode.opModeIsActive())
+        {
+            pivot.setPower(-.2);
+        }*/
+        pivot.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // pivot.setPower(0);
+
+        pivot.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftReady = false;
+        double encoder = 15;
+
+        while (lift.getCurrentPosition() < encoder)
+        {
+            lift.setPower(.7);
+            opMode.telemetry.addData("lift encoder pos: ", lift.getCurrentPosition());
+            opMode.telemetry.update();
+
+        }
+        liftReady = true;
+
+
+        lift.setPower(.45);
+        opMode.sleep(500);
+        while (!liftReady) {
+        }
+        encoder = 1000;
+        while (pivot.getCurrentPosition() < encoder)
+        {
+            pivot.setPower(.7);
+        }
+        pivot.setPower(0);
+        opMode.sleep(700);
+        pivotStop.setPosition(.54);
+        opMode.sleep(700);
+        pivot.setPower(-0.1);
+        opMode.sleep(1000);
+        pivot.setPower(0);
+        opMode.sleep(1000);
+        //pivot.setPower(.05);
+        //lift.setPower(0);
+        opMode.telemetry.addLine("shooterRedy");
+
+    }
 
 
     public void setPivotAngle()
