@@ -24,7 +24,7 @@ public class RedPowerShots extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //wobble = new Wobble(this);
-        sh = new ShooterHardware(this);
+        sh = new ShooterHardware(this, true);
         loop = new Loop();
         hdt = new HolonomicDrivetrain(this);
         backupVision = new BackupVision(this);
@@ -50,17 +50,17 @@ public class RedPowerShots extends LinearOpMode {
                 time.reset();
                 sleep(3000);
                 sh.hitRing();
-                sleep(600);
+                sleep(300);
                 sh.hitRing();
-                sleep(600);
+                sleep(300);
+                hdt.turnPID(5, true, .28 / 7, 0, 0, .4);
+                sleep(300);
                 sh.hitRing();
-                sleep(600);
-                //sh.pivotStop.setPosition(.55);
+                sleep(300);
+                hdt.turnPID(4, true, .28 / 7, 0, 0, .3);
+                sleep(300);
                 sh.hitRing();
-                sleep(500);
-                //sh.pivotDown();
-                sh.hitRing();
-                sleep(500);
+                sleep(300);
                 sh.withdraw();
                 sh.lift.setPower(0);
                 sh.lift.setPower(0);
