@@ -30,8 +30,10 @@ public class TrollAuto2 extends LinearOpMode {
         sensors = new Sensors(this);
 
         waitForStart();
-        hdt.gyroHoloPIDMovement(0, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 40, 5, .7/24, .01, .001);
-        sleep(1000);
-        hdt.gyroHoloPIDMovement(180, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 40, 5, .7/24, .01, .001);
+        hdt.gyroTurn180Fast(1000);
+        hdt.gyroTurn180(1000);
+      //  hdt.gyroHoloPIDMovement(0, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 40, 5, .7/24, .01, .001);
+       // sleep(1000);
+       // hdt.gyroHoloPIDMovement(180, sensors.getGyroYawwwwwwwwwwwwwwwwwww(), 40, 5, .7/24, .01, .001);
     }
 }

@@ -123,7 +123,8 @@ public class BlueHighGoal extends LinearOpMode {
                 hdt.gyroTurnStraight(700);
 
                 //hdt.gyroHoloStrafe(1, 30, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroHoloPIDMovement(90, 0, 25, 3);
+               // hdt.gyroHoloPIDMovement(90, 0, 25, 3);
+                hdt.gyroHoloStrafe(1, 25, false, 1000, 0);
                 //hdt.gyroHoloForward(.7, 20, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 hdt.gyroHoloPIDMovement(0, 0, 30, 3);
                 break;
@@ -131,14 +132,13 @@ public class BlueHighGoal extends LinearOpMode {
             } else if (pos == 1) {
 
                 //hdt.gyroHoloForward(1, 80, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 90, 5);
+                hdt.gyroHoloPIDMovement(0, 0, 96, 5, .7/90, .01, .001);
                 sleep(300);
-                hdt.gyroHoloPIDMovement(90, 0, 16, 5, .7/24, .01, .001);
-                //hdt.gyroHoloStrafe(1, 16, false, 3000, 0);
+                hdt.gyroHoloStrafe(.7, 16, false, 3000, 0);
                 sleep(300);
                 wobble.releaseWobble();
-                //hdt.gyroHoloStrafe(1, 14, true, 3000, 0);
-                hdt.gyroHoloPIDMovement(-90, 0, 14, 3, .7/24, .01, .001);
+                hdt.gyroHoloStrafe(.7, 16, true, 3000,0);
+               // hdt.gyroHoloPIDMovement(-90, 0, 14, 3, .7/24, .01, .001);
                 sleep(300);
                 //hdt.gyroHoloForward(-1, 35, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
@@ -170,7 +170,7 @@ public class BlueHighGoal extends LinearOpMode {
                 break;
             } else if (pos == 4) {
                 //hdt.gyroHoloForward(1, 127, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 127, 6);
+                hdt.gyroHoloPIDMovement(0, 0, 127, 6, .7/127, .01, .001);
                 wobble.releaseWobble();
                 //hdt.gyroHoloForward(-1, 65, 3000, 0);
                 hdt.gyroHoloPIDMovement(180, 0, 65, 5);
@@ -190,7 +190,8 @@ public class BlueHighGoal extends LinearOpMode {
                 hdt.gyroTurnStraight(700);
 
                 //hdt.gyroHoloStrafe(1, 30, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroHoloPIDMovement(90, 0, 25, 3);
+                //hdt.gyroHoloPIDMovement(90, 0, 25, 3);
+                hdt.gyroHoloPIDMovement(90, 0, 40, 3);
                 //hdt.gyroHoloForward(.7, 20, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 hdt.gyroHoloPIDMovement(0, 0, 30, 3);
 
@@ -204,6 +205,4 @@ public class BlueHighGoal extends LinearOpMode {
             sh.pivot.setPower(0);
         }
     }
-
-
 }

@@ -445,7 +445,7 @@ public class HolonomicDrivetrain {
     public void gyroTurn180(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal = 184;
+        double goal = 182;
 
 
         while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .1 && runtime.milliseconds() < timeOutMS) {
@@ -465,14 +465,65 @@ public class HolonomicDrivetrain {
         choop();
     }
 
+    public void gyroTurn180Red(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 186;
+
+
+        while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .1 && runtime.milliseconds() < timeOutMS) {
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal) {
+                turn(.25, false);
+            } else {
+                turn(.25, true);
+            }
+
+
+        }
+
+        choop();
+    }
+
+    public void gyroTurn180FastRed(double timeOutMS) {
+
+        ElapsedTime runtime = new ElapsedTime();
+        double goal = 186;
+        if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
+            goal = 186;
+        } else {
+            goal = 186;
+        }
+
+
+        do {
+
+            opMode.telemetry.addData("Goal", goal);
+            opMode.telemetry.addData("Current Heading", sensors.getGyroYaw());
+            opMode.telemetry.update();
+            if (sensors.getGyroYaw() < goal && sensors.getGyroYaw() > 0) {
+                turn(.7, false);
+            } else {
+                turn(.7, true);
+            }
+
+
+        } while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > 2 && runtime.milliseconds() < timeOutMS);
+
+        choop();
+    }
+
     public void gyroTurn180Fast(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
         double goal = 180;
         if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
-            goal = 180;
+            goal = 182;
         } else {
-            goal = 180;
+            goal = 182;
         }
 
 
@@ -752,6 +803,10 @@ public class HolonomicDrivetrain {
 
             power = proportional + integral + derivative;
 
+
+
+
+
             if (power < .3 && kI == 0 && kD == 0) {
                 power = .19;
             }
@@ -769,9 +824,9 @@ public class HolonomicDrivetrain {
             br.setPower(motor_power[3] * power);
 
             if (angle_face >= 1) {
-                rot_power = Math.abs(angle_face) / 15;
+                rot_power = Math.abs(angle_face) / 20;
             } else if (angle_face <= -1) {
-                rot_power = -Math.abs(angle_face) / 15;
+                rot_power = -Math.abs(angle_face) / 20;
             } else {
                 rot_power = 0;
             }
@@ -817,6 +872,7 @@ public class HolonomicDrivetrain {
 
         time.reset();
         timeoutTimer.reset();
+        double control = .4;
 
         while (Math.abs(error) > 1 && timeoutTimer.seconds() < timeoutS && opMode.opModeIsActive()) {
 
@@ -828,6 +884,8 @@ public class HolonomicDrivetrain {
             average = Math.abs((getEncoderAverage() - initial)/ COUNTS_PER_INCH);
             error = distance - average;
 
+
+
             proportional = error * kP;
 
             integral += (error * (time.seconds() - prevRunTime)) * kI;
@@ -836,7 +894,16 @@ public class HolonomicDrivetrain {
             derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
 
 
-            power = proportional + integral + derivative;
+            power = (proportional + integral + derivative)*control;
+
+
+            if(control < 1) {
+                control += .01;
+            }
+
+
+
+
 
             if (power < .3 && kI == 0 && kD == 0) {
                 power = .19;
@@ -854,10 +921,10 @@ public class HolonomicDrivetrain {
             bl.setPower(motor_power[2] * power);
             br.setPower(motor_power[3] * power);
 
-            if (angle_face >= .5) {
-                rot_power = Math.abs(angle_face) / 24;
-            } else if (angle_face <= -.5) {
-                rot_power = -Math.abs(angle_face) / 24;
+            if (angle_face >= 1) {
+                rot_power = Math.abs(angle_face) / 20;
+            } else if (angle_face <= -1) {
+                rot_power = -Math.abs(angle_face) / 20;
             } else {
                 rot_power = 0;
             }
@@ -867,7 +934,6 @@ public class HolonomicDrivetrain {
 
 
         }
-
 
         choop();
     }

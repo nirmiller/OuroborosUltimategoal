@@ -47,15 +47,20 @@ public class BluePowerShots extends LinearOpMode {
                 //hdt.gyroTurn180(500);
                 ElapsedTime time = new ElapsedTime();
                 time.reset();
+
+                while(time.seconds() < 3){
+
+                }
+
                 sh.hitRing();
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
-                hdt.turnPID(5, true, .28 / 7, 0, 0, .4);
+                hdt.turnPID(5, true, .28 / 7, 0, .001, 2);
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
-                hdt.turnPID(4, true, .28 / 7, 0, 0, .3);
+                hdt.turnPID(4, true, .28 / 7, 0, .001, 2);
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
@@ -104,29 +109,29 @@ public class BluePowerShots extends LinearOpMode {
 
             if (pos == 0) {
                 //hdt.gyroHoloForward(1, 66, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 66, 6);
+                hdt.gyroHoloPIDMovement(0, 0, 100, 6, .7/96, .01, .001);
 
                 hdt.gyroTurnNinetyFast(1000);
                 hdt.gyroTurnNinety(700);
 
                 //hdt.gyroHoloForward(1, 30, 3000, 90);
-                hdt.gyroHoloPIDMovement(0, 90, 30, 3);
+                hdt.gyroHoloPIDMovement(0, -90, 30, 3);
 
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 90);
-                hdt.gyroHoloPIDMovement(180, 90, 30, 3);
+                hdt.gyroHoloPIDMovement(180, -90, 30, 3);
 
-                hdt.gyroTurn180Fast(1000);
-                hdt.gyroTurn180(700);
+                hdt.gyroTurnStraightfast(1000);
+                hdt.gyroTurnStraight(700);
 
                 //hdt.gyroHoloForward(1, 15, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 15, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 40, 3);
 
                 loop.run();
                 loop.end();
 
-                hdt.gyroHoloPIDMovement(180, 0, 15, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 30, 3);
                 //hdt.gyroHoloForward(-1, 15, 3000, 0);
 
 
