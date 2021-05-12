@@ -19,7 +19,7 @@ public class VisionTrollAuto extends LinearOpMode {
         waitForStart();
 
         //telemetry.addData("position", vision.pie());
-        telemetry.addData("position", backupVision.senseBlue(this));
+        telemetry.addData("position", backupVision.senseRed(this));
         telemetry.update();
 
     }

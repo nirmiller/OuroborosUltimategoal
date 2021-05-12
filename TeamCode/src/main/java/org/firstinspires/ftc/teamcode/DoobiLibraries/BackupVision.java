@@ -184,25 +184,22 @@ public class BackupVision {
         return pos;
     }
 //no need
-    public String senseRed(LinearOpMode opMode) throws InterruptedException {
+    public int senseRed(LinearOpMode opMode) throws InterruptedException {
 
         Bitmap bitmap = getBitmap();
-        ArrayList<Integer> StoneX = new ArrayList<Integer>();
 
-        String pos = "";
+        int pos = 0;
         int stonexAvg = 0;
 
         // top left = (0,0)
-        while (opMode.opModeIsActive()) {
 
-            opMode.telemetry.addData("width", bitmap.getWidth());
-            opMode.telemetry.addData("height", bitmap.getHeight());
+        while(opMode.opModeIsActive()) {
 
+            // can change this but prob not neccesary
+            for (int colNum = 0; colNum < bitmap.getWidth()/2; colNum++) {
 
-            // scan 3 columns
-            for (int colNum = bitmap.getWidth(); colNum < bitmap.getWidth(); colNum++) {
-
-                for (int rowNum = (bitmap.getHeight() / 2) + 50; rowNum < (bitmap.getHeight() / 2) + 200; rowNum++){
+                //Shouldnt need to change this, but the colors in the backround maybe might mess it up\
+                for (int rowNum = (bitmap.getHeight()/3); rowNum < bitmap.getHeight(); rowNum++) {
                     int pixel = bitmap.getPixel(colNum, rowNum);
 
                     // receive R, G, and B values for each pixel
@@ -210,50 +207,44 @@ public class BackupVision {
                     int greenPixel = green(pixel);
                     int bluePixel = blue(pixel);
 
-                  /*  opMode.telemetry.addData("Red", redPixel);
+                    /*opMode.telemetry.addData("Red", redPixel);
                     opMode.telemetry.addData("Green", greenPixel);
                     opMode.telemetry.addData("Blue", bluePixel);
                     opMode.telemetry.update();*/
-                    // only add x-coordinates of black pixels to list
 
-                    if (redPixel < 30 && greenPixel < 30 && bluePixel < 30) {
-                        StoneX.add(colNum);
+                    // only add y-coordinates of yellow pixels to list
+                    if (redPixel > 100 && greenPixel > 60 && bluePixel < 50) {
+                        stonexAvg++;
                     }
+
                 }
             }
-
-
-            // get sum of all black pixels' x coordinates
-            for (int x : StoneX) {
-                stonexAvg += x;
-            }
-
+/*
             if(StoneX.size() > 0) stonexAvg /= StoneX.size();
             else{
-                stonexAvg = 600;
+                stonexAvg = 550;
                 opMode.telemetry.addData("Failed", "Divided by Zero");
             }
+*/
+            // get average x-coordinate value of all yellow pixels
+            opMode.telemetry.addData("AVG X = ", stonexAvg);
+            opMode.telemetry.update();
+            //opMode.sleep(1000);
+//calculates based on pixel size
+            //opMode.sleep(1000);
 
-
-
-            // get average x-coordinate value of all black pixels
-            opMode.telemetry.addData("Num Pixels = ", stonexAvg);
-
-
-            if (stonexAvg < 540) {
-                pos = "left";
-            } else if (stonexAvg > 700) {
-                pos = "right";
+            if (stonexAvg < 2000 && stonexAvg > 500) {
+                pos = 1;
+            } else if (stonexAvg > 3000) {
+                pos = 4;
             } else {
-                pos = "center";
+                pos = 0;
             }
 
-            opMode.telemetry.addData("AVG X = ", stonexAvg);
-            //opMode.telemetry.addData("Position", pos);
+            opMode.telemetry.addData("Position", pos);
             opMode.telemetry.update();
             break;
         }
-
         return pos;
     }
 

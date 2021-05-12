@@ -531,7 +531,7 @@ public abstract class TeleLib extends OpMode {
             while(time.milliseconds() < 300){
 
             }
-            shooter.setPower(.8);
+            shooter.setPower(.9);
             shooting = true;
         }
     });
@@ -677,7 +677,7 @@ public abstract class TeleLib extends OpMode {
             th_lift.queue(auto_pivot_up);
         } else if (gamepad2.dpad_down && lift_top && pivotPos > -700) {
             pivot.setPower(-.5);
-        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1100) {
+        } else if (gamepad2.dpad_right && lift_top && pivotPos < 1200) {
             pivot.setPower(.25);
         } else if (gamepad2.dpad_left && lift_top && pivotPos > -700) {
             pivot.setPower(-.05);

@@ -132,7 +132,7 @@ public class BlueHighGoal extends LinearOpMode {
             } else if (pos == 1) {
 
                 //hdt.gyroHoloForward(1, 80, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 96, 5, .7/90, .01, .001);
+                hdt.gyroHoloPIDMovement(0, 0, 96, 5, .7/84, .01, .001);
                 sleep(300);
                 hdt.gyroHoloStrafe(.7, 16, false, 3000, 0);
                 sleep(300);
@@ -157,9 +157,7 @@ public class BlueHighGoal extends LinearOpMode {
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
 
-                //hdt.gyroHoloStrafe(1, 30, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroHoloPIDMovement(90, 0, 25, 3);
-                //hdt.gyroHoloForward(.7, 20, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+
                 hdt.gyroHoloPIDMovement(0, 0, 30, 3);
 
 
@@ -189,10 +187,7 @@ public class BlueHighGoal extends LinearOpMode {
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
 
-                //hdt.gyroHoloStrafe(1, 30, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                //hdt.gyroHoloPIDMovement(90, 0, 25, 3);
-                hdt.gyroHoloPIDMovement(90, 0, 40, 3);
-                //hdt.gyroHoloForward(.7, 20, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+
                 hdt.gyroHoloPIDMovement(0, 0, 30, 3);
 
                 break;

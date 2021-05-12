@@ -23,7 +23,7 @@ public class BluePowerShots extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //wobble = new Wobble(this);
-        sh = new ShooterHardware(this, true);
+        sh = new ShooterHardware(this);
         loop = new Loop();
         hdt = new HolonomicDrivetrain(this);
         backupVision = new BackupVision(this);
@@ -35,8 +35,8 @@ public class BluePowerShots extends LinearOpMode {
             @Override
             public void run() {
                 //hdt.gyroHoloStrafe(1, 2, true, 500, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroTurn180Fast(1500);
-                hdt.gyroTurn180(1100);
+                hdt.gyroTurn180FastRed(1500);
+                hdt.gyroTurn180Red(1100);
                 //sleep(1300);
             }
         });
@@ -47,23 +47,19 @@ public class BluePowerShots extends LinearOpMode {
                 //hdt.gyroTurn180(500);
                 ElapsedTime time = new ElapsedTime();
                 time.reset();
-
-                while(time.seconds() < 3){
-
-                }
-
+                sleep(3000);
                 sh.hitRing();
-                sleep(300);
+                sleep(600);
                 sh.hitRing();
-                sleep(300);
-                hdt.turnPID(5, true, .2/5, 0.01, .001, 2);
-                sleep(300);
+                sleep(600);
                 sh.hitRing();
-                sleep(300);
-                hdt.turnPID(4, true, .2/4, .01, .001, 2);
-                sleep(300);
+                sleep(600);
+                //sh.pivotStop.setPosition(.55);
                 sh.hitRing();
-                sleep(300);
+                sleep(500);
+                //sh.pivotDown();
+                sh.hitRing();
+                sleep(500);
                 sh.withdraw();
                 sh.lift.setPower(0);
                 sh.lift.setPower(0);
@@ -104,7 +100,7 @@ public class BluePowerShots extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        pos = backupVision.senseBlue(this);
+        pos = backupVision.senseRed(this);
         while (opModeIsActive()) {
 
             if (pos == 0) {
@@ -119,19 +115,22 @@ public class BluePowerShots extends LinearOpMode {
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 90);
-                hdt.gyroHoloPIDMovement(180, -90, 30, 3);
+                hdt.gyroHoloPIDMovement(180, -90, 27, 3);
 
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
 
                 //hdt.gyroHoloForward(1, 15, 3000, 0);
-                hdt.gyroHoloPIDMovement(180, 0, 40, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 38, 3);
 
                 loop.run();
                 loop.end();
 
-                hdt.gyroHoloPIDMovement(180, 0, 30, 3);
-                //hdt.gyroHoloForward(-1, 15, 3000, 0);
+                hdt.gyroTurnStraightfast(1000);
+                hdt.gyroTurnStraight(700);
+
+
+                hdt.gyroHoloPIDMovement(0, 0, 30, 3);                //hdt.gyroHoloForward(-1, 15, 3000, 0);
 
 
                 break;
@@ -139,19 +138,24 @@ public class BluePowerShots extends LinearOpMode {
             } else if (pos == 1) {
 
 
-                hdt.gyroHoloPIDMovement(0, 0, 114, 6, .7/114, .01, .001);
+                hdt.gyroHoloPIDMovement(0, 0, 110, 6, .7/114, .01, .001);
 
 
                 wobble.releaseWobble();
 
 
-                hdt.gyroHoloPIDMovement(180, 0, 54, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 45, 3);
+
+                hdt.gyroHoloStrafe(.5, 4, true, 1000, 0);
 
                 loop.run();
                 loop.end();
 
-                hdt.gyroHoloPIDMovement(180, 0, 30, 3);
+                hdt.gyroTurnStraightfast(1000);
+                hdt.gyroTurnStraight(700);
 
+
+                hdt.gyroHoloPIDMovement(0, 0, 30, 3);                //
 
 
 
@@ -164,7 +168,7 @@ public class BluePowerShots extends LinearOpMode {
 
 
                 //hdt.gyroHoloForward(1, 66, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 150, 8);
+                hdt.gyroHoloPIDMovement(0, 0, 145, 8);
 
                 hdt.gyroTurnNinetyFast(1000);
                 hdt.gyroTurnNinety(700);
@@ -175,19 +179,21 @@ public class BluePowerShots extends LinearOpMode {
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
-                hdt.gyroHoloPIDMovement(180, -90, 30, 3);
+                hdt.gyroHoloPIDMovement(180, -90, 27, 3);
 
-                hdt.gyroTurn180Fast(1000);
-                hdt.gyroTurn180(700);
+                hdt.gyroTurnStraightfast(1000);
+                hdt.gyroTurnStraight(700);
 
-                //hdt.gyroHoloForward(1, 15, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 93, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 80, 3);
 
                 loop.run();
                 loop.end();
 
-                hdt.gyroHoloPIDMovement(180, 0, 15, 3);
-                //hdt.gyroHoloForward(-1, 15, 3000, 0);
+                hdt.gyroTurnStraightfast(1000);
+                hdt.gyroTurnStraight(700);
+
+
+                hdt.gyroHoloPIDMovement(0, 0, 30, 3);
 
                 break;
             }

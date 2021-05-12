@@ -215,7 +215,7 @@ public class HolonomicDrivetrain {
             power = (proportional + integral + derivative)*control;
 
             if (power < .3 && kI == 0 && kD == 0) {
-                power = .19;
+                power = .25;
             }
 
             if(control < 1){
@@ -472,7 +472,7 @@ public class HolonomicDrivetrain {
     public void gyroTurn180Red(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal = 186;
+        double goal = 192;
 
 
         while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .1 && runtime.milliseconds() < timeOutMS) {
@@ -497,9 +497,9 @@ public class HolonomicDrivetrain {
         ElapsedTime runtime = new ElapsedTime();
         double goal = 186;
         if (sensors.getGyroYaw() > 0 && sensors.getGyroYaw() < 180) {
-            goal = 186;
+            goal = 190;
         } else {
-            goal = 186;
+            goal = 190;
         }
 
 
