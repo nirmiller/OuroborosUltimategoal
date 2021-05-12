@@ -188,14 +188,14 @@ public class HolonomicDrivetrain {
 
         double prevRunTime;
 
-        double initAngle = sensors.getGyroYaw2();
-        if (angleChange == 180) {
-            initAngle = sensors.getGyroYaw();
-        }
+        double initAngle = sensors.getGyroYaw();
+
         double lastError = angleChange - Math.abs(sensors.getGyroYaw() - initAngle);
 
         time.reset();
         timeoutTimer.reset();
+
+        double control = .4;
 
         while (Math.abs(sensors.getGyroYaw() - (angleChange + initAngle)) > .1 && timeoutTimer.seconds() < timeout && opMode.opModeIsActive()) {
             prevRunTime = time.seconds();
@@ -212,10 +212,14 @@ public class HolonomicDrivetrain {
             derivative = ((error - lastError) / (time.seconds() - prevRunTime)) * kD;
 
 
-            power = proportional + integral + derivative;
+            power = (proportional + integral + derivative)*control;
 
             if (power < .3 && kI == 0 && kD == 0) {
                 power = .19;
+            }
+
+            if(control < 1){
+                control += .01;
             }
 
             turn(power, turnRight);
@@ -404,7 +408,7 @@ public class HolonomicDrivetrain {
     public void gyroTurn270(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal = 271;
+        double goal = 270;
 
         do {
 

@@ -53,11 +53,11 @@ public class RedPowerShots extends LinearOpMode {
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
-                hdt.turnPID(5, true, .28 / 7, 0, 0, .4);
+                hdt.turnPID(5, false, .2/10, 0.01, .001, 2);
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
-                hdt.turnPID(4, true, .28 / 7, 0, 0, .3);
+                hdt.turnPID(4, false, .2/10, 0.01, .001, 2);
                 sleep(300);
                 sh.hitRing();
                 sleep(300);
@@ -105,30 +105,29 @@ public class RedPowerShots extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (pos == 0) {
-                //hdt.gyroHoloForward(1, 66, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 66, 6);
+                hdt.gyroHoloPIDMovement(0, 0, 100, 6, .7/96, .01, .001);
 
                 hdt.gyroTurn270Fast(1000);
                 hdt.gyroTurn270(700);
 
                 //hdt.gyroHoloForward(1, 30, 3000, 90);
-                hdt.gyroHoloPIDMovement(0, 270, 30, 3);
+                hdt.gyroHoloPIDMovement(0, 90, 30, 3);
 
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 90);
-                hdt.gyroHoloPIDMovement(180, 270, 30, 3);
+                hdt.gyroHoloPIDMovement(180, 90, 30, 3);
 
-                hdt.gyroTurn180Fast(1000);
-                hdt.gyroTurn180(700);
+                hdt.gyroTurnStraightfast(1000);
+                hdt.gyroTurnStraight(700);
 
                 //hdt.gyroHoloForward(1, 15, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 15, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 40, 3);
 
                 loop.run();
                 loop.end();
 
-                hdt.gyroHoloPIDMovement(180, 0, 15, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 30, 3);
                 //hdt.gyroHoloForward(-1, 15, 3000, 0);
 
 
@@ -136,25 +135,16 @@ public class RedPowerShots extends LinearOpMode {
 
             } else if (pos == 1) {
 
-                //hdt.gyroHoloForward(1, 66, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 80, 6);
-
+                hdt.gyroHoloPIDMovement(0, 0, 114, 6, .7/114, .01, .001);
+                hdt.gyroHoloStrafe(.5, 10, false, 1000, 0);
                 wobble.releaseWobble();
-
-                //hdt.gyroHoloForward(1, 30, 3000, 0);
-                hdt.gyroHoloPIDMovement(180, 0, 30, 3);
-
-                hdt.gyroTurn180Fast(1000);
-                hdt.gyroTurn180(700);
-
-                //hdt.gyroHoloForward(1, 15, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 30, 3);
+                hdt.gyroHoloStrafe(.5, 10, true, 1000, 0);
+                hdt.gyroHoloPIDMovement(180, 0, 54, 3);
 
                 loop.run();
                 loop.end();
 
-                hdt.gyroHoloPIDMovement(180, 0, 15, 3);
-                //hdt.gyroHoloForward(-1, 15, 3000, 0);
+                hdt.gyroHoloPIDMovement(180, 0, 30, 3);
 
 
                 break;
@@ -166,24 +156,24 @@ public class RedPowerShots extends LinearOpMode {
 
 
                 //hdt.gyroHoloForward(1, 66, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 127, 8);
+                hdt.gyroHoloPIDMovement(0, 0, 150, 8);
 
                 hdt.gyroTurn270Fast(1000);
                 hdt.gyroTurn270(700);
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 270, 30, 3);
+                hdt.gyroHoloPIDMovement(0, 90, 30, 3);
 
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
-                hdt.gyroHoloPIDMovement(180, 270, 30, 3);
+                hdt.gyroHoloPIDMovement(180, 90, 30, 3);
 
                 hdt.gyroTurn180Fast(1000);
                 hdt.gyroTurn180(700);
 
                 //hdt.gyroHoloForward(1, 15, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 86, 3);
+                hdt.gyroHoloPIDMovement(0, 0, 93, 3);
 
                 loop.run();
                 loop.end();

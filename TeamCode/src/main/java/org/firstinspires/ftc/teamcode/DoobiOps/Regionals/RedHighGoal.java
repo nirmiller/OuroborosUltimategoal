@@ -115,7 +115,7 @@ public class RedHighGoal extends LinearOpMode {
                 wobble.releaseWobble();
                 hdt.gyroHoloStrafe(.5, 10, true, 1000, 0);
                 //hdt.gyroHoloPIDMovement(180, 0, 13, 3);
-                hdt.gyroHoloForward(-.7, 5, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloForward(-.5, 5, 3000, 0);
 
 
                 loop.run();
@@ -128,7 +128,7 @@ public class RedHighGoal extends LinearOpMode {
                 hdt.gyroTurnStraight(700);
 
                 //hdt.gyroHoloStrafe(1, 30, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroHoloStrafe(.5, 50, false, 1000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
+                hdt.gyroHoloStrafe(.5, 25, true, 1000, 0);
                 //hdt.gyroHoloForward(.7, 20, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 hdt.gyroHoloPIDMovement(0, 0, 30, 3);
                 break;
@@ -138,12 +138,12 @@ public class RedHighGoal extends LinearOpMode {
                 //hdt.gyroHoloForward(1, 80, 3000, 0);
                 hdt.gyroHoloPIDMovement(0, 0, 90, 5);
                 sleep(300);
-                hdt.gyroHoloPIDMovement(-90, 0, 16, 5, .7 / 24, .01, .001);
+                hdt.gyroHoloStrafe(.7, 16, true, 3000, 0);
                 //hdt.gyroHoloStrafe(1, 16, false, 3000, 0);
                 sleep(300);
                 wobble.releaseWobble();
                 //hdt.gyroHoloStrafe(1, 14, true, 3000, 0);
-                hdt.gyroHoloPIDMovement(90, 0, 14, 3, .7 / 24, .01, .001);
+                hdt.gyroHoloStrafe(.7, 16, false, 3000, 0);
                 sleep(300);
                 //hdt.gyroHoloForward(-1, 35, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
@@ -176,8 +176,9 @@ public class RedHighGoal extends LinearOpMode {
             } else if (pos == 4) {
                 //hdt.gyroHoloForward(1, 127, 3000, 0);
                 hdt.gyroHoloPIDMovement(0, 0, 127, 6);
+                hdt.gyroHoloStrafe(.5, 10, false, 1000, 0);
                 wobble.releaseWobble();
-                //hdt.gyroHoloForward(-1, 65, 3000, 0);
+                hdt.gyroHoloStrafe(.5, 10, true, 1000, 0);
                 hdt.gyroHoloPIDMovement(180, 0, 65, 5);
                 //hdt.gyroHoloStrafe(1, 3, false, 500, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 
