@@ -28,8 +28,8 @@ public class RedPowerShots extends LinearOpMode {
         loop = new Loop();
         hdt = new HolonomicDrivetrain(this);
         backupVision = new BackupVision(this);
-        wobble = new Wobble(this);
         sensors = new Sensors(this);
+        wobble = new Wobble(this);
 
         int pos = 0;
         Thread thread1 = new Thread(new Runnable() {
@@ -100,11 +100,13 @@ public class RedPowerShots extends LinearOpMode {
         loop.add(thread3);
 
         waitForStart();
+
         pos = backupVision.senseBlue(this);
         while (opModeIsActive()) {
 
             if (pos == 0) {
                 hdt.gyroHoloPIDMovement(0, 0, 90, 6, .7/90, .01, .001);
+                sleep(3000);
 
                 hdt.gyroTurn270Fast(1000);
                 hdt.gyroTurn270(700);
@@ -138,9 +140,10 @@ public class RedPowerShots extends LinearOpMode {
             } else if (pos == 1) {
 
                 hdt.gyroHoloPIDMovement(0, 0, 100, 6, .7/100, .01, .001);
+                sleep(3000);
                 hdt.gyroHoloStrafe(.5, 10, false, 1000, 0);
                 wobble.releaseWobble();
-                hdt.gyroHoloStrafe(.5, 10, true, 1000, 0);
+                hdt.gyroHoloStrafe(.5, 12, true, 1000, 0);
                 hdt.gyroHoloPIDMovement(180, 0, 40, 3);
 
                 loop.run();
@@ -161,7 +164,8 @@ public class RedPowerShots extends LinearOpMode {
 
 
                 //hdt.gyroHoloForward(1, 66, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 150, 8);
+                hdt.gyroHoloPIDMovement(0, 0, 130, 8, .7/136, .01, .001);
+                sleep(3000);
 
                 hdt.gyroTurn270Fast(1000);
                 hdt.gyroTurn270(700);
@@ -172,19 +176,19 @@ public class RedPowerShots extends LinearOpMode {
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
-                hdt.gyroHoloPIDMovement(180, 90, 30, 3);
+                hdt.gyroHoloPIDMovement(180, 90, 27, 3);
+                hdt.gyroTurnStraightfast(1000);
+                hdt.gyroTurnStraight(700);
 
-                hdt.gyroTurn180Fast(1000);
-                hdt.gyroTurn180(700);
-
-                //hdt.gyroHoloForward(1, 15, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 93, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 81, 3, .7/93, .01, .001);
 
                 loop.run();
                 loop.end();
 
-                hdt.gyroHoloPIDMovement(180, 0, 15, 3);
-                //hdt.gyroHoloForward(-1, 15, 3000, 0);
+                hdt.gyroTurnStraightfast(1000);
+                hdt.gyroTurnStraight(700);
+
+                hdt.gyroHoloPIDMovement(0, 0, 30, 3);
 
                 break;
             }

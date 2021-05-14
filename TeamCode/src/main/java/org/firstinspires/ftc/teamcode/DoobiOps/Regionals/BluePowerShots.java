@@ -168,7 +168,7 @@ public class BluePowerShots extends LinearOpMode {
 
 
                 //hdt.gyroHoloForward(1, 66, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 145, 8);
+                hdt.gyroHoloPIDMovement(0, 0, 140, 8);
 
                 hdt.gyroTurnNinetyFast(1000);
                 hdt.gyroTurnNinety(700);
@@ -179,12 +179,12 @@ public class BluePowerShots extends LinearOpMode {
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
-                hdt.gyroHoloPIDMovement(180, -90, 27, 3);
+                hdt.gyroHoloPIDMovement(180, -90, 23, 3);
 
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
 
-                hdt.gyroHoloPIDMovement(180, 0, 80, 3);
+                hdt.gyroHoloPIDMovement(180, 0, 70, 3);
 
                 loop.run();
                 loop.end();

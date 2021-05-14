@@ -130,7 +130,6 @@ public class BlueHighGoal extends LinearOpMode {
                 break;
 
             } else if (pos == 1) {
-
                 //hdt.gyroHoloForward(1, 80, 3000, 0);
                 hdt.gyroHoloPIDMovement(0, 0, 96, 5, .7/84, .01, .001);
                 sleep(300);

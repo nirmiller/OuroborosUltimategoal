@@ -106,6 +106,8 @@ public class ShooterHardware {
         opMode.telemetry.addLine("shooterRedy");
 
     }
+
+
     public ShooterHardware(LinearOpMode opMode, boolean powerShots)
     {
         this.opMode = opMode;
