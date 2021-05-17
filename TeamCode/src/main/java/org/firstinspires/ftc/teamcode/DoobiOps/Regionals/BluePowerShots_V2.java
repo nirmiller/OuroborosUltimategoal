@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
-@Autonomous(group = "Autonomous", name = "Blue Power Shots then Wobble")
+
 public class BluePowerShots_V2 extends LinearOpMode {
     Wobble wobble;
     ShooterHardware sh;
@@ -209,6 +209,7 @@ public class BluePowerShots_V2 extends LinearOpMode {
             sh.lift.setPower(0);
             sh.withdraw();
             sh.pivot.setPower(0);
+            wobble.wobble_TeleOp();
         }
     }
 }

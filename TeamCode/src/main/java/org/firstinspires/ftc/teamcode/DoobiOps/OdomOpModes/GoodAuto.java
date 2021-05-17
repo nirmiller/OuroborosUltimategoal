@@ -20,8 +20,6 @@ import org.firstinspires.ftc.teamcode.Loop;
 
 import java.util.ArrayList;
 
-@Disabled
-@Autonomous(group = "Auto", name = "Good Auto")
 public class GoodAuto extends LinearOpMode {
 
     OdomDriveTrain odt;

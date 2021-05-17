@@ -14,8 +14,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
-@Disabled
-@Autonomous(group = "Auto", name = "BlueAutoTooSexyForYou")
+
 public class BlueAutoTooSexyForYou extends LinearOpMode {
 
     Wobble wobble;

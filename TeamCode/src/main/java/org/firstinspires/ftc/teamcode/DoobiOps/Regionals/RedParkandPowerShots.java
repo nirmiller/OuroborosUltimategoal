@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.DoobiOps.Regionals;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -113,7 +114,7 @@ public class RedParkandPowerShots extends LinearOpMode {
 
             hdt.gyroHoloStrafe(.5, 20, true, 3000, 0);
             hdt.gyroHoloForward(.5, 25, 1000, 0);
-
+            wobble.wobble_TeleOp();
         }
 
 

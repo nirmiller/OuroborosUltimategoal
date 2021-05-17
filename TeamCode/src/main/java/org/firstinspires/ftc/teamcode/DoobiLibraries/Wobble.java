@@ -32,6 +32,10 @@ public class Wobble {
 
     }
 
+    public void wobble_TeleOp(){
+        wobble1.setPosition(.2);
+        wobble2.setPosition(.2);
+    }
 
     public void wobbleUp() {
 

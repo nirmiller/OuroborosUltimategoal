@@ -193,6 +193,7 @@ public class RedHighGoal_v2 extends LinearOpMode {
             sh.lift.setPower(0);
             sh.withdraw();
             sh.pivot.setPower(0);
+            wobble.wobble_TeleOp();
         }
     }
 }

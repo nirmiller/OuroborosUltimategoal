@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
-@Autonomous(group = "Auto", name = "BlueAuto")
+//@Autonomous(group = "Auto", name = "BlueAuto")
 public class BlueAuto extends LinearOpMode {
 
     Wobble wobble;

@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.Loop;
 
-@Autonomous(group = "Auto", name = "Blue High Goal Normal")
 public class BlueHighGoalNoral extends LinearOpMode {
 
     Wobble wobble;

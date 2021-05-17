@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.DoobiOps.Regionals;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,7 +11,6 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
-
 
 @Autonomous(group = "Autonomous", name = "Blue Wobble then High Goal")
 public class BlueHighGoal extends LinearOpMode {
@@ -197,6 +197,7 @@ public class BlueHighGoal extends LinearOpMode {
             sh.lift.setPower(0);
             sh.withdraw();
             sh.pivot.setPower(0);
+            wobble.wobble_TeleOp();
         }
     }
 }

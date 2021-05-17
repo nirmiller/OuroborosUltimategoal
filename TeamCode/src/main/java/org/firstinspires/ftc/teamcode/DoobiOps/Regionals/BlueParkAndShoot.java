@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
 
-@Autonomous(group = "Autonomous", name = "Blue HighGoal and Park")
+
 public class BlueParkAndShoot extends LinearOpMode {
     Wobble wobble;
     ShooterHardware sh;
@@ -114,7 +114,7 @@ public class BlueParkAndShoot extends LinearOpMode {
 
         hdt.gyroHoloStrafe(.5, 30, false, 3000, 0);
         hdt.gyroHoloForward(.5, 25, 1000, 0);
-
+        wobble.wobble_TeleOp();
     }
 
 

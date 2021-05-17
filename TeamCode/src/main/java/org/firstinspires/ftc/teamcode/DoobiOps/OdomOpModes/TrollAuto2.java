@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.jankOdom;
 
 import java.util.ArrayList;
 
-@Autonomous(group = "Auto", name = "The Sad Auto")
 public class TrollAuto2 extends LinearOpMode {
 
     HolonomicDrivetrain hdt;

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 
 import java.util.ArrayList;
 //@Disabled
-@Autonomous(group = "Auto", name = "Troll Auto")
+@Autonomous(group = "Auto", name = "Gyro Test")
 public class TrollAuto extends LinearOpMode {
     OdomDriveTrain odt;
     Sensors sensors;

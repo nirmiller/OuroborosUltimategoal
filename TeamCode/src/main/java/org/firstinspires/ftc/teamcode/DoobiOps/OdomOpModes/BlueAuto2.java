@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Sensors;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.Loop;
 
-@Autonomous(group = "Auto", name = "BlueAutoNew")
+//@Autonomous(group = "Auto", name = "BlueAutoNew")
 public class BlueAuto2 extends LinearOpMode {
 
     Wobble wobble;

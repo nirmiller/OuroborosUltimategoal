@@ -413,8 +413,8 @@ public abstract class TeleLib extends OpMode {
             time.reset();
             while (gamepad2.a && time.milliseconds() < 350) {
             }
-            wobble1.setPosition(0);
-            wobble2.setPosition(0);
+            wobble1.setPosition(1);
+            wobble2.setPosition(1);
             sleep(700);
         }
     });
@@ -426,8 +426,8 @@ public abstract class TeleLib extends OpMode {
             time.reset();
             while (gamepad2.a && time.milliseconds() < 350) {
             }
-            wobble1.setPosition(1);
-            wobble2.setPosition(1);
+            wobble1.setPosition(.2);
+            wobble2.setPosition(.2);
             sleep(700);
         }
     });
@@ -503,11 +503,11 @@ public abstract class TeleLib extends OpMode {
 
             th_whook.queue(whook_open);
 
-        }else if (gamepad2.a && wobble1.getPosition() == 0) {
+        }else if (gamepad2.a && wobble1.getPosition() == 1) {
 
             th_wobble.queue(wobble_down);
 
-        }else if (gamepad2.a && wobble1.getPosition() !=  0) {
+        }else if (gamepad2.a && wobble1.getPosition() !=  1) {
 
             th_wobble.queue(wobble_up);
         }

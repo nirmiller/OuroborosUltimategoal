@@ -42,8 +42,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 
 import java.util.ArrayList;
 
-@Disabled
-@Autonomous(name="RightRedAuto", group="Linear Opmode")
+
 public class RightRedAuto extends LinearOpMode {
 
     // Declare OpMode members.

@@ -11,8 +11,7 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.OdomClasses.OdomDriveTrain;
 import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.Loop;
 
-@Disabled
-@Autonomous(group = "Auto", name = "Good Auto 2")
+
 public class GoodAutoV2 extends LinearOpMode {
 
     OdomDriveTrain odt;
