@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
 
-@Autonomous(group = "Autonomous", name = "Red Power Shots")
+@Autonomous(group = "Autonomous", name = "Red Wobble then Power Shots")
 public class RedPowerShots extends LinearOpMode {
     Wobble wobble;
     ShooterHardware sh;
