@@ -304,6 +304,7 @@ public abstract class TeleLib extends OpMode {
             bl.setPower(0);
             br.setPower(0);
         }
+        /*
         telemetry.addData("fl encoder", fl.getCurrentPosition());
         telemetry.addData("fr encoder", fr.getCurrentPosition());
         telemetry.addData("bl encoder", bl.getCurrentPosition());
@@ -312,6 +313,8 @@ public abstract class TeleLib extends OpMode {
         telemetry.addData("Angle", sensors.getGyroYaw());
         //telemetry.addData("TURNING AUTO", auto_turn_aim.isAlive());
         telemetry.addData("Arcade", arcade);
+
+         */
 
     }
 
@@ -516,11 +519,14 @@ public abstract class TeleLib extends OpMode {
             th_wobble.queue(hardStop_close);
         }
 
+        /*
         telemetry.addData("hook position", whook.getPosition());
         telemetry.addData("wobble position", wobble1.getPosition());
         telemetry.addData("Wobble Thread", th_wobble.live());
         telemetry.addData("Whook Thread", th_whook.live());
         telemetry.addData("pivotStop", pivotStop.getPosition());
+
+         */
 
     }
 
@@ -557,6 +563,7 @@ public abstract class TeleLib extends OpMode {
             time.reset();
             while(track){
                 velocity = (shooter.getCurrentPosition() - initial)/(time.seconds());
+                telemetry.addLine("WHEEL IS ON");
                 telemetry.addData("VELOCITY : ", velocity);
                 telemetry.update();
             }

@@ -42,7 +42,7 @@ public class RedHighGoal_v2 extends LinearOpMode {
 
 
                 hdt.gyroTurn180FastRed(1500);
-                hdt.gyroTurn180Red(1100);
+                hdt.gyroTurn180Red(1400);
             }
         });
         Thread thread2 = new Thread(new Runnable() {
@@ -110,8 +110,8 @@ public class RedHighGoal_v2 extends LinearOpMode {
 
             if (pos == 0) {
 
-                hdt.gyroHoloPIDMovement(0, 0, 67, 3);
-                hdt.gyroHoloStrafe(.5, 22, true, 1000, 0);
+                hdt.gyroHoloPIDMovement(0, 0, 72, 3);
+                hdt.gyroHoloStrafe(.5, 7, true, 1000, 0);
 
                 loop.run();
                 loop.end();
@@ -120,33 +120,18 @@ public class RedHighGoal_v2 extends LinearOpMode {
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
 
-                sleep(1000);
-
-                hdt.gyroHoloForward(.5, 5, 3000, 0);
-                hdt.gyroHoloStrafe(.5, 32, false, 3000, 0);
+                sleep(2000);
+                hdt.gyroHoloStrafe(.5, 12, false, 3000, 0);
                 wobble.releaseWobble();
 
 
                 //hdt.gyroHoloStrafe(1, 30, false, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroHoloStrafe(.5, 11, true, 1000, 0);
+                hdt.gyroHoloStrafe(.5, 25, true, 3000, 0);
                 //hdt.gyroHoloForward(.7, 20, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-                hdt.gyroHoloPIDMovement(0, 0, 30, 3);
+                hdt.gyroHoloPIDMovement(0, 0, 15, 3);
                 break;
 
             } else if (pos == 1) {
-
-                //hdt.gyroHoloForward(1, 80, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 98, 5);
-                sleep(300);
-                hdt.gyroHoloStrafe(.7, 10, true, 3000, 0);
-                //hdt.gyroHoloStrafe(1, 16, false, 3000, 0);
-                sleep(300);
-                wobble.releaseWobble();
-                //hdt.gyroHoloStrafe(1, 14, true, 3000, 0);
-                hdt.gyroHoloStrafe(.7, 2, false, 3000, 0);
-                sleep(300);
-                //hdt.gyroHoloForward(-1, 35, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
-
 
                 hdt.gyroHoloPIDMovement(0, 0, 63, 5);
                 hdt.gyroHoloStrafe(.7, 8, true, 3000, 0);
@@ -157,10 +142,10 @@ public class RedHighGoal_v2 extends LinearOpMode {
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
 
-                hdt.gyroHoloPIDMovement(0, 0, 35, 5);
+                hdt.gyroHoloPIDMovement(0, 0, 46, 5);
                 wobble.releaseWobble();
                 sleep(500);
-                hdt.gyroHoloPIDMovement(180, 0, 35, 5);
+                hdt.gyroHoloPIDMovement(180, 0, 15, 5);
 
 
                 break;
@@ -171,8 +156,8 @@ public class RedHighGoal_v2 extends LinearOpMode {
             } else if (pos == 4) {
 
 
-                hdt.gyroHoloPIDMovement(0, 0, 55, 6);
-                hdt.gyroHoloStrafe(.5, 5, true, 1000, 0);
+                hdt.gyroHoloPIDMovement(0, 0, 70, 6);
+                hdt.gyroHoloStrafe(.5, 8, true, 1000, 0);
 
                 loop.run();
                 loop.end();
@@ -180,10 +165,10 @@ public class RedHighGoal_v2 extends LinearOpMode {
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(500);
                 sleep(500);
-                hdt.gyroHoloPIDMovement(0, 0, 65, 6);
+                hdt.gyroHoloPIDMovement(0, 0, 60, 6);
                 hdt.gyroHoloStrafe(.5, 15, false, 1000, 0);
                 wobble.releaseWobble();
-                hdt.gyroHoloPIDMovement(180, 0, 65, 6);
+                hdt.gyroHoloPIDMovement(180, 0, 50, 6);
 
                 break;
             }

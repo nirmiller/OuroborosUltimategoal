@@ -39,14 +39,14 @@ public class Wobble {
 
     public void wobbleUp() {
 
-        wobble1.setPosition(1);
-        wobble2.setPosition(1);;
+        wobble1.setPosition(0);
+        wobble2.setPosition(0);;
     }
 
     public void wobbleDown() {
 
-        wobble1.setPosition(0);
-        wobble2.setPosition(0);
+        wobble1.setPosition(1);
+        wobble2.setPosition(1);
     }
 
     public void hookClose() {
