@@ -40,7 +40,7 @@ public class Wobble {
     public void wobbleUp() {
 
         wobble1.setPosition(0);
-        wobble2.setPosition(0);;
+        wobble2.setPosition(0);
     }
 
     public void wobbleDown() {

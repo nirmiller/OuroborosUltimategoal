@@ -31,6 +31,7 @@ public class RedPowerShots extends LinearOpMode {
         sensors = new Sensors(this);
         wobble = new Wobble(this);
 
+
         int pos = 0;
         Thread thread1 = new Thread(new Runnable() {
             @Override
@@ -66,7 +67,6 @@ public class RedPowerShots extends LinearOpMode {
                 sh.lift.setPower(0);
                 wobble.wobbleUp();
                 sh.pivotStop.setPosition(1);
-                loop.end();
 
 
             }

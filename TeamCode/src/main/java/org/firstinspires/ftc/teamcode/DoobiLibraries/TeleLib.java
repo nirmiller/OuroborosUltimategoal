@@ -50,6 +50,7 @@ public abstract class TeleLib extends OpMode {
     private Servo wobble1;
     private Servo mag;
     private Servo pivotStop;
+    private Servo LEDs;
     static double OPEN = 0.0;
     static double CLOSED = 1;
     double liftPower;
@@ -123,6 +124,7 @@ public abstract class TeleLib extends OpMode {
         wobble2 = hardwareMap.servo.get("wobble2");
         mag = hardwareMap.servo.get("mag");
         pivotStop = hardwareMap.servo.get("ps");
+        LEDs = hardwareMap.servo.get("led");
         digitalTouch = hardwareMap.get(DigitalChannel.class, "button");
 
         // set the digital channel to input.
@@ -538,6 +540,7 @@ public abstract class TeleLib extends OpMode {
 
             }
             shooter.setPower(.9);
+            LEDs.setPosition(.2525);
             shooting = true;
         }
     });
@@ -549,6 +552,7 @@ public abstract class TeleLib extends OpMode {
 
             }
             shooter.setPower(0);
+            LEDs.setPosition(0);
             shooting = false;
         }
     });

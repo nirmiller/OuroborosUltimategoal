@@ -33,6 +33,7 @@ public class ShooterHardware {
     public DcMotor pivot;
     public DcMotor lift;
     Servo mag;
+    public Servo LEDs;
     public Servo pivotStop;
     Sensors sensors;
 
@@ -50,6 +51,7 @@ public class ShooterHardware {
         lift = opMode.hardwareMap.dcMotor.get("lift");
         mag = opMode.hardwareMap.servo.get("mag");
         pivotStop = opMode.hardwareMap.servo.get("ps");
+        LEDs = opMode.hardwareMap.servo.get("led");
 
 
         pivot.setDirection(DcMotor.Direction.REVERSE);
