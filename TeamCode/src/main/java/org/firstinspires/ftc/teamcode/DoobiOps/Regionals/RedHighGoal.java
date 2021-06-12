@@ -52,7 +52,7 @@ public class RedHighGoal extends LinearOpMode {
                 //hdt.gyroTurn180(500);
                 ElapsedTime time = new ElapsedTime();
                 time.reset();
-                sleep(3000);
+                sleep(3500);
                 sh.hitRing();
                 sleep(600);
                 sh.hitRing();
@@ -110,10 +110,10 @@ public class RedHighGoal extends LinearOpMode {
 
             if (pos == 0) {
 
-                hdt.gyroHoloPIDMovement(0, 0, 72, 3);
+                hdt.gyroHoloPIDMovement(0, 0, 68, 3);
                 hdt.gyroHoloStrafe(.5, 10, false, 1000, 0);
                 wobble.releaseWobble();
-                hdt.gyroHoloStrafe(.5, 32, true, 1000, 0);
+                hdt.gyroHoloStrafe(.5, 38, true, 1000, 0);
                 //hdt.gyroHoloPIDMovement(180, 0, 13, 3);
                 hdt.gyroHoloForward(-.5, 5, 3000, 0);
 
@@ -143,7 +143,7 @@ public class RedHighGoal extends LinearOpMode {
                 sleep(300);
                 wobble.releaseWobble();
                 //hdt.gyroHoloStrafe(1, 14, true, 3000, 0);
-                hdt.gyroHoloStrafe(.7, 2, false, 3000, 0);
+                //hdt.gyroHoloStrafe(.7, 1, false, 3000, 0);
                 sleep(300);
                 //hdt.gyroHoloForward(-1, 35, 3000, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
 

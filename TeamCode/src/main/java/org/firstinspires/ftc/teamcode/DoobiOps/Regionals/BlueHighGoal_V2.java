@@ -170,7 +170,8 @@ public class BlueHighGoal_V2 extends LinearOpMode {
 
                 sleep(500);
                 //sh.setLift();
-                hdt.gyroHoloPIDMovement(0, 0, 70, 5);
+                hdt.gyroHoloPIDMovement(0, 0, 68, 5);
+                hdt.gyroHoloStrafe(.5, 7, true, 1000, 0);
                 wobble.releaseWobble();
                 hdt.gyroHoloPIDMovement(180, 0, 45, 5, .4/55, .0075, .0015);
 

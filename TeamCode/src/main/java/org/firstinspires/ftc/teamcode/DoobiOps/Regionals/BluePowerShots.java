@@ -100,11 +100,11 @@ public class BluePowerShots extends LinearOpMode {
         //loop.add(thread4);
 
         waitForStart();
-        pos = backupVision.senseRed(this);
+        pos = backupVision.senseBlue2(this);
         while (opModeIsActive()) {
 
             if (pos == 0) {
-                hdt.gyroHoloPIDMovement(0, 0, 100, 6, .7/96, .01, .001);
+                hdt.gyroHoloPIDMovement(0, 0, 95, 6, .7/96, .01, .001);
 
                 hdt.gyroTurnNinetyFast(1000);
                 hdt.gyroTurnNinety(700);
@@ -115,7 +115,7 @@ public class BluePowerShots extends LinearOpMode {
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 90);
-                hdt.gyroHoloPIDMovement(180, -90, 27, 3);
+                hdt.gyroHoloPIDMovement(180, -90, 28, 3);
 
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
@@ -130,7 +130,7 @@ public class BluePowerShots extends LinearOpMode {
                 hdt.gyroTurnStraight(700);
 
 
-                hdt.gyroHoloPIDMovement(0, 0, 30, 3);                //hdt.gyroHoloForward(-1, 15, 3000, 0);
+                hdt.gyroHoloPIDMovement(0, 0, 25, 3);                //hdt.gyroHoloForward(-1, 15, 3000, 0);
 
 
                 break;
@@ -138,7 +138,7 @@ public class BluePowerShots extends LinearOpMode {
             } else if (pos == 1) {
 
 
-                hdt.gyroHoloPIDMovement(0, 0, 110, 6, .7/114, .01, .001);
+                hdt.gyroHoloPIDMovement(0, 0, 105, 6, .7/114, .01, .001);
 
 
                 wobble.releaseWobble();
@@ -175,7 +175,7 @@ public class BluePowerShots extends LinearOpMode {
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
                 hdt.gyroHoloPIDMovement(0, -90, 30, 3);
-
+                sleep(2000);
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
@@ -193,7 +193,7 @@ public class BluePowerShots extends LinearOpMode {
                 hdt.gyroTurnStraight(700);
 
 
-                hdt.gyroHoloPIDMovement(0, 0, 30, 3);
+                hdt.gyroHoloPIDMovement(0, 0, 25, 3);
 
                 break;
             }

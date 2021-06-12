@@ -38,7 +38,7 @@ public class BlueHighGoal extends LinearOpMode {
             public void run() {
                 //hdt.gyroHoloStrafe(1, 2, true, 500, sensors.getGyroYawwwwwwwwwwwwwwwwwww());
                 hdt.gyroTurn180Fast(1500);
-                hdt.gyroTurn180(1100);
+                hdt.gyroTurn180(1200);
                 //sleep(1300);
             }
         });
@@ -49,17 +49,14 @@ public class BlueHighGoal extends LinearOpMode {
                 //hdt.gyroTurn180(500);
                 ElapsedTime time = new ElapsedTime();
                 time.reset();
-                sleep(3000);
+                sleep(3500);
                 sh.hitRing();
-                sleep(600);
+                sleep(700);
                 sh.hitRing();
-                sleep(600);
+                sleep(700);
                 sh.hitRing();
                 sleep(600);
                 //sh.pivotStop.setPosition(.55);
-                sh.hitRing();
-                sleep(500);
-                //sh.pivotDown();
                 sh.hitRing();
                 sleep(500);
                 sh.withdraw();

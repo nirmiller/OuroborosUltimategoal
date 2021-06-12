@@ -449,7 +449,7 @@ public class HolonomicDrivetrain {
     public void gyroTurn180(double timeOutMS) {
 
         ElapsedTime runtime = new ElapsedTime();
-        double goal = 182;
+        double goal = 184.5;
 
 
         while (opMode.opModeIsActive() && Math.abs(goal - sensors.getGyroYaw()) > .1 && runtime.milliseconds() < timeOutMS) {

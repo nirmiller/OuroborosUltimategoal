@@ -183,8 +183,133 @@ public class BackupVision {
         }
         return pos;
     }
+    public int senseRed2(LinearOpMode opMode) throws InterruptedException {
+
+        Bitmap bitmap = getBitmap();
+
+        int pos = 0;
+        int stonexAvg = 0;
+
+        // top left = (0,0)
+
+        while(opMode.opModeIsActive()) {
+
+            // can change this but prob not neccesary
+            for (int colNum = (bitmap.getWidth()/2); colNum < bitmap.getWidth(); colNum++) {
+
+                //Shouldnt need to change this, but the colors in the backround maybe might mess it up\
+                for (int rowNum = (bitmap.getHeight()/3); rowNum < bitmap.getHeight(); rowNum++) {
+                    int pixel = bitmap.getPixel(colNum, rowNum);
+
+                    // receive R, G, and B values for each pixel
+                    int redPixel = red(pixel);
+                    int greenPixel = green(pixel);
+                    int bluePixel = blue(pixel);
+
+                    /*opMode.telemetry.addData("Red", redPixel);
+                    opMode.telemetry.addData("Green", greenPixel);
+                    opMode.telemetry.addData("Blue", bluePixel);
+                    opMode.telemetry.update();*/
+
+                    // only add y-coordinates of yellow pixels to list
+                    if (redPixel > 100 && greenPixel > 60 && bluePixel < 50) {
+                        stonexAvg++;
+                    }
+
+                }
+            }
+/*
+            if(StoneX.size() > 0) stonexAvg /= StoneX.size();
+            else{
+                stonexAvg = 550;
+                opMode.telemetry.addData("Failed", "Divided by Zero");
+            }
+*/
+            // get average x-coordinate value of all yellow pixels
+            opMode.telemetry.addData("AVG X = ", stonexAvg);
+            opMode.telemetry.update();
+            //opMode.sleep(1000);
+//calculates based on pixel size
+            if (stonexAvg < 3000 && stonexAvg > 1000) {
+                pos = 1;
+            } else if (stonexAvg > 3000) {
+                pos = 4;
+            } else {
+                pos = 0;
+            }
+
+            opMode.telemetry.addData("Position", pos);
+            opMode.telemetry.update();
+            break;
+        }
+        return pos;
+    }
 //no need
     public int senseRed(LinearOpMode opMode) throws InterruptedException {
+
+        Bitmap bitmap = getBitmap();
+
+        int pos = 0;
+        int stonexAvg = 0;
+
+        // top left = (0,0)
+
+        while(opMode.opModeIsActive()) {
+
+            // can change this but prob not neccesary
+            for (int colNum = 0; colNum < bitmap.getWidth()/2; colNum++) {
+
+                //Shouldnt need to change this, but the colors in the backround maybe might mess it up\
+                for (int rowNum = (bitmap.getHeight()/3); rowNum < bitmap.getHeight(); rowNum++) {
+                    int pixel = bitmap.getPixel(colNum, rowNum);
+
+                    // receive R, G, and B values for each pixel
+                    int redPixel = red(pixel);
+                    int greenPixel = green(pixel);
+                    int bluePixel = blue(pixel);
+
+                    /*opMode.telemetry.addData("Red", redPixel);
+                    opMode.telemetry.addData("Green", greenPixel);
+                    opMode.telemetry.addData("Blue", bluePixel);
+                    opMode.telemetry.update();*/
+
+                    // only add y-coordinates of yellow pixels to list
+                    if (redPixel > 100 && greenPixel > 60 && bluePixel < 50) {
+                        stonexAvg++;
+                    }
+
+                }
+            }
+/*
+            if(StoneX.size() > 0) stonexAvg /= StoneX.size();
+            else{
+                stonexAvg = 550;
+                opMode.telemetry.addData("Failed", "Divided by Zero");
+            }
+*/
+            // get average x-coordinate value of all yellow pixels
+            opMode.telemetry.addData("AVG X = ", stonexAvg);
+            opMode.telemetry.update();
+            opMode.sleep(1000);
+//calculates based on pixel size
+            //opMode.sleep(1000);
+
+            if (stonexAvg < 3000 && stonexAvg > 1000) {
+                pos = 1;
+            } else if (stonexAvg > 3000) {
+                pos = 4;
+            } else {
+                pos = 0;
+            }
+
+            opMode.telemetry.addData("Position", pos);
+            opMode.telemetry.update();
+            break;
+        }
+        return pos;
+    }
+
+    public int senseBlue2(LinearOpMode opMode) throws InterruptedException {
 
         Bitmap bitmap = getBitmap();
 

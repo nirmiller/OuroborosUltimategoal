@@ -540,7 +540,7 @@ public abstract class TeleLib extends OpMode {
 
             }
             shooter.setPower(.9);
-            LEDs.setPosition(.2525);
+            LEDs.setPosition(.7);
             shooting = true;
         }
     });
@@ -552,7 +552,7 @@ public abstract class TeleLib extends OpMode {
 
             }
             shooter.setPower(0);
-            LEDs.setPosition(0);
+            LEDs.setPosition(.41);
             shooting = false;
         }
     });

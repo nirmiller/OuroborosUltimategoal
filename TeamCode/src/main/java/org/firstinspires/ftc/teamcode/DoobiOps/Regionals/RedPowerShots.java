@@ -164,7 +164,7 @@ public class RedPowerShots extends LinearOpMode {
 
 
                 //hdt.gyroHoloForward(1, 66, 3000, 0);
-                hdt.gyroHoloPIDMovement(0, 0, 130, 8, .7/136, .01, .001);
+                hdt.gyroHoloPIDMovement(0, 0, 140, 8, .7/136, .01, .001);
                 sleep(3000);
 
                 hdt.gyroTurn270Fast(1000);

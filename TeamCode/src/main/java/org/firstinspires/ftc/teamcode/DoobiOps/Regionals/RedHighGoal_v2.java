@@ -42,7 +42,7 @@ public class RedHighGoal_v2 extends LinearOpMode {
 
 
                 hdt.gyroTurn180FastRed(1500);
-                hdt.gyroTurn180Red(1400);
+                hdt.gyroTurn180Red(1500);
             }
         });
         Thread thread2 = new Thread(new Runnable() {
@@ -110,7 +110,7 @@ public class RedHighGoal_v2 extends LinearOpMode {
 
             if (pos == 0) {
 
-                hdt.gyroHoloPIDMovement(0, 0, 72, 3);
+                hdt.gyroHoloPIDMovement(0, 0, 67, 3);
                 hdt.gyroHoloStrafe(.5, 7, true, 1000, 0);
 
                 loop.run();
@@ -142,7 +142,7 @@ public class RedHighGoal_v2 extends LinearOpMode {
                 hdt.gyroTurnStraightfast(1000);
                 hdt.gyroTurnStraight(700);
 
-                hdt.gyroHoloPIDMovement(0, 0, 46, 5);
+                hdt.gyroHoloPIDMovement(0, 0, 40, 5);
                 wobble.releaseWobble();
                 sleep(500);
                 hdt.gyroHoloPIDMovement(180, 0, 15, 5);
@@ -156,8 +156,8 @@ public class RedHighGoal_v2 extends LinearOpMode {
             } else if (pos == 4) {
 
 
-                hdt.gyroHoloPIDMovement(0, 0, 70, 6);
-                hdt.gyroHoloStrafe(.5, 8, true, 1000, 0);
+                hdt.gyroHoloPIDMovement(0, 0, 68, 6);
+                hdt.gyroHoloStrafe(.5, 9, true, 1000, 0);
 
                 loop.run();
                 loop.end();
