@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
 
-@Autonomous(group = "Autonomous", name = "Red High Goal then Wobble")
+@Autonomous(group = "Autonomous", name = "Red Outside - High Goal then Wobble")
 public class RedHighGoal_v2 extends LinearOpMode {
 
     Wobble wobble;
