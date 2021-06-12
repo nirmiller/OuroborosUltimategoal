@@ -11,8 +11,8 @@ import org.firstinspires.ftc.teamcode.DoobiLibraries.Wobble;
 import org.firstinspires.ftc.teamcode.DoobiOps.OdomOpModes.ShooterHardware;
 import org.firstinspires.ftc.teamcode.Loop;
 
-@Autonomous(group = "Autonomous", name = "Blue Inside - Wobble then High Goal")
-public class BluePowerShots extends LinearOpMode {
+@Autonomous(group = "Autonomous", name = "(503) Blue Inside - Wobble then High Goal")
+public class BluePowerShotsWith503 extends LinearOpMode {
     Wobble wobble;
     ShooterHardware sh;
     Loop loop;
@@ -175,7 +175,7 @@ public class BluePowerShots extends LinearOpMode {
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
                 hdt.gyroHoloPIDMovement(0, -90, 30, 3);
-               // sleep(2000);
+                sleep(2000);
                 wobble.releaseWobble();
 
                 //hdt.gyroHoloForward(1, 30, 3000, 0);
